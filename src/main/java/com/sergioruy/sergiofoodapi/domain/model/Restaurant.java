@@ -44,13 +44,13 @@ public class Restaurant {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Restaurant)) return false;
         Restaurant that = (Restaurant) o;
-        return id.equals(that.id);
+        return getId().equals(that.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(getId());
     }
 }
