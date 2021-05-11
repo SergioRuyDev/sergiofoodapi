@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface KitchenRepository {
 
-    List<Kitchen> kitchenList();
-    Kitchen find(Long id);
-    Kitchen save(Kitchen kitchen);
+    List<Kitchen> all();
+    Kitchen findById(Long id);
+    Kitchen add(Kitchen kitchen);
     void remove(Kitchen kitchen);
 }

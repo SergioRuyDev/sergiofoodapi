@@ -7,8 +7,6 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
 
-import java.util.List;
-
 public class FindKitchenMain {
     public static void main(String[] args) {
         ApplicationContext applicationContext = new SpringApplicationBuilder(SergiofoodapiApplication.class)
@@ -17,7 +15,7 @@ public class FindKitchenMain {
 
         KitchenRepository kitchenRepository = applicationContext.getBean(KitchenRepository.class);
 
-        Kitchen kitchen = kitchenRepository.find(1L);
+        Kitchen kitchen = kitchenRepository.findById(1L);
 
         System.out.println(kitchen.getName());
 

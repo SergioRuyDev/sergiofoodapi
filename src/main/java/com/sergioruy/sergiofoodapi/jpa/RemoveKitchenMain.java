@@ -15,12 +15,12 @@ public class RemoveKitchenMain {
                 .web(WebApplicationType.NONE)
                 .run(args);
 
-        KitchenRepository registryKitchen = applicationContext.getBean(KitchenRepository.class);
+        KitchenRepository kitchens = applicationContext.getBean(KitchenRepository.class);
 
         Kitchen kitchen = new Kitchen();
         kitchen.setId(1L);
 
-        registryKitchen.remove(kitchen);
+        kitchens.remove(kitchen);
 
     }
 }

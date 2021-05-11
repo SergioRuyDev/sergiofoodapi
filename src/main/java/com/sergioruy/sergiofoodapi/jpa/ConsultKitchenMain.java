@@ -15,11 +15,11 @@ public class ConsultKitchenMain {
                 .web(WebApplicationType.NONE)
                 .run(args);
 
-        KitchenRepository kitchenRepository = applicationContext.getBean(KitchenRepository.class);
+        KitchenRepository kitchens = applicationContext.getBean(KitchenRepository.class);
 
-        List<Kitchen> kitchens = kitchenRepository.kitchenList();
+        List<Kitchen> allKitchens = kitchens.all();
 
-        for (Kitchen kitchen : kitchens) {
+        for (Kitchen kitchen : allKitchens) {
             System.out.println(kitchen.getName());
         }
     }
