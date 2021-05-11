@@ -1,0 +1,13 @@
+package com.sergioruy.sergiofoodapi.domain.repository;
+
+import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
+
+import java.util.List;
+
+public interface KitchenRepository {
+
+    List<Kitchen> kitchenList();
+    Kitchen find(Long id);
+    Kitchen save(Kitchen kitchen);
+    void remove(Kitchen kitchen);
+}

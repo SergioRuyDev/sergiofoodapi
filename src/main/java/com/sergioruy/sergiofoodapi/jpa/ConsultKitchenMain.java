@@ -2,6 +2,7 @@ package com.sergioruy.sergiofoodapi.jpa;
 
 import com.sergioruy.sergiofoodapi.SergiofoodapiApplication;
 import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
+import com.sergioruy.sergiofoodapi.domain.repository.KitchenRepository;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
@@ -14,9 +15,9 @@ public class ConsultKitchenMain {
                 .web(WebApplicationType.NONE)
                 .run(args);
 
-        RegistryKitchen registryKitchen = applicationContext.getBean(RegistryKitchen.class);
+        KitchenRepository kitchenRepository = applicationContext.getBean(KitchenRepository.class);
 
-        List<Kitchen> kitchens = registryKitchen.kitchenList();
+        List<Kitchen> kitchens = kitchenRepository.kitchenList();
 
         for (Kitchen kitchen : kitchens) {
             System.out.println(kitchen.getName());

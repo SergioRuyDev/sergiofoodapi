@@ -2,6 +2,7 @@ package com.sergioruy.sergiofoodapi.jpa;
 
 import com.sergioruy.sergiofoodapi.SergiofoodapiApplication;
 import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
+import com.sergioruy.sergiofoodapi.domain.repository.KitchenRepository;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
@@ -12,7 +13,7 @@ public class IncludeKitchenMain {
                 .web(WebApplicationType.NONE)
                 .run(args);
 
-        RegistryKitchen registryKitchen = applicationContext.getBean(RegistryKitchen.class);
+        KitchenRepository registryKitchen = applicationContext.getBean(KitchenRepository.class);
 
         Kitchen kitchen1 = new Kitchen();
         kitchen1.setName("Brazilian");
