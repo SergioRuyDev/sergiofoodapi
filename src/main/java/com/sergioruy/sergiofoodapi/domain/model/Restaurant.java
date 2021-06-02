@@ -21,5 +21,9 @@ public class Restaurant {
     @Column(name = "tax_delivery")
     private BigDecimal taxDelivery;
 
+    @ManyToOne
+    private Kitchen kitchen;
+
+
 
 }
