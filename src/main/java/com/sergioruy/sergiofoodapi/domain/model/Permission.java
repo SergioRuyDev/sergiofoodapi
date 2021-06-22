@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class City {
+public class Permission {
 
     @EqualsAndHashCode.Include
     @Id
@@ -18,7 +18,6 @@ public class City {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private Estate estate;
+    @Column(nullable = false)
+    private String description;
 }
