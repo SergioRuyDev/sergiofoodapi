@@ -25,14 +25,14 @@ public class EstateRepositoryImpl implements EstateRepository {
         return manager.find(Estate.class, id);
     }
 
-    @Override
     @Transactional
+    @Override
     public Estate save(Estate estate) {
         return manager.merge(estate);
     }
 
-    @Override
     @Transactional
+    @Override
     public void remove(Estate estate) {
         estate = find(estate.getId());
         manager.remove(estate);

@@ -2,11 +2,14 @@ package com.sergioruy.sergiofoodapi.infrastructure.repository;
 
 import com.sergioruy.sergiofoodapi.domain.model.City;
 import com.sergioruy.sergiofoodapi.domain.repository.CityRepository;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+@Component
 public class CityRepositoryImpl implements CityRepository {
 
     @PersistenceContext
@@ -14,21 +17,24 @@ public class CityRepositoryImpl implements CityRepository {
 
     @Override
     public List<City> list() {
-        return null;
+        return manager.createQuery("from City", City.class).getResultList();
     }
 
     @Override
     public City find(Long id) {
-        return null;
+        return manager.find(City.class, id);
     }
 
+    @Transactional
     @Override
     public City save(City city) {
-        return null;
+        return manager.merge(city);
     }
 
+    @Transactional
     @Override
     public void remove(City city) {
-
+        city = find(city.getId());
+        manager.remove(city);
     }
 }
