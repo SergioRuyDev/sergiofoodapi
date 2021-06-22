@@ -16,25 +16,25 @@ public class KitchenRepositoryImpl implements KitchenRepository {
     private EntityManager manager;
 
     @Override
-    public List<Kitchen> all() {
+    public List<Kitchen> list() {
         return manager.createQuery("from Kitchen", Kitchen.class).getResultList();
     }
 
     @Override
-    public Kitchen findById(Long id) {
+    public Kitchen find(Long id) {
         return manager.find(Kitchen.class, id);
     }
 
     @Override
     @Transactional
-    public Kitchen add(Kitchen kitchen) {
+    public Kitchen save(Kitchen kitchen) {
         return manager.merge(kitchen);
     }
 
     @Override
     @Transactional
     public void remove(Kitchen kitchen) {
-        kitchen = findById(kitchen.getId());
+        kitchen = find(kitchen.getId());
         manager.remove(kitchen);
     }
 }

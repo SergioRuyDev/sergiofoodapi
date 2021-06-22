@@ -21,8 +21,8 @@ public class IncludeRestaurantMain {
         Restaurant restaurant2 = new Restaurant();
         restaurant2.setName("Delhi Indian");
 
-        restaurant1 = restaurantRepository.add(restaurant1);
-        restaurant2 = restaurantRepository.add(restaurant2);
+        restaurant1 = restaurantRepository.save(restaurant1);
+        restaurant2 = restaurantRepository.save(restaurant2);
 
         System.out.printf("%d - %s\n", restaurant1.getId(), restaurant1.getName());
         System.out.printf("%d - %s\n", restaurant2.getId(), restaurant2.getName());

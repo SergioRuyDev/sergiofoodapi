@@ -5,8 +5,8 @@ import com.sergioruy.sergiofoodapi.domain.model.Restaurant;
 import java.util.List;
 
 public interface RestaurantRepository {
-    List<Restaurant> all();
-    Restaurant findById(Long id);
-    Restaurant add(Restaurant restaurant);
+    List<Restaurant> list();
+    Restaurant find(Long id);
+    Restaurant save(Restaurant restaurant);
     void remove(Restaurant restaurant);
 }

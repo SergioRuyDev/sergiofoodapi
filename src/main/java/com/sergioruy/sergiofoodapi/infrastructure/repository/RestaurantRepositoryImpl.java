@@ -16,25 +16,25 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
     private EntityManager manager;
 
     @Override
-    public List<Restaurant> all() {
+    public List<Restaurant> list() {
         return manager.createQuery("from Restaurant", Restaurant.class).getResultList();
     }
 
     @Override
-    public Restaurant findById(Long id) {
+    public Restaurant find(Long id) {
         return manager.find(Restaurant.class, id);
     }
 
     @Override
     @Transactional
-    public Restaurant add(Restaurant restaurant) {
+    public Restaurant save(Restaurant restaurant) {
         return manager.merge(restaurant);
     }
 
     @Override
     @Transactional
     public void remove(Restaurant restaurant) {
-        restaurant = findById(restaurant.getId());
+        restaurant = find(restaurant.getId());
         manager.remove(restaurant);
 
     }
