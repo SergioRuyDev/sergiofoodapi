@@ -15,11 +15,11 @@ insert into estate (id, name) values (1, 'New York');
 insert into estate (id, name) values (2, 'Florida');
 insert into estate (id, name) values (3, 'California');
 
-insert into city (id, nome, estado_id) values (1, 'New York City', 1);
-insert into city (id, nome, estado_id) values (2, 'Western New York', 1);
-insert into city (id, nome, estado_id) values (3, 'Miami', 2);
-insert into city (id, nome, estado_id) values (4, 'Tampa', 2);
-insert into city (id, nome, estado_id) values (5, 'Los Angeles', 3);
+insert into city (id, name, estate_id) values (1, 'New York City', 1);
+insert into city (id, name, estate_id) values (2, 'Western New York', 1);
+insert into city (id, name, estate_id) values (3, 'Miami', 2);
+insert into city (id, name, estate_id) values (4, 'Tampa', 2);
+insert into city (id, name, estate_id) values (5, 'Los Angeles', 3);
 
 insert into payment_method (id, description) values (1, 'Credit Card');
 insert into payment_method (id, description) values (2, 'Debit Card');
