@@ -17,7 +17,7 @@ public class KitchenController {
     private KitchenRepository kitchenRepository;
 
     @GetMapping
-    public List<Kitchen> listar() {
+    public List<Kitchen> list() {
         return kitchenRepository.list();
     }
 }
