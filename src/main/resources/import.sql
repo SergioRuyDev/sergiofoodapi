@@ -11,15 +11,15 @@ insert into restaurant (name, tax_delivery, kitchen_id) values ('Brazilian Beef'
 insert into restaurant (name, tax_delivery, kitchen_id) values ('Sumo Japan', 30, 4);
 insert into restaurant (name, tax_delivery, kitchen_id) values ('Sashimi Oss', 19, 4);
 
-insert into estate (id, name) values (1, 'New York');
-insert into estate (id, name) values (2, 'Florida');
-insert into estate (id, name) values (3, 'California');
+insert into state (id, name) values (1, 'New York');
+insert into state (id, name) values (2, 'Florida');
+insert into state (id, name) values (3, 'California');
 
-insert into city (id, name, estate_id) values (1, 'New York City', 1);
-insert into city (id, name, estate_id) values (2, 'Western New York', 1);
-insert into city (id, name, estate_id) values (3, 'Miami', 2);
-insert into city (id, name, estate_id) values (4, 'Tampa', 2);
-insert into city (id, name, estate_id) values (5, 'Los Angeles', 3);
+insert into city (id, name, state_id) values (1, 'New York City', 1);
+insert into city (id, name, state_id) values (2, 'Western New York', 1);
+insert into city (id, name, state_id) values (3, 'Miami', 2);
+insert into city (id, name, state_id) values (4, 'Tampa', 2);
+insert into city (id, name, state_id) values (5, 'Los Angeles', 3);
 
 insert into payment_method (id, description) values (1, 'Credit Card');
 insert into payment_method (id, description) values (2, 'Debit Card');

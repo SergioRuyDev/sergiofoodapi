@@ -20,5 +20,5 @@ public class City {
 
     @ManyToOne
     @JoinColumn(nullable = false)
-    private Estate estate;
+    private State state;
 }

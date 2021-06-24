@@ -1,7 +1,7 @@
 package com.sergioruy.sergiofoodapi.api.controller;
 
-import com.sergioruy.sergiofoodapi.domain.model.Estate;
-import com.sergioruy.sergiofoodapi.domain.repository.EstateRepository;
+import com.sergioruy.sergiofoodapi.domain.model.State;
+import com.sergioruy.sergiofoodapi.domain.repository.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/estates")
-public class EstateController {
+@RequestMapping("/states")
+public class StateController {
 
     @Autowired
-    private EstateRepository estateRepository;
+    private StateRepository stateRepository;
 
     @GetMapping
-    public List<Estate> list() {
-        return estateRepository.list();
+    public List<State> list() {
+        return stateRepository.list();
     }
 }

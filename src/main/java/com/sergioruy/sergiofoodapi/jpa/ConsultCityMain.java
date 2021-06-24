@@ -21,7 +21,7 @@ public class ConsultCityMain {
         List<City> allCities = cities.list();
 
         for (City city : allCities) {
-            System.out.printf("%s - %s\n", city.getName(), city.getEstate().getName());
+            System.out.printf("%s - %s\n", city.getName(), city.getState().getName());
         }
 
     }
