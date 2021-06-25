@@ -4,7 +4,9 @@ import com.sergioruy.sergiofoodapi.api.model.KitchensXmlWrapper;
 import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
 import com.sergioruy.sergiofoodapi.domain.repository.KitchenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +32,9 @@ public class KitchenController {
     }
 
     @GetMapping("/{kitchenId}")
-    public Kitchen search(@PathVariable Long kitchenId) {
-        return kitchenRepository.find(kitchenId);
+    public ResponseEntity<Kitchen> search(@PathVariable Long kitchenId) {
+        Kitchen kitchen =  kitchenRepository.find(kitchenId);
+
+        return ResponseEntity.ok(kitchen);
     }
 }
