@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,6 +32,16 @@ public class KitchenController {
     public ResponseEntity<Kitchen> search(@PathVariable Long kitchenId) {
         Kitchen kitchen =  kitchenRepository.find(kitchenId);
 
-        return ResponseEntity.ok(kitchen);
+        if (kitchen != null) {
+            return ResponseEntity.ok(kitchen);
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Kitchen add(@RequestBody Kitchen kitchen) {
+        return kitchenRepository.save(kitchen);
     }
 }
