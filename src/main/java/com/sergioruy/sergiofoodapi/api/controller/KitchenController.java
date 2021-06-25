@@ -1,5 +1,6 @@
 package com.sergioruy.sergiofoodapi.api.controller;
 
+import com.sergioruy.sergiofoodapi.api.model.KitchensXmlWrapper;
 import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
 import com.sergioruy.sergiofoodapi.domain.repository.KitchenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,11 @@ public class KitchenController {
     @GetMapping
     public List<Kitchen> list() {
         return kitchenRepository.list();
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
+    public KitchensXmlWrapper listXml() {
+        return new KitchensXmlWrapper(kitchenRepository.list());
     }
 
     @GetMapping("/{kitchenId}")
