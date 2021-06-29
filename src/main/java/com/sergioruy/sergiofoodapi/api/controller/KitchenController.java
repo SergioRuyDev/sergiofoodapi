@@ -3,7 +3,9 @@ package com.sergioruy.sergiofoodapi.api.controller;
 import com.sergioruy.sergiofoodapi.api.model.KitchensXmlWrapper;
 import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
 import com.sergioruy.sergiofoodapi.domain.repository.KitchenRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -43,5 +45,37 @@ public class KitchenController {
     @ResponseStatus(HttpStatus.CREATED)
     public Kitchen add(@RequestBody Kitchen kitchen) {
         return kitchenRepository.save(kitchen);
+    }
+
+    @PutMapping("/{kitchenId}")
+    public ResponseEntity<Kitchen> update(@PathVariable Long kitchenId, @RequestBody Kitchen kitchen) {
+        Kitchen currentKitchen = kitchenRepository.find(kitchenId);
+
+        if (currentKitchen != null) {
+//            currentKitchen.setName(kitchen.getName());
+            BeanUtils.copyProperties(kitchen, currentKitchen, "id");
+            currentKitchen = kitchenRepository.save(currentKitchen);
+            return ResponseEntity.ok(currentKitchen);
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{kitchenId}")
+    public ResponseEntity<Kitchen> remove(@PathVariable Long kitchenId) {
+            try {
+                    Kitchen kitchen = kitchenRepository.find(kitchenId);
+
+                    if (kitchen != null) {
+                        kitchenRepository.remove(kitchen);
+
+                        return ResponseEntity.noContent().build();
+                    }
+
+                    return ResponseEntity.notFound().build();
+
+            } catch (DataIntegrityViolationException e) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            }
     }
 }
