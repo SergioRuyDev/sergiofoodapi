@@ -1,6 +1,8 @@
 package com.sergioruy.sergiofoodapi.api.controller;
 
 import com.sergioruy.sergiofoodapi.api.model.KitchensXmlWrapper;
+import com.sergioruy.sergiofoodapi.domain.exception.EntityNotFoundException;
+import com.sergioruy.sergiofoodapi.domain.exception.EntityUsedException;
 import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
 import com.sergioruy.sergiofoodapi.domain.repository.KitchenRepository;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterKitchenService;
@@ -68,17 +70,13 @@ public class KitchenController {
     @DeleteMapping("/{kitchenId}")
     public ResponseEntity<Kitchen> remove(@PathVariable Long kitchenId) {
             try {
-                    Kitchen kitchen = kitchenRepository.find(kitchenId);
+                registerKitchen.delete(kitchenId);
+                return ResponseEntity.noContent().build();
 
-                    if (kitchen != null) {
-                        kitchenRepository.remove(kitchen);
+            } catch (EntityNotFoundException e) {
+                return ResponseEntity.notFound().build();
 
-                        return ResponseEntity.noContent().build();
-                    }
-
-                    return ResponseEntity.notFound().build();
-
-            } catch (DataIntegrityViolationException e) {
+            } catch (EntityUsedException e) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).build();
             }
     }

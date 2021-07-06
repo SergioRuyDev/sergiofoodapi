@@ -2,6 +2,7 @@ package com.sergioruy.sergiofoodapi.infrastructure.repository;
 
 import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
 import com.sergioruy.sergiofoodapi.domain.repository.KitchenRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,8 +34,12 @@ public class KitchenRepositoryImpl implements KitchenRepository {
 
     @Override
     @Transactional
-    public void remove(Kitchen kitchen) {
-        kitchen = find(kitchen.getId());
+    public void remove(Long id) {
+        Kitchen kitchen = find(id);
+
+        if (kitchen == null) {
+            throw new EmptyResultDataAccessException(1);
+        }
         manager.remove(kitchen);
     }
 }
