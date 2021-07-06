@@ -1,6 +1,5 @@
 package com.sergioruy.sergiofoodapi.api.controller;
 
-import com.sergioruy.sergiofoodapi.api.model.KitchensXmlWrapper;
 import com.sergioruy.sergiofoodapi.domain.exception.EntityNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.exception.EntityUsedException;
 import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
@@ -8,7 +7,6 @@ import com.sergioruy.sergiofoodapi.domain.repository.KitchenRepository;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterKitchenService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,11 +27,6 @@ public class KitchenController {
     @GetMapping
     public List<Kitchen> list() {
         return kitchenRepository.list();
-    }
-
-    @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
-    public KitchensXmlWrapper listXml() {
-        return new KitchensXmlWrapper(kitchenRepository.list());
     }
 
     @GetMapping("/{kitchenId}")
@@ -60,7 +53,7 @@ public class KitchenController {
         if (currentKitchen != null) {
 //            currentKitchen.setName(kitchen.getName());
             BeanUtils.copyProperties(kitchen, currentKitchen, "id");
-            currentKitchen = kitchenRepository.save(currentKitchen);
+            currentKitchen = registerKitchen.save(currentKitchen);
             return ResponseEntity.ok(currentKitchen);
         }
 
