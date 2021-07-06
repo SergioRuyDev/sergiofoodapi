@@ -3,6 +3,7 @@ package com.sergioruy.sergiofoodapi.api.controller;
 import com.sergioruy.sergiofoodapi.api.model.KitchensXmlWrapper;
 import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
 import com.sergioruy.sergiofoodapi.domain.repository.KitchenRepository;
+import com.sergioruy.sergiofoodapi.domain.service.RegisterKitchenService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -19,6 +20,9 @@ public class KitchenController {
 
     @Autowired
     private KitchenRepository kitchenRepository;
+
+    @Autowired
+    private RegisterKitchenService registerKitchen;
 
     @GetMapping
     public List<Kitchen> list() {
@@ -44,7 +48,7 @@ public class KitchenController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Kitchen add(@RequestBody Kitchen kitchen) {
-        return kitchenRepository.save(kitchen);
+        return registerKitchen.save(kitchen);
     }
 
     @PutMapping("/{kitchenId}")
