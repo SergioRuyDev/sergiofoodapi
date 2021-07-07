@@ -2,6 +2,7 @@ package com.sergioruy.sergiofoodapi.infrastructure.repository;
 
 import com.sergioruy.sergiofoodapi.domain.model.State;
 import com.sergioruy.sergiofoodapi.domain.repository.StateRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,9 +34,12 @@ public class StateRepositoryImpl implements StateRepository {
 
     @Transactional
     @Override
-    public void remove(State state) {
-        state = find(state.getId());
-        manager.remove(state);
+    public void remove(Long id) {
+        State state = find(id);
 
+        if (state == null) {
+            throw new EmptyResultDataAccessException(1);
+        }
+        manager.remove(state);
     }
 }
