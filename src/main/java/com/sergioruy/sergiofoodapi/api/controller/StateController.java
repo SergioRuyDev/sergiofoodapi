@@ -1,10 +1,13 @@
 package com.sergioruy.sergiofoodapi.api.controller;
 
+import com.sergioruy.sergiofoodapi.domain.exception.EntityNotFoundException;
+import com.sergioruy.sergiofoodapi.domain.exception.EntityUsedException;
 import com.sergioruy.sergiofoodapi.domain.model.State;
 import com.sergioruy.sergiofoodapi.domain.repository.StateRepository;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterStateService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +39,7 @@ public class StateController {
     }
 
     @PutMapping("/{stateId}")
-    public ResponseEntity<State> update(Long stateId, @RequestBody State state) {
+    public ResponseEntity<State> update(@PathVariable Long stateId, @RequestBody State state) {
         State curretState = stateRepository.find(stateId);
 
         if (curretState != null) {
@@ -46,5 +49,19 @@ public class StateController {
         }
 
         return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{stateId}")
+    public ResponseEntity<State> remove(@PathVariable Long stateId) {
+        try {
+            registerState.delete(stateId);
+            return ResponseEntity.noContent().build();
+
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+
+        } catch (EntityUsedException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
     }
 }
