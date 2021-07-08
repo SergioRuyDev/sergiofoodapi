@@ -43,6 +43,7 @@ public class RestaurantController {
         try {
             restaurant = registerRestaurant.save(restaurant);
             return ResponseEntity.status(HttpStatus.CREATED).body(restaurant);
+
         } catch (EntityNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
