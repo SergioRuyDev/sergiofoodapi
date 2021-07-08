@@ -3,12 +3,10 @@ package com.sergioruy.sergiofoodapi.api.controller;
 import com.sergioruy.sergiofoodapi.domain.model.State;
 import com.sergioruy.sergiofoodapi.domain.repository.StateRepository;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterStateService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,6 +32,19 @@ public class StateController {
         if (state != null) {
             return ResponseEntity.ok(state);
         }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/{stateId}")
+    public ResponseEntity<State> update(Long stateId, @RequestBody State state) {
+        State curretState = stateRepository.find(stateId);
+
+        if (curretState != null) {
+            BeanUtils.copyProperties(state, curretState, "id");
+            curretState = registerState.save(curretState);
+            return ResponseEntity.ok(curretState);
+        }
+
         return ResponseEntity.notFound().build();
     }
 }
