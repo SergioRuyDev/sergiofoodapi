@@ -22,8 +22,10 @@ public class RegisterStateService {
     public void delete(Long stateId) {
         try {
             stateRepository.remove(stateId);
+
         } catch (EmptyResultDataAccessException e) {
             throw new EntityNotFoundException(String.format("Not exist State wit code %d", stateId));
+
         } catch (DataIntegrityViolationException e) {
             throw new EntityUsedException(String.format("State of code %d is in use and cannot be removed", stateId));
         }

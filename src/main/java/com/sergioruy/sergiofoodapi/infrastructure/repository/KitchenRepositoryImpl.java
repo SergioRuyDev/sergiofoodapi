@@ -32,8 +32,8 @@ public class KitchenRepositoryImpl implements KitchenRepository {
         return manager.merge(kitchen);
     }
 
-    @Override
     @Transactional
+    @Override
     public void remove(Long id) {
         Kitchen kitchen = find(id);
 

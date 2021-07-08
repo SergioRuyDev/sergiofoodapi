@@ -51,6 +51,7 @@ public class StateController {
 
         if (curretState != null) {
             BeanUtils.copyProperties(state, curretState, "id");
+
             curretState = registerState.save(curretState);
             return ResponseEntity.ok(curretState);
         }
@@ -59,7 +60,7 @@ public class StateController {
     }
 
     @DeleteMapping("/{stateId}")
-    public ResponseEntity<State> remove(@PathVariable Long stateId) {
+    public ResponseEntity<?> remove(@PathVariable Long stateId) {
         try {
             registerState.delete(stateId);
             return ResponseEntity.noContent().build();
@@ -68,7 +69,7 @@ public class StateController {
             return ResponseEntity.notFound().build();
 
         } catch (EntityUsedException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
 }
