@@ -47,13 +47,13 @@ public class StateController {
 
     @PutMapping("/{stateId}")
     public ResponseEntity<State> update(@PathVariable Long stateId, @RequestBody State state) {
-        State curretState = stateRepository.find(stateId);
+        State currentState = stateRepository.find(stateId);
 
-        if (curretState != null) {
-            BeanUtils.copyProperties(state, curretState, "id");
+        if (currentState != null) {
+            BeanUtils.copyProperties(state, currentState, "id");
 
-            curretState = registerState.save(curretState);
-            return ResponseEntity.ok(curretState);
+            currentState = registerState.save(currentState);
+            return ResponseEntity.ok(currentState);
         }
 
         return ResponseEntity.notFound().build();
