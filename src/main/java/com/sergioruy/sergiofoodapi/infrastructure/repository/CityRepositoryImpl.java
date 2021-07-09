@@ -2,6 +2,7 @@ package com.sergioruy.sergiofoodapi.infrastructure.repository;
 
 import com.sergioruy.sergiofoodapi.domain.model.City;
 import com.sergioruy.sergiofoodapi.domain.repository.CityRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,8 +34,12 @@ public class CityRepositoryImpl implements CityRepository {
 
     @Transactional
     @Override
-    public void remove(City city) {
-        city = find(city.getId());
+    public void remove(Long id) {
+        City city = find(id);
+
+        if (city == null) {
+            throw new EmptyResultDataAccessException(1);
+        }
         manager.remove(city);
     }
 }

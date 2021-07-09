@@ -61,6 +61,7 @@ public class RestaurantController {
                 return ResponseEntity.ok(currentRestaurant);
             }
             return ResponseEntity.notFound().build();
+
         } catch (EntityNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

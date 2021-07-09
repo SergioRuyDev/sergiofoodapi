@@ -1,9 +1,11 @@
 package com.sergioruy.sergiofoodapi.api.controller;
 
 import com.sergioruy.sergiofoodapi.domain.exception.EntityNotFoundException;
+import com.sergioruy.sergiofoodapi.domain.exception.EntityUsedException;
 import com.sergioruy.sergiofoodapi.domain.model.City;
 import com.sergioruy.sergiofoodapi.domain.repository.CityRepository;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterCityService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +47,38 @@ public class CityController {
 
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/{cityId}")
+    public ResponseEntity<?> update(@PathVariable Long cityId, @RequestBody City city) {
+        try {
+            City currentCity = cityRepository.find(cityId);
+
+            if (currentCity != null) {
+                BeanUtils.copyProperties(city, currentCity, "id");
+
+                currentCity = registerCity.save(currentCity);
+                return ResponseEntity.ok(currentCity);
+            }
+            return ResponseEntity.notFound().build();
+
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{cityId}")
+    public ResponseEntity<?> remove(@PathVariable Long cityId) {
+        try {
+            registerCity.remove(cityId);
+            return ResponseEntity.noContent().build();
+
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+
+        } catch (EntityUsedException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
 }
