@@ -1,5 +1,6 @@
 package com.sergioruy.sergiofoodapi.api.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sergioruy.sergiofoodapi.domain.exception.EntityNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.model.Restaurant;
 import com.sergioruy.sergiofoodapi.domain.repository.RestaurantRepository;
@@ -8,8 +9,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
@@ -82,9 +85,19 @@ public class RestaurantController {
 
     }
 
-    private void merge(Map<String, Object> fieldsOrigin, Restaurant restaurantDestiny) {
-        fieldsOrigin.forEach((nameProperty, valueProperty) -> {
-            System.out.println(nameProperty + " = " + valueProperty);
+    private void merge(Map<String, Object> dataOrigin, Restaurant restaurantDestiny) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Restaurant restaurantOrigin = objectMapper.convertValue(dataOrigin, Restaurant.class);
+
+        dataOrigin.forEach((nameProperty, valueProperty) -> {
+            Field field = ReflectionUtils.findField(Restaurant.class, nameProperty);
+            field.setAccessible(true);
+
+            Object newValue = ReflectionUtils.getField(field, restaurantOrigin);
+
+//            System.out.println(nameProperty + " = " + valueProperty + " = " + newValue);
+
+            ReflectionUtils.setField(field, restaurantDestiny, newValue);
         });
     }
 }
