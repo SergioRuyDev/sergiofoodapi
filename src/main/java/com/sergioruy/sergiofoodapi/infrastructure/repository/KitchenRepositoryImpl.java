@@ -3,14 +3,14 @@ package com.sergioruy.sergiofoodapi.infrastructure.repository;
 import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
 import com.sergioruy.sergiofoodapi.domain.repository.KitchenRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-@Component
+@Repository
 public class KitchenRepositoryImpl implements KitchenRepository {
 
     @PersistenceContext
@@ -19,6 +19,13 @@ public class KitchenRepositoryImpl implements KitchenRepository {
     @Override
     public List<Kitchen> list() {
         return manager.createQuery("from Kitchen", Kitchen.class).getResultList();
+    }
+
+    @Override
+    public List<Kitchen> consultByName(String name) {
+        return manager.createQuery("from Kitchen where name= :name", Kitchen.class)
+                .setParameter("name", name)
+                .getResultList();
     }
 
     @Override
