@@ -23,8 +23,8 @@ public class KitchenRepositoryImpl implements KitchenRepository {
 
     @Override
     public List<Kitchen> consultByName(String name) {
-        return manager.createQuery("from Kitchen where name= :name", Kitchen.class)
-                .setParameter("name", name)
+        return manager.createQuery("from Kitchen where name like :name", Kitchen.class)
+                .setParameter("name", "%" + name + "%")
                 .getResultList();
     }
 
