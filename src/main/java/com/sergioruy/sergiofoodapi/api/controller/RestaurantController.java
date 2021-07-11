@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/restaurants")
@@ -28,24 +29,25 @@ public class RestaurantController {
 
     @GetMapping
     public List<Restaurant> list() {
-        return restaurantRepository.list();
+        return restaurantRepository.findAll();
     }
 
     @GetMapping("/{restaurantId}")
     public ResponseEntity<Restaurant> search(@PathVariable Long restaurantId) {
-        Restaurant restaurant = restaurantRepository.find(restaurantId);
+        Optional<Restaurant> restaurant = restaurantRepository.findById(restaurantId);
 
-        if (restaurant != null) {
-            return ResponseEntity.ok(restaurant);
-        }
+        return restaurant.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+//        if (restaurant.isPresent()) {
+//            return ResponseEntity.ok(restaurant.get());
+//        }
 
-        return ResponseEntity.notFound().build();
     }
 
     @PostMapping
     public ResponseEntity<?> add(@RequestBody Restaurant restaurant) {
         try {
             restaurant = registerRestaurant.save(restaurant);
+
             return ResponseEntity.status(HttpStatus.CREATED).body(restaurant);
 
         } catch (EntityNotFoundException e) {
@@ -56,7 +58,8 @@ public class RestaurantController {
     @PutMapping("/{restaurantId}")
     public ResponseEntity<?> update(@PathVariable Long restaurantId, @RequestBody Restaurant restaurant) {
         try {
-            Restaurant currentRestaurant = restaurantRepository.find(restaurantId);
+            Restaurant currentRestaurant = restaurantRepository.findById(restaurantId)
+                    .orElse(null);
 
             if (currentRestaurant != null) {
                 BeanUtils.copyProperties(restaurant, currentRestaurant, "id");
@@ -73,7 +76,7 @@ public class RestaurantController {
 
     @PatchMapping("/{restaurantId}")
     public ResponseEntity<?> partialUpdate(@PathVariable Long restaurantId, @RequestBody Map<String, Object> fields) {
-        Restaurant currentRestaurant = restaurantRepository.find(restaurantId);
+        Restaurant currentRestaurant = restaurantRepository.findById(restaurantId).orElse(null);
 
         if (currentRestaurant == null) {
             return ResponseEntity.notFound().build();

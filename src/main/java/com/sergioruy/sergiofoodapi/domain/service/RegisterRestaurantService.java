@@ -19,12 +19,9 @@ public class RegisterRestaurantService {
 
     public Restaurant save(Restaurant restaurant) {
         Long kitchenId = restaurant.getKitchen().getId();
-        Kitchen kitchen = kitchenRepository.find(kitchenId);
-
-        if (kitchen == null) {
-            throw new EntityNotFoundException(
-                    String.format("Have no kitchen with the code %d", kitchenId));
-        }
+        Kitchen kitchen = kitchenRepository.findById(kitchenId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("Have no kitchen with the code %d", kitchenId)));
 
         restaurant.setKitchen(kitchen);
 
