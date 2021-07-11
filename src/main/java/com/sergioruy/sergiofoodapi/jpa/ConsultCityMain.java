@@ -18,7 +18,7 @@ public class ConsultCityMain {
 
         CityRepository cities = applicationContext.getBean(CityRepository.class);
 
-        List<City> allCities = cities.list();
+        List<City> allCities = cities.findAll();
 
         for (City city : allCities) {
             System.out.printf("%s - %s\n", city.getName(), city.getState().getName());

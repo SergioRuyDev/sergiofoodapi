@@ -2,7 +2,6 @@ package com.sergioruy.sergiofoodapi.api.controller;
 
 import com.sergioruy.sergiofoodapi.domain.exception.EntityNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.exception.EntityUsedException;
-import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
 import com.sergioruy.sergiofoodapi.domain.model.State;
 import com.sergioruy.sergiofoodapi.domain.repository.StateRepository;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterStateService;
@@ -13,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/states")
@@ -26,17 +26,14 @@ public class StateController {
 
     @GetMapping
     public List<State> list() {
-        return stateRepository.list();
+        return stateRepository.findAll();
     }
 
     @GetMapping("/{stateId}")
     public ResponseEntity<State> search(@PathVariable Long stateId) {
-        State state = stateRepository.find(stateId);
+        Optional<State> state = stateRepository.findById(stateId);
 
-        if (state != null) {
-            return ResponseEntity.ok(state);
-        }
-        return ResponseEntity.notFound().build();
+        return state.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -47,7 +44,7 @@ public class StateController {
 
     @PutMapping("/{stateId}")
     public ResponseEntity<State> update(@PathVariable Long stateId, @RequestBody State state) {
-        State currentState = stateRepository.find(stateId);
+        State currentState = stateRepository.findById(stateId).orElse(null);
 
         if (currentState != null) {
             BeanUtils.copyProperties(state, currentState, "id");
