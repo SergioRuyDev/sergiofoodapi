@@ -22,9 +22,11 @@ public class RegisterKitchenService {
     public void delete(Long kitchenId) {
         try {
             kitchenRepository.deleteById(kitchenId);
+
         } catch (EmptyResultDataAccessException e) {
             throw new EntityNotFoundException(
                     String.format("Not exist kitchen with code %d", kitchenId));
+
         } catch (DataIntegrityViolationException e) {
             throw new EntityUsedException(
                     String.format("Kitchen of code %d is in use and cannot be removed", kitchenId));

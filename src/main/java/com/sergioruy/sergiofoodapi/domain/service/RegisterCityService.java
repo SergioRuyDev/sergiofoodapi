@@ -22,11 +22,9 @@ public class RegisterCityService {
 
     public City save(City city) {
         Long stateId = city.getState().getId();
-        State state = stateRepository.find(stateId);
-
-        if (state == null) {
-            throw new EntityNotFoundException(String.format("State with code %d not found.", stateId));
-        }
+        State state = stateRepository.findById(stateId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("State with code %d not found.", stateId)));
 
         city.setState(state);
 
@@ -35,7 +33,7 @@ public class RegisterCityService {
 
     public void remove(Long cityId) {
         try {
-            cityRepository.remove(cityId);
+            cityRepository.deleteById(cityId);
 
         } catch (EmptyResultDataAccessException e) {
             throw new EntityNotFoundException(String.format("Not exist City registry with the code %d", cityId));

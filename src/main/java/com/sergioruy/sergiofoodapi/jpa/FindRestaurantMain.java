@@ -7,6 +7,8 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
 
+import java.util.Optional;
+
 public class FindRestaurantMain {
     public static void main(String[] args) {
         ApplicationContext applicationContext = new SpringApplicationBuilder(SergiofoodapiApplication.class)
@@ -15,8 +17,8 @@ public class FindRestaurantMain {
 
         RestaurantRepository restaurantRepository = applicationContext.getBean(RestaurantRepository.class);
 
-        Restaurant restaurant = restaurantRepository.find(1L);
+        Optional<Restaurant> restaurant = restaurantRepository.findById(1L);
 
-        System.out.println(restaurant.getName());
+        System.out.println(restaurant.get().getName());
     }
 }

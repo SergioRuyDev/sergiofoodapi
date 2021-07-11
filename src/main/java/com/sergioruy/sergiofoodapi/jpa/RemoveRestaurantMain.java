@@ -18,6 +18,6 @@ public class RemoveRestaurantMain {
         Restaurant restaurant = new Restaurant();
         restaurant.setId(1L);
 
-        restaurants.remove(restaurant);
+        restaurants.delete(restaurant);
     }
 }
