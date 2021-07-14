@@ -32,13 +32,34 @@ public class TestController {
     public Optional<Kitchen> kitchenByName(String name) {
         return kitchenRepository.findByName(name);
     }
+
+    @GetMapping("/kitchens/exists")
+    public boolean kitchenExists(String name) {
+        return kitchenRepository.existsByName(name);
+    }
+
     @GetMapping("/restaurants/by-tax-delivery")
     public List<Restaurant> restaurantsByTaxDelivery(BigDecimal initialTax, BigDecimal finalTax) {
         return restaurantRepository.findByTaxDeliveryBetween(initialTax, finalTax);
     }
 
     @GetMapping("/restaurants/by-name")
-    public List<Restaurant> restaurantsByTaxDelivery(String name, Long kitchenId) {
+    public List<Restaurant> restaurantByName(String name, Long kitchenId) {
         return restaurantRepository.findByNameContainingAndKitchenId(name, kitchenId);
+    }
+
+    @GetMapping("/restaurants/first-name")
+    public Optional<Restaurant> restaurantFirstName(String name) {
+        return restaurantRepository.findFirstByNameContaining(name);
+    }
+
+    @GetMapping("/restaurants/top2-by-name")
+    public List<Restaurant> restaurantsTop2ByName(String name) {
+        return restaurantRepository.findTop2ByNameContaining(name);
+    }
+
+    @GetMapping("/restaurants/count-by-kitchen")
+    public int restaurantsCountByKitchen(Long kitchenId) {
+        return restaurantRepository.countByKitchenId(kitchenId);
     }
 }
