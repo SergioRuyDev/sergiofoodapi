@@ -2,7 +2,6 @@ package com.sergioruy.sergiofoodapi.domain.repository;
 
 import com.sergioruy.sergiofoodapi.domain.model.Restaurant;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
+public interface RestaurantRepository extends JpaRepository<Restaurant, Long>, RestaurantRepositoryQueries {
 
     List<Restaurant> findByTaxDeliveryBetween(BigDecimal initialTax, BigDecimal finalTax);
 
@@ -24,4 +23,5 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
     List<Restaurant> findTop2ByNameContaining(String name);
 
     int countByKitchenId(Long kitchen);
+
 }
