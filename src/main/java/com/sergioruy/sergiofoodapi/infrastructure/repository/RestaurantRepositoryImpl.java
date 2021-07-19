@@ -32,7 +32,10 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryQueries {
 
         Predicate namePredicate = builder.like(root.get("name"), "%" + name + "%");
 
-        criteria.where(namePredicate);
+        Predicate taxInitialPredicate = builder.greaterThanOrEqualTo(root.get("tax_delivery"), taxDeliveryInitial);
+        Predicate taxFinalPredicate = builder.lessThanOrEqualTo(root.get("tax_delivery"), taxDeliveryFinal);
+
+        criteria.where(namePredicate, taxInitialPredicate, taxFinalPredicate);
 
         TypedQuery<Restaurant> query = manager.createQuery(criteria);
         return query.getResultList();
