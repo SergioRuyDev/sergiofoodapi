@@ -40,7 +40,7 @@ public class TestController {
 
     @GetMapping("/restaurants/by-tax-delivery")
     public List<Restaurant> restaurantsByTaxDelivery(BigDecimal initialTax, BigDecimal finalTax) {
-        return restaurantRepository.findByTaxDeliveryBetween(initialTax, finalTax);
+        return restaurantRepository.queryByTaxDeliveryBetween(initialTax, finalTax);
     }
 
     @GetMapping("/restaurants/by-name")
@@ -56,6 +56,12 @@ public class TestController {
     @GetMapping("/restaurants/top2-by-name")
     public List<Restaurant> restaurantsTop2ByName(String name) {
         return restaurantRepository.findTop2ByNameContaining(name);
+    }
+
+    @GetMapping("/restaurants/by-name-and-delivery")
+    public List<Restaurant> restaurantsByNameDelivery(String name, BigDecimal taxInitialDelivery,
+                                                      BigDecimal taxFinalDelivery) {
+        return restaurantRepository.find(name, taxInitialDelivery, taxFinalDelivery);
     }
 
     @GetMapping("/restaurants/count-by-kitchen")

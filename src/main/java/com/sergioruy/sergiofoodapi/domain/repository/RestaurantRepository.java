@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long>, RestaurantRepositoryQueries {
 
-    List<Restaurant> findByTaxDeliveryBetween(BigDecimal initialTax, BigDecimal finalTax);
+    List<Restaurant> queryByTaxDeliveryBetween(BigDecimal initialTax, BigDecimal finalTax);
 
 //    List<Restaurant> findByNameContainingAndKitchenId(String name, Long kitchen);
 //    @Query("from Restaurant where name like %:name% and kitchen.id = :id")
