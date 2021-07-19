@@ -59,9 +59,9 @@ public class TestController {
     }
 
     @GetMapping("/restaurants/by-name-and-delivery")
-    public List<Restaurant> restaurantsByNameDelivery(String name, BigDecimal taxInitialDelivery,
-                                                      BigDecimal taxFinalDelivery) {
-        return restaurantRepository.find(name, taxInitialDelivery, taxFinalDelivery);
+    public List<Restaurant> restaurantsByNameDelivery(String name, BigDecimal taxDeliveryInitial,
+                                                      BigDecimal taxDeliveryFinal) {
+        return restaurantRepository.find(name, taxDeliveryInitial, taxDeliveryFinal);
     }
 
     @GetMapping("/restaurants/count-by-kitchen")
