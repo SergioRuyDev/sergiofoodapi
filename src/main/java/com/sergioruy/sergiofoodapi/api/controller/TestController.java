@@ -68,4 +68,12 @@ public class TestController {
     public int restaurantsCountByKitchen(Long kitchenId) {
         return restaurantRepository.countByKitchenId(kitchenId);
     }
+
+    @GetMapping("/restaurants/with-free-tax")
+    public List<Restaurant> restaurantsTaxFree(String name) {
+        var withTaxFree = new RestaurantWithTaxFreeSpec();
+        var withNameSimilar = new RestaurantWithNameSimilarSpec(name);
+        return restaurantRepository.findAll(withTaxFree.and(withNameSimilar));
+    }
+
 }
