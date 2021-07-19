@@ -4,8 +4,6 @@ import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
 import com.sergioruy.sergiofoodapi.domain.model.Restaurant;
 import com.sergioruy.sergiofoodapi.domain.repository.KitchenRepository;
 import com.sergioruy.sergiofoodapi.domain.repository.RestaurantRepository;
-import com.sergioruy.sergiofoodapi.infrastructure.repository.spec.RestaurantWithNameSimilarSpec;
-import com.sergioruy.sergiofoodapi.infrastructure.repository.spec.RestaurantWithTaxFreeSpec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+
+import static com.sergioruy.sergiofoodapi.infrastructure.repository.spec.RestaurantSpecs.*;
 
 @RestController
 @RequestMapping("/test")
@@ -73,10 +73,8 @@ public class TestController {
 
     @GetMapping("/restaurants/with-free-tax")
     public List<Restaurant> restaurantsTaxFree(String name) {
-        var withTaxFree = new RestaurantWithTaxFreeSpec();
-        var withNameSimilar = new RestaurantWithNameSimilarSpec(name);
 
-        return restaurantRepository.findAll(withTaxFree.and(withNameSimilar));
+        return restaurantRepository.findAll(withTaxFree().and(withNameSimilar(name)));
     }
 
 }
