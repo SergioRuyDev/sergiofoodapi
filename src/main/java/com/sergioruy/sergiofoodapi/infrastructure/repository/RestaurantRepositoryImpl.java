@@ -1,7 +1,10 @@
 package com.sergioruy.sergiofoodapi.infrastructure.repository;
 
 import com.sergioruy.sergiofoodapi.domain.model.Restaurant;
+import com.sergioruy.sergiofoodapi.domain.repository.RestaurantRepository;
 import com.sergioruy.sergiofoodapi.domain.repository.RestaurantRepositoryQueries;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -14,14 +17,19 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+
+import static com.sergioruy.sergiofoodapi.infrastructure.repository.spec.RestaurantSpecs.withNameSimilar;
+import static com.sergioruy.sergiofoodapi.infrastructure.repository.spec.RestaurantSpecs.withTaxFree;
 
 @Repository
 public class RestaurantRepositoryImpl implements RestaurantRepositoryQueries {
 
     @PersistenceContext
     private EntityManager manager;
+
+    @Autowired @Lazy
+    private RestaurantRepository restaurantRepository;
 
     @Override
     public List<Restaurant> find(String name, BigDecimal taxDeliveryInitial, BigDecimal taxDeliveryFinal) {
@@ -49,6 +57,11 @@ public class RestaurantRepositoryImpl implements RestaurantRepositoryQueries {
 
         TypedQuery<Restaurant> query = manager.createQuery(criteria);
         return query.getResultList();
+    }
+
+    @Override
+    public List<Restaurant> findWithFreeTax(String name) {
+        return restaurantRepository.findAll(withTaxFree().and(withNameSimilar(name)));
     }
 }
 

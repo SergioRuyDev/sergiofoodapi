@@ -73,8 +73,7 @@ public class TestController {
 
     @GetMapping("/restaurants/with-free-tax")
     public List<Restaurant> restaurantsTaxFree(String name) {
-
-        return restaurantRepository.findAll(withTaxFree().and(withNameSimilar(name)));
+        return restaurantRepository.findWithFreeTax(name);
     }
 
 }
