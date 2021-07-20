@@ -76,4 +76,9 @@ public class TestController {
         return restaurantRepository.findWithFreeTax(name);
     }
 
+    @GetMapping("/restaurants/first")
+    public Optional<Restaurant> restaurantFirst() {
+        return restaurantRepository.findFirst();
+    }
+
 }
