@@ -40,6 +40,11 @@ public class TestController {
         return kitchenRepository.existsByName(name);
     }
 
+    @GetMapping("/kitchens/first")
+    public Optional<Kitchen> kitchenFirst() {
+        return kitchenRepository.findFirst();
+    }
+
     @GetMapping("/restaurants/by-tax-delivery")
     public List<Restaurant> restaurantsByTaxDelivery(BigDecimal initialTax, BigDecimal finalTax) {
         return restaurantRepository.queryByTaxDeliveryBetween(initialTax, finalTax);
