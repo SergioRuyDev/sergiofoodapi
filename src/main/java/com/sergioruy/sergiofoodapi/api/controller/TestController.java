@@ -13,7 +13,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-import static com.sergioruy.sergiofoodapi.infrastructure.repository.spec.RestaurantSpecs.*;
 
 @RestController
 @RequestMapping("/test")
