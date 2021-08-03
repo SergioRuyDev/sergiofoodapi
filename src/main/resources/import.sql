@@ -13,7 +13,7 @@ insert into city (id, name, state_id) values (3, 'Miami', 2);
 insert into city (id, name, state_id) values (4, 'Tampa', 2);
 insert into city (id, name, state_id) values (5, 'Los Angeles', 3);
 
-insert into restaurant (id, name, tax_delivery, kitchen_id, address_city_id, address_postalCode, address_street, address_number, address_district) values (1, 'Thai Gourmet', 10, 1, 1, '10292', '5TH Avenue', '1000', 'Yorkville');
+insert into restaurant (id, name, tax_delivery, kitchen_id, address_city_id, address_postalcode, address_street, address_number, address_district) values (1, 'Thai Gourmet', 10, 1, 1, '10292', '5TH Avenue', '1000', 'Yorkville');
 insert into restaurant (id, name, tax_delivery, kitchen_id) values (2, 'Thai Delivery', 9.50, 1);
 insert into restaurant (id, name, tax_delivery, kitchen_id) values (3, 'Tuk Tuk Indian Food', 15, 2);
 insert into restaurant (id, name, tax_delivery, kitchen_id) values (4, 'Carnival Brazilian', 25, 3);
