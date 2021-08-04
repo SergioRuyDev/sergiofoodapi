@@ -2,6 +2,7 @@ package com.sergioruy.sergiofoodapi.domain.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -28,13 +29,12 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @UpdateTimestamp
+    @CreationTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
     private LocalDateTime dateRegister;
 
     @ManyToMany
-    @JoinTable(name = "user_group",
-            joinColumns = @JoinColumn(name = "user_id"),
+    @JoinTable(name = "user_group", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "group_id"))
     private List<Group> groups = new ArrayList<>();
 }
