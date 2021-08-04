@@ -29,3 +29,18 @@ insert into permission (id, name, description) values (1, 'CONSULT_KITCHENS', 'P
 insert into permission (id, name, description) values (2, 'EDIT_KITCHENS', 'Permit edit kitchens');
 
 insert into restaurant_payment_method (restaurant_id, payment_method_id) values (1, 1), (1, 2), (1, 3), (2, 3), (3, 2), (3, 3);
+
+insert into product (name, description, price, active, restaurant_id) values ('Pork with barbecue sauce', 'Delicious pork meat in especial sauce', 78.90, 1, 1);
+insert into product (name, description, price, active, restaurant_id) values ('Shrimp thai', '16 big shrimps in the spicy sauce', 110, 1, 1);
+
+insert into product (name, description, price, active, restaurant_id) values ('Hot salad will grilled beef', 'Green salad with thin slices cuts of select premium Angus meat', 87.20, 1, 2);
+
+insert into product (name, description, price, active, restaurant_id) values ('Garlic Naan', 'Traditional indian bread with garlic on top', 21, 1, 3);
+insert into product (name, description, price, active, restaurant_id) values ('Murg Curry', 'Chicken cubes prepared with especial curry sauce', 43, 1, 3);
+
+insert into product (name, description, price, active, restaurant_id) values ('Beef Anchor', 'Big and soft cut, prepared with selected seasoning', 79, 1, 4);
+insert into product (name, description, price, active, restaurant_id) values ('T-Bone', 'Classic australian cut, served with our especial barbecue sauce', 89, 1, 4);
+
+insert into product (name, description, price, active, restaurant_id) values ('Sandwich X-Tudo', 'Brazilian sandwich with cheese, hamburger, bacon, egg, salad and especial mayo', 19, 1, 5);
+
+insert into product (name, description, price, active, restaurant_id) values ('Barbecue Stick', 'came with cassava flour and vinegar sauce', 8, 1, 6);
