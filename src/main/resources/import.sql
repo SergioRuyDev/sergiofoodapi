@@ -28,7 +28,7 @@ insert into payment_method (id, description) values (3, 'Cash');
 insert into permission (id, name, description) values (1, 'CONSULT_KITCHENS', 'Permit consult kitchens');
 insert into permission (id, name, description) values (2, 'EDIT_KITCHENS', 'Permit edit kitchens');
 
-insert into restaurant_payment_method (restaurant_id, payment_method_id) values (1, 1), (1, 2), (1, 3), (2, 3), (3, 2), (3, 3);
+insert into restaurant_payment_method (restaurant_id, payment_method_id) values (1, 1), (1, 2), (1, 3), (2, 3), (3, 2), (3, 3), (4, 1), (4, 2), (5, 1), (5, 2), (6, 3);
 
 insert into product (name, description, price, active, restaurant_id) values ('Pork with barbecue sauce', 'Delicious pork meat in especial sauce', 78.90, 1, 1);
 insert into product (name, description, price, active, restaurant_id) values ('Shrimp thai', '16 big shrimps in the spicy sauce', 110, 1, 1);
