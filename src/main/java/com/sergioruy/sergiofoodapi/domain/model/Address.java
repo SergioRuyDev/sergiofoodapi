@@ -2,10 +2,7 @@ package com.sergioruy.sergiofoodapi.domain.model;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Data
 @Embeddable
@@ -26,7 +23,7 @@ public class Address {
     @Column(name = "address_district")
     private String district;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "address_city_id")
     private City city;
 }
