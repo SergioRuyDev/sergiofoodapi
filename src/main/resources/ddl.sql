@@ -83,50 +83,33 @@ create table user_group (
 
 
 
-    alter table group_permission 
-       add constraint FKss14p30qbokhpkpdov4ha3wro 
-       foreign key (permission_id) 
-       references permission (id)
+alter table group_permission add constraint fk_group_permission_permission
+foreign key (permission_id) references permission (id);
 
-    alter table group_permission 
-       add constraint FK4twq9e99a6jwgl699bqlu5tsc 
-       foreign key (group_id) 
-       references group (id)
+alter table group_permission add constraint fk_group_permission_group
+foreign key (group_id) references `group` (id);
 
-    alter table product 
-       add constraint FKp4b7e36gck7975p51raud8juk 
-       foreign key (restaurant_id) 
-       references restaurant (id)
+alter table product add constraint fk_product_restaurant
+foreign key (restaurant_id) references restaurant (id);
 
-    alter table restaurant 
-       add constraint FK8pcwgn41lfg43d8u82ewn3cn 
-       foreign key (address_city_id) 
-       references city (id)
 
-    alter table restaurant 
-       add constraint FKrur1dqx79jim8s8dvdp16qc3d 
-       foreign key (kitchen_id) 
-       references kitchen (id)
+alter table restaurant add constraint fk_restaurant_kitchen
+foreign key (kitchen_id) references kitchen (id);
 
-    alter table restaurant_payment_method 
-       add constraint FK5dxd5cjhjqf8eai6xugad3e1g 
-       foreign key (payment_method_id) 
-       references payment_method (id)
+alter table restaurant add constraint fk_restaurant_city
+foreign key (address_city_id) references city (id);
 
-    alter table restaurant_payment_method 
-       add constraint FKbjuwyavt07p2uihdqt6jtmkyj 
-       foreign key (restaurant_id) 
-       references restaurant (id)
+alter table restaurant_payment_method add constraint fk_rest_method_paymt_method_paymt
+foreign key (payment_method_id) references payment_method (id);
 
-    alter table user_group 
-       add constraint FKjonf4pqux3h1e687sd18dhcnj 
-       foreign key (group_id) 
-       references group (id)
+alter table restaurant_payment_method add constraint FKbjuwyavt07p2uihdqt6jtmkyj
+foreign key (restaurant_id) references restaurant (id);
 
-    alter table user_group 
-       add constraint FK1c1dsw3q36679vaiqwvtv36a6 
-       foreign key (user_id) 
-       references user (id)
+alter table user_group add constraint fk_user_group_group
+foreign key (group_id) references `group` (id);
+
+alter table user_group add constraint fk_user_group_user
+foreign key (user_id) references user (id);
 
 
 
