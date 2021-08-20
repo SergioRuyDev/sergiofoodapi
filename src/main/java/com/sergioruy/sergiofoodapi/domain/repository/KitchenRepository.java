@@ -17,3 +17,4 @@ public interface KitchenRepository extends CustomJpaRepository<Kitchen, Long> {
 
 
 }
+
