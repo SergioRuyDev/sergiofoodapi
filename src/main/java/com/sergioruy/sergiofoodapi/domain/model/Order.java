@@ -2,6 +2,7 @@ package com.sergioruy.sergiofoodapi.domain.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -19,28 +20,37 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private BigDecimal subtotal;
-
-    @Column(nullable = false)
     private BigDecimal taxDelivery;
-
-    @Column(nullable = false)
     private BigDecimal totalAmount;
 
-    @Column(nullable = true)
+    @Embedded
+    private Address addressDelivered;
+
+    private StatusOrder status;
+
+    @CreationTimestamp
     private LocalDateTime createDate;
 
-    @Column(nullable = true)
     private LocalDateTime confirmDate;
-
-    @Column(nullable = true)
     private LocalDateTime cancelDate;
-
-    @Column(nullable = true)
     private LocalDateTime DeliveryDate;
 
-    @OneToMany(mappedBy = "itemOrdered")
-    private List<ItemOrdered> itemOrdereds = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private PaymentMethod paymentMethod;
+
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Restaurant restaurant;
+
+    @ManyToOne
+    @JoinColumn(name = "user_customer_id", nullable = false)
+    private User customer;
+
+    @OneToMany(mappedBy = "order")
+    private List<ItemOrdered> items = new ArrayList<>();
+
+
 
 }
