@@ -34,8 +34,6 @@ public class Restaurant {
     @JoinColumn(name = "kitchen_id", nullable = false)
     private Kitchen kitchen;
 
-    private String teste;
-
     @JsonIgnore
     @Embedded
     private Address address;
