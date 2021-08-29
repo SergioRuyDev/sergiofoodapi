@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 public class Order {
 
@@ -32,9 +32,9 @@ public class Order {
     @CreationTimestamp
     private LocalDateTime createDate;
 
-    private LocalDateTime confirmDate;
-    private LocalDateTime cancelDate;
-    private LocalDateTime DeliveryDate;
+    private LocalDateTime confirmedDate;
+    private LocalDateTime cancelledDate;
+    private LocalDateTime DeliveredDate;
 
     @ManyToOne
     @JoinColumn(nullable = false)
@@ -50,7 +50,5 @@ public class Order {
 
     @OneToMany(mappedBy = "order")
     private List<ItemOrdered> items = new ArrayList<>();
-
-
 
 }

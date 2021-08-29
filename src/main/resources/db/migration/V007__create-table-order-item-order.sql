@@ -16,10 +16,10 @@ create table `order` (
     address_district varchar(60) not null,
 
     status varchar(10) not null,
-    date_created datetime not null,
-    date_confirmed datetime null,
-    date_canceled datetime null,
-    date_delivered datetime null,
+    created_date datetime not null,
+    confirmed_date datetime null,
+    cancelled_date datetime null,
+    delivered_date datetime null,
 
     primary key (id),
 

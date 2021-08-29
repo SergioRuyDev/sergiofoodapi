@@ -6,8 +6,8 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 public class ItemOrdered {
 
@@ -16,23 +16,16 @@ public class ItemOrdered {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Integer quantity;
-
-    @Column(nullable = false)
     private BigDecimal unitPrice;
-
-    @Column(nullable = false)
     private BigDecimal totalPrice;
-
-    @Column(nullable = true)
+    private Integer quantity;
     private String observations;
 
     @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
+    @JoinColumn(nullable = false)
     private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(nullable = false)
     private Product product;
 }
