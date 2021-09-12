@@ -29,17 +29,23 @@ public class KitchenController {
         return kitchenRepository.findAll();
     }
 
+//    @GetMapping("/{kitchenId}")
+//    public ResponseEntity<Kitchen> search(@PathVariable Long kitchenId) {
+//        Optional<Kitchen> kitchen =  kitchenRepository.findById(kitchenId);
+//
+//        return kitchen.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+///*
+//        if (kitchen.isPresent()) {
+//            return ResponseEntity.ok(kitchen.get());
+//        }
+//*/
+//
+//    }
+
     @GetMapping("/{kitchenId}")
-    public ResponseEntity<Kitchen> search(@PathVariable Long kitchenId) {
-        Optional<Kitchen> kitchen =  kitchenRepository.findById(kitchenId);
-
-        return kitchen.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-/*
-        if (kitchen.isPresent()) {
-            return ResponseEntity.ok(kitchen.get());
-        }
-*/
-
+    public Kitchen search(@PathVariable Long kitchenId) {
+        return kitchenRepository.findById(kitchenId)
+                .orElseThrow(() -> new EntityNotFoundException("aaaaa"));
     }
 
     @PostMapping
