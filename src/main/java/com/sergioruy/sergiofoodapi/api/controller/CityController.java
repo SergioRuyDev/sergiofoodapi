@@ -1,7 +1,6 @@
 package com.sergioruy.sergiofoodapi.api.controller;
 
 import com.sergioruy.sergiofoodapi.domain.exception.EntityNotFoundException;
-import com.sergioruy.sergiofoodapi.domain.exception.EntityUsedException;
 import com.sergioruy.sergiofoodapi.domain.model.City;
 import com.sergioruy.sergiofoodapi.domain.repository.CityRepository;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterCityService;
@@ -12,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/cities")
@@ -30,14 +28,8 @@ public class CityController {
     }
 
     @GetMapping("/{cityId}")
-    public ResponseEntity<City> search(@PathVariable Long cityId) {
-        Optional<City> city = cityRepository.findById(cityId);
-
-        return city.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-//        if (city.isPresent()) {
-//            return ResponseEntity.ok(city.get());
-//        }
-
+    public City search(@PathVariable Long cityId) {
+        return registerCity.findOrFail(cityId);
     }
 
     @PostMapping
@@ -52,34 +44,17 @@ public class CityController {
     }
 
     @PutMapping("/{cityId}")
-    public ResponseEntity<?> update(@PathVariable Long cityId, @RequestBody City city) {
-        try {
-            City currentCity = cityRepository.findById(cityId).orElse(null);
+    public City update(@PathVariable Long cityId, @RequestBody City city) {
+        City currentCity = registerCity.findOrFail(cityId);
 
-            if (currentCity != null) {
-                BeanUtils.copyProperties(city, currentCity, "id");
+        BeanUtils.copyProperties(city, currentCity, "id");
 
-                currentCity = registerCity.save(currentCity);
-                return ResponseEntity.ok(currentCity);
-            }
-            return ResponseEntity.notFound().build();
-
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        return registerCity.save(currentCity);
     }
 
     @DeleteMapping("/{cityId}")
-    public ResponseEntity<?> remove(@PathVariable Long cityId) {
-        try {
-            registerCity.remove(cityId);
-            return ResponseEntity.noContent().build();
-
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
-
-        } catch (EntityUsedException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-        }
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remove(@PathVariable Long cityId) {
+        registerCity.remove(cityId);
     }
 }

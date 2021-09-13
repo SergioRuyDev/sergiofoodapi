@@ -14,6 +14,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class RegisterCityService {
 
+    private static final String MSG_CITY_IS_IN_USE = "City of code %d is in use and cannot be removed";
+
+    private static final String MSG_CITY_NOT_FOUND = "Not exist City registered with the code %d";
+
     @Autowired
     private CityRepository cityRepository;
 
@@ -24,7 +28,7 @@ public class RegisterCityService {
         Long stateId = city.getState().getId();
         State state = stateRepository.findById(stateId)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("State with code %d not found.", stateId)));
+                        String.format(MSG_CITY_NOT_FOUND, stateId)));
 
         city.setState(state);
 
@@ -36,10 +40,16 @@ public class RegisterCityService {
             cityRepository.deleteById(cityId);
 
         } catch (EmptyResultDataAccessException e) {
-            throw new EntityNotFoundException(String.format("Not exist City registry with the code %d", cityId));
+            throw new EntityNotFoundException(String.format(MSG_CITY_NOT_FOUND, cityId));
 
         } catch (DataIntegrityViolationException e) {
-            throw new EntityUsedException(String.format("City of code %d is in use and cannot be removed", cityId));
+            throw new EntityUsedException(String.format(MSG_CITY_IS_IN_USE, cityId));
         }
+    }
+
+    public City findOrFail(Long cityId){
+        return cityRepository.findById(cityId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format(MSG_CITY_NOT_FOUND, cityId)));
     }
 }
