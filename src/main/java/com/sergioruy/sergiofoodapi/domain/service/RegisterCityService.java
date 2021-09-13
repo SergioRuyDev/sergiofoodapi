@@ -24,11 +24,13 @@ public class RegisterCityService {
     @Autowired
     private StateRepository stateRepository;
 
+    @Autowired
+    private RegisterStateService stateService;
+
     public City save(City city) {
         Long stateId = city.getState().getId();
-        State state = stateRepository.findById(stateId)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format(MSG_CITY_NOT_FOUND, stateId)));
+
+        State state = stateService.findOrFail(stateId);
 
         city.setState(state);
 
