@@ -1,18 +1,14 @@
 package com.sergioruy.sergiofoodapi.api.controller;
 
-import com.sergioruy.sergiofoodapi.domain.exception.EntityNotFoundException;
-import com.sergioruy.sergiofoodapi.domain.exception.EntityUsedException;
 import com.sergioruy.sergiofoodapi.domain.model.State;
 import com.sergioruy.sergiofoodapi.domain.repository.StateRepository;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterStateService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/states")
@@ -30,10 +26,8 @@ public class StateController {
     }
 
     @GetMapping("/{stateId}")
-    public ResponseEntity<State> search(@PathVariable Long stateId) {
-        Optional<State> state = stateRepository.findById(stateId);
-
-        return state.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public State search(@PathVariable Long stateId) {
+        return registerState.findOrFail(stateId);
     }
 
     @PostMapping
@@ -43,30 +37,17 @@ public class StateController {
     }
 
     @PutMapping("/{stateId}")
-    public ResponseEntity<State> update(@PathVariable Long stateId, @RequestBody State state) {
-        State currentState = stateRepository.findById(stateId).orElse(null);
+    public State update(@PathVariable Long stateId, @RequestBody State state) {
+        State currentState = registerState.findOrFail(stateId);
 
-        if (currentState != null) {
             BeanUtils.copyProperties(state, currentState, "id");
 
-            currentState = registerState.save(currentState);
-            return ResponseEntity.ok(currentState);
-        }
-
-        return ResponseEntity.notFound().build();
+            return registerState.save(currentState);
     }
 
     @DeleteMapping("/{stateId}")
-    public ResponseEntity<?> remove(@PathVariable Long stateId) {
-        try {
-            registerState.delete(stateId);
-            return ResponseEntity.noContent().build();
-
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
-
-        } catch (EntityUsedException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-        }
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remove(@PathVariable Long stateId) {
+        registerState.delete(stateId);
     }
 }
