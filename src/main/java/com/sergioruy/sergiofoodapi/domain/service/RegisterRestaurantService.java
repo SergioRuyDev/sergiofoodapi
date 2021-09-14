@@ -20,6 +20,7 @@ public class RegisterRestaurantService {
 
     public Restaurant save(Restaurant restaurant) {
         Long kitchenId = restaurant.getKitchen().getId();
+
         Kitchen kitchen = kitchenService.findOrFail(kitchenId);
 
         restaurant.setKitchen(kitchen);

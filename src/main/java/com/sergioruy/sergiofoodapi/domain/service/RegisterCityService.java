@@ -22,9 +22,6 @@ public class RegisterCityService {
     private CityRepository cityRepository;
 
     @Autowired
-    private StateRepository stateRepository;
-
-    @Autowired
     private RegisterStateService stateService;
 
     public City save(City city) {

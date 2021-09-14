@@ -32,15 +32,20 @@ public class CityController {
         return registerCity.findOrFail(cityId);
     }
 
+//    @PostMapping
+//    public ResponseEntity<?> add(@RequestBody City city) {
+//        try {
+//            city = registerCity.save(city);
+//            return ResponseEntity.status(HttpStatus.CREATED).body(city);
+//
+//        } catch (EntityNotFoundException e) {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//        }
+//    }
     @PostMapping
-    public ResponseEntity<?> add(@RequestBody City city) {
-        try {
-            city = registerCity.save(city);
-            return ResponseEntity.status(HttpStatus.CREATED).body(city);
-
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    @ResponseStatus(HttpStatus.CREATED)
+    public City add(@RequestBody City city) {
+        return registerCity.save(city);
     }
 
     @PutMapping("/{cityId}")

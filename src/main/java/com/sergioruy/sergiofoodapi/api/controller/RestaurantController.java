@@ -36,16 +36,21 @@ public class RestaurantController {
         return restaurantService.findOrFail(restaurantId);
     }
 
+//    @PostMapping
+//    public ResponseEntity<?> add(@RequestBody Restaurant restaurant) {
+//        try {
+//            restaurant = restaurantService.save(restaurant);
+//
+//            return ResponseEntity.status(HttpStatus.CREATED).body(restaurant);
+//
+//        } catch (EntityNotFoundException e) {
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//    }
     @PostMapping
-    public ResponseEntity<?> add(@RequestBody Restaurant restaurant) {
-        try {
-            restaurant = restaurantService.save(restaurant);
-
-            return ResponseEntity.status(HttpStatus.CREATED).body(restaurant);
-
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    @ResponseStatus(HttpStatus.CREATED)
+    public Restaurant add(@RequestBody Restaurant restaurant) {
+        return restaurantService.save(restaurant);
     }
 
     @PutMapping("/{restaurantId}")
