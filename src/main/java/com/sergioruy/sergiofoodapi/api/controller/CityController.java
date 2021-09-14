@@ -8,7 +8,6 @@ import com.sergioruy.sergiofoodapi.domain.service.RegisterCityService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,20 +32,14 @@ public class CityController {
         return registerCity.findOrFail(cityId);
     }
 
-//    @PostMapping
-//    public ResponseEntity<?> add(@RequestBody City city) {
-//        try {
-//            city = registerCity.save(city);
-//            return ResponseEntity.status(HttpStatus.CREATED).body(city);
-//
-//        } catch (EntityNotFoundException e) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-//        }
-//    }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public City add(@RequestBody City city) {
-        return registerCity.save(city);
+        try {
+            return registerCity.save(city);
+        } catch (EntityNotFoundException e) {
+            throw new GenericException(e.getMessage());
+        }
     }
 
     @PutMapping("/{cityId}")

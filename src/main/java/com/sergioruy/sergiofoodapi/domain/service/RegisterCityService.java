@@ -5,7 +5,6 @@ import com.sergioruy.sergiofoodapi.domain.exception.EntityUsedException;
 import com.sergioruy.sergiofoodapi.domain.model.City;
 import com.sergioruy.sergiofoodapi.domain.model.State;
 import com.sergioruy.sergiofoodapi.domain.repository.CityRepository;
-import com.sergioruy.sergiofoodapi.domain.repository.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
