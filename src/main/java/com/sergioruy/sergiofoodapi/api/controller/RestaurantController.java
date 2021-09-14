@@ -2,6 +2,7 @@ package com.sergioruy.sergiofoodapi.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sergioruy.sergiofoodapi.domain.exception.EntityNotFoundException;
+import com.sergioruy.sergiofoodapi.domain.exception.GenericException;
 import com.sergioruy.sergiofoodapi.domain.model.Restaurant;
 import com.sergioruy.sergiofoodapi.domain.repository.RestaurantRepository;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterRestaurantService;
@@ -36,21 +37,14 @@ public class RestaurantController {
         return restaurantService.findOrFail(restaurantId);
     }
 
-//    @PostMapping
-//    public ResponseEntity<?> add(@RequestBody Restaurant restaurant) {
-//        try {
-//            restaurant = restaurantService.save(restaurant);
-//
-//            return ResponseEntity.status(HttpStatus.CREATED).body(restaurant);
-//
-//        } catch (EntityNotFoundException e) {
-//            return ResponseEntity.badRequest().body(e.getMessage());
-//        }
-//    }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Restaurant add(@RequestBody Restaurant restaurant) {
-        return restaurantService.save(restaurant);
+        try {
+            return restaurantService.save(restaurant);
+        } catch (EntityNotFoundException e) {
+            throw new GenericException(e.getMessage());
+        }
     }
 
     @PutMapping("/{restaurantId}")
@@ -60,7 +54,11 @@ public class RestaurantController {
         BeanUtils.copyProperties(restaurant, currentRestaurant, "id", "paymentMethods", "address"
                 , "dateRegister", "products");
 
-        return restaurantService.save(currentRestaurant);
+        try {
+            return restaurantService.save(currentRestaurant);
+        } catch (EntityNotFoundException e) {
+            throw new GenericException(e.getMessage());
+        }
     }
 
     @PatchMapping("/{restaurantId}")
