@@ -1,7 +1,7 @@
 package com.sergioruy.sergiofoodapi.domain.service;
 
-import com.sergioruy.sergiofoodapi.domain.exception.EntityNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.exception.EntityUsedException;
+import com.sergioruy.sergiofoodapi.domain.exception.StateNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.model.State;
 import com.sergioruy.sergiofoodapi.domain.repository.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ public class RegisterStateService {
 
     private static final String MSG_STATE_IN_USE = "State of code %d is in use and cannot be removed";
 
-    private static final String MSG_STATE_NOT_FOUND = "Not exist State with code %d";
 
     @Autowired
     private StateRepository stateRepository;
@@ -28,7 +27,7 @@ public class RegisterStateService {
             stateRepository.deleteById(stateId);
 
         } catch (EmptyResultDataAccessException e) {
-            throw new EntityNotFoundException(String.format(MSG_STATE_NOT_FOUND, stateId));
+            throw new StateNotFoundException(stateId);
 
         } catch (DataIntegrityViolationException e) {
             throw new EntityUsedException(String.format(MSG_STATE_IN_USE, stateId));
@@ -37,7 +36,6 @@ public class RegisterStateService {
 
     public State findOrFail(Long stateId) {
         return stateRepository.findById(stateId)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format(MSG_STATE_NOT_FOUND, stateId)));
+                .orElseThrow(() -> new StateNotFoundException(stateId));
     }
 }

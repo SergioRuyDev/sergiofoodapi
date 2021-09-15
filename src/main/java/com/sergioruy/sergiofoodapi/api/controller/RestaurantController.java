@@ -2,7 +2,7 @@ package com.sergioruy.sergiofoodapi.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sergioruy.sergiofoodapi.domain.exception.EntityNotFoundException;
-import com.sergioruy.sergiofoodapi.domain.exception.GenericException;
+import com.sergioruy.sergiofoodapi.domain.exception.BusinessException;
 import com.sergioruy.sergiofoodapi.domain.model.Restaurant;
 import com.sergioruy.sergiofoodapi.domain.repository.RestaurantRepository;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterRestaurantService;
@@ -42,7 +42,7 @@ public class RestaurantController {
         try {
             return restaurantService.save(restaurant);
         } catch (EntityNotFoundException e) {
-            throw new GenericException(e.getMessage());
+            throw new BusinessException(e.getMessage());
         }
     }
 
@@ -56,7 +56,7 @@ public class RestaurantController {
         try {
             return restaurantService.save(currentRestaurant);
         } catch (EntityNotFoundException e) {
-            throw new GenericException(e.getMessage());
+            throw new BusinessException(e.getMessage());
         }
     }
 

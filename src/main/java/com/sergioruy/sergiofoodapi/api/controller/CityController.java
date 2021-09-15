@@ -1,7 +1,7 @@
 package com.sergioruy.sergiofoodapi.api.controller;
 
-import com.sergioruy.sergiofoodapi.domain.exception.EntityNotFoundException;
-import com.sergioruy.sergiofoodapi.domain.exception.GenericException;
+import com.sergioruy.sergiofoodapi.domain.exception.BusinessException;
+import com.sergioruy.sergiofoodapi.domain.exception.StateNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.model.City;
 import com.sergioruy.sergiofoodapi.domain.repository.CityRepository;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterCityService;
@@ -37,21 +37,20 @@ public class CityController {
     public City add(@RequestBody City city) {
         try {
             return registerCity.save(city);
-        } catch (EntityNotFoundException e) {
-            throw new GenericException(e.getMessage());
+        } catch (StateNotFoundException e) {
+            throw new BusinessException(e.getMessage(), e);
         }
     }
 
     @PutMapping("/{cityId}")
     public City update(@PathVariable Long cityId, @RequestBody City city) {
-        City currentCity = registerCity.findOrFail(cityId);
-
-        BeanUtils.copyProperties(city, currentCity, "id");
-
         try {
+            City currentCity = registerCity.findOrFail(cityId);
+
+            BeanUtils.copyProperties(city, currentCity, "id");
             return registerCity.save(currentCity);
-        } catch (EntityNotFoundException e) {
-            throw new GenericException(e.getMessage());
+        } catch (StateNotFoundException e) {
+            throw new BusinessException(e.getMessage(), e);
         }
     }
 
