@@ -1,7 +1,7 @@
 package com.sergioruy.sergiofoodapi.domain.service;
 
-import com.sergioruy.sergiofoodapi.domain.exception.EntityNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.exception.EntityUsedException;
+import com.sergioruy.sergiofoodapi.domain.exception.KitchenNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
 import com.sergioruy.sergiofoodapi.domain.repository.KitchenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +11,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RegisterKitchenService {
-
-
-    private static final String MSG_KITCHEN_NOT_FOUND = "Not exist kitchen with code %d";
 
     private static final String MSG_KITCHEN_IN_USE = "Kitchen of code %d is in use and cannot be removed";
 
@@ -30,8 +27,7 @@ public class RegisterKitchenService {
             kitchenRepository.deleteById(kitchenId);
 
         } catch (EmptyResultDataAccessException e) {
-            throw new EntityNotFoundException(
-                    String.format(MSG_KITCHEN_NOT_FOUND, kitchenId));
+            throw new KitchenNotFoundException(kitchenId);
 
         } catch (DataIntegrityViolationException e) {
             throw new EntityUsedException(
@@ -41,7 +37,6 @@ public class RegisterKitchenService {
 
     public Kitchen findOrFail(Long kitchenId) {
         return kitchenRepository.findById(kitchenId)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format(MSG_KITCHEN_NOT_FOUND, kitchenId)));
+                .orElseThrow(() -> new KitchenNotFoundException(kitchenId));
     }
 }

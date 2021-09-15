@@ -1,6 +1,6 @@
 package com.sergioruy.sergiofoodapi.domain.service;
 
-import com.sergioruy.sergiofoodapi.domain.exception.EntityNotFoundException;
+import com.sergioruy.sergiofoodapi.domain.exception.CityNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.exception.EntityUsedException;
 import com.sergioruy.sergiofoodapi.domain.model.City;
 import com.sergioruy.sergiofoodapi.domain.model.State;
@@ -14,8 +14,6 @@ import org.springframework.stereotype.Service;
 public class RegisterCityService {
 
     private static final String MSG_CITY_IS_IN_USE = "City of code %d is in use and cannot be removed";
-
-    private static final String MSG_CITY_NOT_FOUND = "Not exist City registered with the code %d";
 
     @Autowired
     private CityRepository cityRepository;
@@ -38,7 +36,7 @@ public class RegisterCityService {
             cityRepository.deleteById(cityId);
 
         } catch (EmptyResultDataAccessException e) {
-            throw new EntityNotFoundException(String.format(MSG_CITY_NOT_FOUND, cityId));
+            throw new CityNotFoundException(cityId);
 
         } catch (DataIntegrityViolationException e) {
             throw new EntityUsedException(String.format(MSG_CITY_IS_IN_USE, cityId));
@@ -47,7 +45,6 @@ public class RegisterCityService {
 
     public City findOrFail(Long cityId){
         return cityRepository.findById(cityId)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format(MSG_CITY_NOT_FOUND, cityId)));
+                .orElseThrow(() -> new CityNotFoundException(cityId));
     }
 }

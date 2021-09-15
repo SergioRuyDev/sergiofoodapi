@@ -48,6 +48,7 @@ public class CityController {
             City currentCity = registerCity.findOrFail(cityId);
 
             BeanUtils.copyProperties(city, currentCity, "id");
+
             return registerCity.save(currentCity);
         } catch (StateNotFoundException e) {
             throw new BusinessException(e.getMessage(), e);

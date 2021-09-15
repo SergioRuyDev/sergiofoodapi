@@ -1,6 +1,6 @@
 package com.sergioruy.sergiofoodapi.domain.service;
 
-import com.sergioruy.sergiofoodapi.domain.exception.EntityNotFoundException;
+import com.sergioruy.sergiofoodapi.domain.exception.RestaurantNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
 import com.sergioruy.sergiofoodapi.domain.model.Restaurant;
 import com.sergioruy.sergiofoodapi.domain.repository.RestaurantRepository;
@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RegisterRestaurantService {
-
-    private static final String MSG_RESTAURANT_NOT_FOUND = "Restaurant with the code %d not exist.";
 
     @Autowired
     private RestaurantRepository restaurantRepository;
@@ -30,7 +28,6 @@ public class RegisterRestaurantService {
 
     public Restaurant findOrFail(Long restaurantId) {
         return restaurantRepository.findById(restaurantId)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format(MSG_RESTAURANT_NOT_FOUND, restaurantId)));
+                .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
     }
 }

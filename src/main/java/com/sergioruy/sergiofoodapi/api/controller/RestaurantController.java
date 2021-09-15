@@ -3,6 +3,7 @@ package com.sergioruy.sergiofoodapi.api.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sergioruy.sergiofoodapi.domain.exception.EntityNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.exception.BusinessException;
+import com.sergioruy.sergiofoodapi.domain.exception.KitchenNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.model.Restaurant;
 import com.sergioruy.sergiofoodapi.domain.repository.RestaurantRepository;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterRestaurantService;
@@ -41,22 +42,23 @@ public class RestaurantController {
     public Restaurant add(@RequestBody Restaurant restaurant) {
         try {
             return restaurantService.save(restaurant);
-        } catch (EntityNotFoundException e) {
-            throw new BusinessException(e.getMessage());
+        } catch (KitchenNotFoundException e) {
+            throw new BusinessException(e.getMessage(), e);
         }
     }
 
     @PutMapping("/{restaurantId}")
     public Restaurant update(@PathVariable Long restaurantId, @RequestBody Restaurant restaurant) {
-        Restaurant currentRestaurant = restaurantService.findOrFail(restaurantId);
-
-        BeanUtils.copyProperties(restaurant, currentRestaurant, "id", "paymentMethods", "address"
-                , "dateRegister", "products");
-
         try {
+
+            Restaurant currentRestaurant = restaurantService.findOrFail(restaurantId);
+
+            BeanUtils.copyProperties(restaurant, currentRestaurant, "id", "paymentMethods", "address"
+                    , "dateRegister", "products");
+
             return restaurantService.save(currentRestaurant);
-        } catch (EntityNotFoundException e) {
-            throw new BusinessException(e.getMessage());
+        } catch (KitchenNotFoundException e) {
+            throw new BusinessException(e.getMessage(), e);
         }
     }
 
