@@ -38,7 +38,7 @@ public class CityController {
     public City add(@RequestBody City city) {
         try {
             return registerCity.save(city);
-        } catch (EntityNotFoundException e) {
+        } catch (StateNotFoundException e) {
             throw new BusinessException(e.getMessage(), e);
         }
     }
@@ -51,7 +51,7 @@ public class CityController {
 
         try {
             return registerCity.save(currentCity);
-        } catch (EntityNotFoundException e) {
+        } catch (StateNotFoundException e) {
             throw new BusinessException(e.getMessage(), e);
         }
     }
