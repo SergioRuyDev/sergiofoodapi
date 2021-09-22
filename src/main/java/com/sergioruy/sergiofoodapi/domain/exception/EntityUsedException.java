@@ -1,10 +1,6 @@
 package com.sergioruy.sergiofoodapi.domain.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-@ResponseStatus(HttpStatus.CONFLICT)
-public class EntityUsedException extends RuntimeException {
+public class EntityUsedException extends BusinessException {
 
     private static final long serialVersionUID = 1L;
 
