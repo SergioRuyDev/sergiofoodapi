@@ -17,42 +17,37 @@ import java.time.LocalDateTime;
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<?> handleEntityNotFoundException(
-            EntityNotFoundException e) {
-        Problem problem = Problem.builder()
-                .dataTime(LocalDateTime.now())
-                .message(e.getMessage()).build();
+    public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException ex, WebRequest request) {
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(problem);
-    }
-
-    @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<?> handleBusinessException(
-            BusinessException e) {
-        Problem problem = Problem.builder()
-                .dataTime(LocalDateTime.now())
-                .message(e.getMessage()).build();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(problem);
+        return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
     @ExceptionHandler(EntityUsedException.class)
-    public ResponseEntity<?> handlerEntityUsedException(
-            EntityNotFoundException e) {
-        Problem problem = Problem.builder()
-                .dataTime(LocalDateTime.now())
-                .message(e.getMessage()).build();
-        return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(problem);
+    public ResponseEntity<?> handlerEntityUsedException(EntityNotFoundException ex, WebRequest request) {
+
+        return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.CONFLICT, request);
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<?> handleBusinessException(BusinessException ex, WebRequest request) {
+
+        return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
                                                              HttpStatus status, WebRequest request) {
-        body = Problem.builder()
-                .dataTime(LocalDateTime.now())
-                .message(e.getMessage()).build();
+        if (body == null) {
+            body = Problem.builder()
+                    .dataTime(LocalDateTime.now())
+                    .message(status.getReasonPhrase())
+                    .build();
+        } else if (body instanceof String) {
+            body = Problem.builder()
+                    .dataTime(LocalDateTime.now())
+                    .message((String) body)
+                    .build();
+        }
 
         return super.handleExceptionInternal(ex, body, headers, status, request);
     }
