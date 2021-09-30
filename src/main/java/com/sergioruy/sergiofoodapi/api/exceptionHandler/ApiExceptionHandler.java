@@ -17,15 +17,18 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException ex, WebRequest request) {
 
-        HttpStatus status = HttpStatus.NOT_FOUND;;
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        ProblemType problemType = ProblemType.ENTITY_NOT_FOUND;
         String detail = ex.getMessage();
 
-        Problem problem = Problem.builder()
-                .status(status.value())
-                .type("https://sergiofood.com/entity-not-found")
-                .title("Entity not found")
-                .detail(ex.getMessage())
-                .build();
+        Problem problem = createProblemBuilder(status, problemType, detail).build();
+
+//        Problem problem = Problem.builder()
+//                .status(status.value())
+//                .type("https://sergiofood.com/entity-not-found")
+//                .title("Entity not found")
+//                .detail(ex.getMessage())
+//                .build();
 
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
@@ -58,5 +61,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         }
 
         return super.handleExceptionInternal(ex, body, headers, status, request);
+    }
+
+    private Problem.ProblemBuilder createProblemBuilder(HttpStatus status, ProblemType problemType, String detail) {
+
+        return Problem.builder()
+                .status(status.value())
+                .type(problemType.getUri())
+                .title(problemType.getTitle())
+                .detail(detail);
     }
 }
