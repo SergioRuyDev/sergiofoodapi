@@ -5,6 +5,8 @@ import lombok.Getter;
 @Getter
 public enum ProblemType {
 
+    MESSAGE_UNREADABLE("/message-unreadable", "Message unreadable"),
+
     ENTITY_NOT_FOUND("/entity-not-found", "Entity not found"),
 
     ENTITY_IN_USE("/entity-in-use", "Entity is in use"),
