@@ -1,8 +1,10 @@
 package com.sergioruy.sergiofoodapi.api.exceptionHandler;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.sergioruy.sergiofoodapi.domain.exception.BusinessException;
 import com.sergioruy.sergiofoodapi.domain.exception.EntityNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.exception.EntityUsedException;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,15 +14,39 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.stream.Collectors;
+
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
            HttpHeaders headers, HttpStatus status, WebRequest request) {
+        Throwable rootCause = ExceptionUtils.getRootCause(ex);
+
+        if (rootCause instanceof InvalidFormatException) {
+            return handleInvalidFormatException((InvalidFormatException) rootCause, headers, status, request);
+        }
 
         ProblemType problemType = ProblemType.MESSAGE_UNREADABLE;
         String detail = "The request body is invalid, Check the error of syntax.";
+
+        Problem problem = createProblemBuilder(status, problemType, detail).build();
+
+        return handleExceptionInternal(ex, problem, headers, status, request);
+    }
+
+    private ResponseEntity<Object> handleInvalidFormatException(InvalidFormatException ex,
+           HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+        String path = ex.getPath().stream()
+                .map(ref -> ref.getFieldName())
+                .collect(Collectors.joining("."));
+
+        ProblemType problemType = ProblemType.MESSAGE_UNREADABLE;
+        String detail = String.format("The property '%s' received the value '%s', that is invalid." +
+                " Correct and inform the right value with the type %s.",
+                path, ex.getValue(), ex.getTargetType().getSimpleName());
 
         Problem problem = createProblemBuilder(status, problemType, detail).build();
 
