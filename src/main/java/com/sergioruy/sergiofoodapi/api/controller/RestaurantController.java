@@ -100,3 +100,5 @@ public class RestaurantController {
         }
     }
 }
+// O parâmetro de URL '%s' recebeu o valor '%s', que é de um tipo invalido. Corrija e informe um valor compativel com o tipo %s.
+// ProblemType problemType = ProblemType.PARAMETRO_INVALIDO

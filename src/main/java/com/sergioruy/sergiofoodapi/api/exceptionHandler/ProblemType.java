@@ -11,7 +11,9 @@ public enum ProblemType {
 
     ENTITY_IN_USE("/entity-in-use", "Entity is in use"),
 
-    ERROR_BUSINESS("/error-business", "Illegal rule violation");
+    ERROR_BUSINESS("/error-business", "Illegal rule violation"),
+
+    INVALID_PARAMETER("/invalid-parameter", "Invalid Parameter");
 
     private String title;
     private String uri;

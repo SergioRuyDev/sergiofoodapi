@@ -7,6 +7,7 @@ import com.sergioruy.sergiofoodapi.domain.exception.BusinessException;
 import com.sergioruy.sergiofoodapi.domain.exception.EntityNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.exception.EntityUsedException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.List;
@@ -65,6 +67,33 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         ProblemType problemType = ProblemType.MESSAGE_UNREADABLE;
         String detail = String.format("The property '%s' not exist. Correct or remove this property and try again.", path);
+
+        Problem problem = createProblemBuilder(status, problemType, detail).build();
+
+        return handleExceptionInternal(ex, problem, headers, status, request);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers,
+           HttpStatus status, WebRequest request) {
+
+        if (ex instanceof MethodArgumentTypeMismatchException) {
+            return handleMethodArgumentTypeMismatch(
+                    (MethodArgumentTypeMismatchException) ex, headers, status, request);
+        }
+
+        return super.handleTypeMismatch(ex, headers, status, request);
+    }
+
+    private ResponseEntity<Object> handleMethodArgumentTypeMismatch(
+            MethodArgumentTypeMismatchException ex, HttpHeaders headers,
+            HttpStatus status, WebRequest request) {
+
+        ProblemType problemType = ProblemType.INVALID_PARAMETER;
+
+        String detail = String.format("The parameter of URL '%s' receive the value '%s', that is invalid. Correct and inform" +
+                        " a value compatible with type %s.",
+                ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName());
 
         Problem problem = createProblemBuilder(status, problemType, detail).build();
 
