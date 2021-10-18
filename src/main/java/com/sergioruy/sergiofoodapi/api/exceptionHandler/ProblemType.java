@@ -7,13 +7,13 @@ public enum ProblemType {
 
     MESSAGE_UNREADABLE("/message-unreadable", "Message unreadable"),
 
-    ENTITY_NOT_FOUND("/entity-not-found", "Entity not found"),
-
     ENTITY_IN_USE("/entity-in-use", "Entity is in use"),
 
     ERROR_BUSINESS("/error-business", "Illegal rule violation"),
 
-    INVALID_PARAMETER("/invalid-parameter", "Invalid Parameter");
+    INVALID_PARAMETER("/invalid-parameter", "Invalid Parameter"),
+
+    RESOURCE_NOT_FOUND("/resource-not-found", "Resource not found");
 
     private String title;
     private String uri;
