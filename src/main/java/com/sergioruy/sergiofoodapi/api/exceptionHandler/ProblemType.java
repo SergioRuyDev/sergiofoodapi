@@ -13,7 +13,9 @@ public enum ProblemType {
 
     INVALID_PARAMETER("/invalid-parameter", "Invalid Parameter"),
 
-    RESOURCE_NOT_FOUND("/resource-not-found", "Resource not found");
+    RESOURCE_NOT_FOUND("/resource-not-found", "Resource not found"),
+
+    ERROR_OF_SYSTEM("/error-of-system", "Error of system");
 
     private String title;
     private String uri;
@@ -23,3 +25,5 @@ public enum ProblemType {
         this.title = title;
     }
 }
+
+//Unexpected internal error happened. Try again, if the problem persist, please contact the administrator.
