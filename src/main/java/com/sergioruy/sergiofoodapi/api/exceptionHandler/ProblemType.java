@@ -15,7 +15,9 @@ public enum ProblemType {
 
     RESOURCE_NOT_FOUND("/resource-not-found", "Resource not found"),
 
-    ERROR_OF_SYSTEM("/error-of-system", "Error of system");
+    ERROR_OF_SYSTEM("/error-of-system", "Error of system"),
+
+    INVALID_DATA("/invalid-data", "invalid data");
 
     private String title;
     private String uri;
