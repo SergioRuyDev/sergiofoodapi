@@ -27,5 +27,3 @@ public enum ProblemType {
         this.title = title;
     }
 }
-
-//Unexpected internal error happened. Try again, if the problem persist, please contact the administrator.
