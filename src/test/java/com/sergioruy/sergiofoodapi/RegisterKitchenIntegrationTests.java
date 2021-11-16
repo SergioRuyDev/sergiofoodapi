@@ -22,17 +22,17 @@ class RegisterKitchenIntegrationTests {
 
     @Test
     public void testRegisterKitchenNoName() {
-//        //scenario
-//        Kitchen newKitchen = new Kitchen();;
-//        newKitchen.setName("Chinese");
-//
-//        //action
-//        newKitchen = registerKitchen.save(newKitchen);
-//
-//        //validation
-//        assertThat(newKitchen).isNotNull();
-//        assertThat(newKitchen.getId()).isNotNull();
-//
+        //scenario
+        Kitchen newKitchen = new Kitchen();;
+        newKitchen.setName("Chinese");
+
+        //action
+        newKitchen = registerKitchen.save(newKitchen);
+
+        //validation
+        assertThat(newKitchen).isNotNull();
+        assertThat(newKitchen.getId()).isNotNull();
+
         Kitchen newKitchen = new Kitchen();
         newKitchen.setName(null);
 
