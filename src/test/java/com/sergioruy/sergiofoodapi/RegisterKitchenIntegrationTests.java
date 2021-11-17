@@ -1,5 +1,7 @@
 package com.sergioruy.sergiofoodapi;
 
+import com.sergioruy.sergiofoodapi.domain.exception.EntityNotFoundException;
+import com.sergioruy.sergiofoodapi.domain.exception.EntityUsedException;
 import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterKitchenService;
 import org.junit.jupiter.api.Assertions;
@@ -22,16 +24,16 @@ class RegisterKitchenIntegrationTests {
 
     @Test
     public void testRegisterKitchenNoName() {
-        //scenario
-        Kitchen newKitchen = new Kitchen();;
-        newKitchen.setName("Chinese");
-
-        //action
-        newKitchen = registerKitchen.save(newKitchen);
-
-        //validation
-        assertThat(newKitchen).isNotNull();
-        assertThat(newKitchen.getId()).isNotNull();
+//        //scenario
+//        Kitchen newKitchen = new Kitchen();;
+//        newKitchen.setName("Chinese");
+//
+//        //action
+//        newKitchen = registerKitchen.save(newKitchen);
+//
+//        //validation
+//        assertThat(newKitchen).isNotNull();
+//        assertThat(newKitchen.getId()).isNotNull();
 
         Kitchen newKitchen = new Kitchen();
         newKitchen.setName(null);
@@ -42,5 +44,26 @@ class RegisterKitchenIntegrationTests {
                 });
 
         assertThat(errorExpected).isNotNull();
+    }
+
+    @Test
+    public void fail_When_Delete_KitchenInUsed() {
+        Kitchen newKitchen = new Kitchen();
+        newKitchen.setId(1L);
+
+        EntityUsedException errorExpected =
+                Assertions.assertThrows(EntityUsedException.class, () -> {
+                    registerKitchen.delete(newKitchen.getId());
+                });
+
+    }
+
+    @Test
+    public void fail_When_Delete_Kitchen_NotFound() {
+
+        EntityNotFoundException errorExpected =
+                Assertions.assertThrows(EntityNotFoundException.class, () -> {
+                    registerKitchen.delete(100L);
+                });
     }
 }
