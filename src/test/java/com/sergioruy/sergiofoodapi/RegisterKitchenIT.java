@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-class RegisterKitchenIntegrationTests {
+class RegisterKitchenIT {
 
     @Autowired
     private RegisterKitchenService registerKitchen;
