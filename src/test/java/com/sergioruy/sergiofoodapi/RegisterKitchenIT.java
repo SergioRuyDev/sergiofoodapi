@@ -18,7 +18,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import javax.validation.ConstraintViolationException;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.when;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.hasSize;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -87,5 +90,21 @@ class RegisterKitchenIT {
                 .get()
         .then()
                 .statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
+    public void shouldHave4Kitchens_WhenConsultKitchens() {
+        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+
+        given()
+                .basePath("/kitchens")
+                .port(port)
+                .accept(ContentType.JSON)
+        .when()
+                .get()
+        .then()
+                .body("", hasSize(4))
+                .body("name", hasItems("Thai", "Indian"));
+
     }
 }
