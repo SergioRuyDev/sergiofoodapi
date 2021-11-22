@@ -1,25 +1,16 @@
 package com.sergioruy.sergiofoodapi;
 
-import com.sergioruy.sergiofoodapi.domain.exception.EntityNotFoundException;
-import com.sergioruy.sergiofoodapi.domain.exception.EntityUsedException;
-import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
-import com.sergioruy.sergiofoodapi.domain.service.RegisterKitchenService;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import javax.validation.ConstraintViolationException;
-
 import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.when;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
 
@@ -29,6 +20,14 @@ class RegisterKitchenIT {
 
     @LocalServerPort
     private int port;
+
+    @BeforeEach
+    public void setUp() {
+        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+        RestAssured.port = port;
+        RestAssured.basePath = "/kitchens";
+
+    }
 
 //    @Autowired
 //    private RegisterKitchenService registerKitchen;
@@ -80,11 +79,7 @@ class RegisterKitchenIT {
 
     @Test
     public void shouldReturnStatus_200_WhenConsultKitchens() {
-        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
-
         given()
-                .basePath("/kitchens")
-                .port(port)
                 .accept(ContentType.JSON)
         .when()
                 .get()
@@ -94,11 +89,7 @@ class RegisterKitchenIT {
 
     @Test
     public void shouldHave4Kitchens_WhenConsultKitchens() {
-        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
-
         given()
-                .basePath("/kitchens")
-                .port(port)
                 .accept(ContentType.JSON)
         .when()
                 .get()
