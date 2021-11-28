@@ -32,11 +32,13 @@ public class Restaurant {
     private String name;
 
 //    @DecimalMin("1")
+    @NotNull
     @PositiveOrZero
     @Column(name = "tax_delivery", nullable = false)
     private BigDecimal taxDelivery;
 
     @Valid
+    @
     @ManyToOne
     @JoinColumn(name = "kitchen_id", nullable = false)
     private Kitchen kitchen;
