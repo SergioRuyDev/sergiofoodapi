@@ -2,6 +2,7 @@ package com.sergioruy.sergiofoodapi.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sergioruy.sergiofoodapi.core.validation.Groups;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,6 +11,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -38,7 +41,8 @@ public class Restaurant {
     private BigDecimal taxDelivery;
 
     @Valid
-    @
+    @ConvertGroup(from = Default.class, to = Groups.KitchenId.class)
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "kitchen_id", nullable = false)
     private Kitchen kitchen;

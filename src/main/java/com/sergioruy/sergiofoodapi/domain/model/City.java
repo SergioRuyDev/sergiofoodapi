@@ -1,9 +1,11 @@
 package com.sergioruy.sergiofoodapi.domain.model;
 
+import com.sergioruy.sergiofoodapi.core.validation.Groups;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.ConvertGroup;
@@ -23,6 +25,7 @@ public class City {
     @Column(nullable = false)
     private String name;
 
+    @Valid
     @ConvertGroup(from = Default.class, to = Groups.StateId.class)
     @NotNull
     @ManyToOne
