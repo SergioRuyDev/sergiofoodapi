@@ -1,9 +1,10 @@
 package com.sergioruy.sergiofoodapi;
 
 import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
+import com.sergioruy.sergiofoodapi.domain.repository.KitchenRepository;
+import com.sergioruy.sergiofoodapi.util.DatabaseCleaner;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static io.restassured.RestAssured.given;
@@ -19,13 +21,17 @@ import static org.hamcrest.Matchers.hasSize;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource("/application-test.properties")
 class RegisterKitchenIT {
 
     @LocalServerPort
     private int port;
 
     @Autowired
-    private Flyway flyway;
+    private DatabaseCleaner databaseCleaner;
+
+    @Autowired
+    private KitchenRepository kitchenRepository;
 
     @BeforeEach
     public void setUp() {
@@ -33,7 +39,8 @@ class RegisterKitchenIT {
         RestAssured.port = port;
         RestAssured.basePath = "/kitchens";
 
-        flyway.migrate();
+        databaseCleaner.clearTables();
+        prepareData();
     }
 
 //    @Autowired
@@ -95,13 +102,13 @@ class RegisterKitchenIT {
     }
 
     @Test
-    public void shouldHave4Kitchens_WhenConsultKitchens() {
+    public void shouldHave2Kitchens_WhenConsultKitchens() {
         given()
                 .accept(ContentType.JSON)
         .when()
                 .get()
         .then()
-                .body("", hasSize(4))
+                .body("", hasSize(2))
                 .body("name", hasItems("Thai", "Indian"));
 
     }
@@ -119,5 +126,15 @@ class RegisterKitchenIT {
                 .post()
         .then()
                 .statusCode(HttpStatus.CREATED.value());
+    }
+
+    private void prepareData() {
+        Kitchen kitchen1 = new Kitchen();
+        kitchen1.setName("Thai");
+        kitchenRepository.save(kitchen1);
+
+        Kitchen kitchen2 = new Kitchen();
+        kitchen2.setName("American");
+        kitchenRepository.save(kitchen2);
     }
 }
