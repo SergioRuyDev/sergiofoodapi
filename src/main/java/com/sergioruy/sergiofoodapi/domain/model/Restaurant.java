@@ -40,6 +40,7 @@ public class Restaurant {
     @Column(name = "tax_delivery", nullable = false)
     private BigDecimal taxDelivery;
 
+    @JsonIgnoreProperties(value = "name", allowGetters = true)
     @Valid
     @ConvertGroup(from = Default.class, to = Groups.KitchenId.class)
     @NotNull
@@ -61,7 +62,7 @@ public class Restaurant {
     @Column(nullable = false, columnDefinition = "datetime")
     private LocalDateTime dateUpdate;
 
-//    @JsonIgnore
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "restaurant_payment_method", joinColumns = @JoinColumn(name = "restaurant_id"),
             inverseJoinColumns = @JoinColumn(name = "payment_method_id"))
