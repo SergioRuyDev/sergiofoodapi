@@ -6,6 +6,7 @@ import com.sergioruy.sergiofoodapi.domain.model.Restaurant;
 import com.sergioruy.sergiofoodapi.domain.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RegisterRestaurantService {
@@ -16,6 +17,7 @@ public class RegisterRestaurantService {
     @Autowired
     private RegisterKitchenService kitchenService;
 
+    @Transactional
     public Restaurant save(Restaurant restaurant) {
         Long kitchenId = restaurant.getKitchen().getId();
 
