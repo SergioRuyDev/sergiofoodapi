@@ -7,7 +7,7 @@ import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
 import com.sergioruy.sergiofoodapi.domain.model.PaymentMethod;
 import com.sergioruy.sergiofoodapi.domain.model.Product;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 public abstract class RestaurantMixin {
@@ -19,10 +19,10 @@ public abstract class RestaurantMixin {
     private Address address;
 
     @JsonIgnore
-    private LocalDateTime dateRegister;
+    private OffsetDateTime dateRegister;
 
     @JsonIgnore
-    private LocalDateTime dateUpdate;
+    private OffsetDateTime dateUpdate;
 
     @JsonIgnore
     private List<PaymentMethod> paymentMethods;

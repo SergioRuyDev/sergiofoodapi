@@ -6,7 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,11 +30,11 @@ public class Order {
     private StatusOrder status;
 
     @CreationTimestamp
-    private LocalDateTime createDate;
+    private OffsetDateTime createDate;
 
-    private LocalDateTime confirmedDate;
-    private LocalDateTime cancelledDate;
-    private LocalDateTime DeliveredDate;
+    private OffsetDateTime confirmedDate;
+    private OffsetDateTime cancelledDate;
+    private OffsetDateTime DeliveredDate;
 
     @ManyToOne
     @JoinColumn(nullable = false)
