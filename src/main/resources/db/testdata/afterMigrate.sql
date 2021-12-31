@@ -10,7 +10,7 @@ delete from product;
 delete from restaurant;
 delete from restaurant_payment_method;
 delete from state;
-delete from user;
+delete from `user`;
 delete from user_group;
 
 set foreign_key_checks = 1;
@@ -23,7 +23,7 @@ alter table permission auto_increment = 1;
 alter table product auto_increment = 1;
 alter table restaurant auto_increment = 1;
 alter table state auto_increment = 1;
-alter table user auto_increment = 1;
+alter table `user` auto_increment = 1;
 
 insert into kitchen (id, name) values (1, 'Thai');
 insert into kitchen (id, name) values (2, 'Indian');

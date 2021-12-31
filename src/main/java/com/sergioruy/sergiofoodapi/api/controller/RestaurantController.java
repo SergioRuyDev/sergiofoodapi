@@ -23,6 +23,7 @@ import javax.validation.Valid;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/restaurants")
@@ -35,83 +36,93 @@ public class RestaurantController {
     private RegisterRestaurantService restaurantService;
 
     @GetMapping
-    public List<Restaurant> list() {
-        return restaurantRepository.findAll();
+    public List<RestaurantModel> list() {
+        return toCollectionModel(restaurantRepository.findAll());
     }
 
     @GetMapping("/{restaurantId}")
     public RestaurantModel search(@PathVariable Long restaurantId) {
         Restaurant restaurant = restaurantService.findOrFail(restaurantId);
 
-        KitchenModel kitchenModel = new KitchenModel();
-        kitchenModel.setId(kitchenModel.getId());
-        kitchenModel.setName(kitchenModel.getName());
-
-        RestaurantModel restaurantModel = new RestaurantModel();;
-        restaurantModel.setId(restaurantModel.getId());
-        restaurantModel.setName(restaurantModel.getName());
-        restaurantModel.setTaxDelivery(restaurantModel.getTaxDelivery());
-        restaurantModel.setKitchen(kitchenModel);
-
-        return restaurantModel;
+        return toModel(restaurant);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Restaurant add(@RequestBody @Valid Restaurant restaurant) {
+    public RestaurantModel add(@RequestBody @Valid Restaurant restaurant) {
         try {
-            return restaurantService.save(restaurant);
+            return toModel(restaurantService.save(restaurant));
         } catch (KitchenNotFoundException e) {
             throw new BusinessException(e.getMessage(), e);
         }
     }
 
     @PutMapping("/{restaurantId}")
-    public Restaurant update(@PathVariable Long restaurantId, @RequestBody Restaurant restaurant) {
-        Restaurant currentRestaurant = restaurantService.findOrFail(restaurantId);
+    public RestaurantModel update(@PathVariable Long restaurantId, @RequestBody Restaurant restaurant) {
+        try {
+            Restaurant currentRestaurant = restaurantService.findOrFail(restaurantId);
 
-        BeanUtils.copyProperties(restaurant, currentRestaurant, "id", "paymentMethods", "address"
+            BeanUtils.copyProperties(restaurant, currentRestaurant, "id", "paymentMethods", "address"
                     , "dateRegister", "products");
 
-        try {
-            return restaurantService.save(currentRestaurant);
+
+            return toModel(restaurantService.save(currentRestaurant));
         } catch (KitchenNotFoundException e) {
-            throw new BusinessException(e.getMessage(), e);
+            throw new BusinessException(e.getMessage());
         }
     }
 
-    @PatchMapping("/{restaurantId}")
-    public Restaurant partialUpdate(@PathVariable Long restaurantId, @RequestBody Map<String, Object> fields, HttpServletRequest request) {
-        Restaurant currentRestaurant = restaurantService.findOrFail(restaurantId);
+//    @PatchMapping("/{restaurantId}")
+//    public Restaurant partialUpdate(@PathVariable Long restaurantId, @RequestBody Map<String, Object> fields, HttpServletRequest request) {
+//        Restaurant currentRestaurant = restaurantService.findOrFail(restaurantId);
+//
+//        merge(fields, currentRestaurant, request);
+//
+//        return update(restaurantId, currentRestaurant);
+//    }
+//
+//    private void merge(Map<String, Object> dataOrigin, Restaurant restaurantDestiny, HttpServletRequest request) {
+//        ServletServerHttpRequest serverHttpRequest = new ServletServerHttpRequest(request);
 
-        merge(fields, currentRestaurant, request);
+//        try {
+//            ObjectMapper objectMapper = new ObjectMapper();
+//            objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, true);
+//            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+//
+//            Restaurant restaurantOrigin = objectMapper.convertValue(dataOrigin, Restaurant.class);
+//
+//            dataOrigin.forEach((nameProperty, valueProperty) -> {
+//                Field field = ReflectionUtils.findField(Restaurant.class, nameProperty);
+//                field.setAccessible(true);
+//
+//                Object newValue = ReflectionUtils.getField(field, restaurantOrigin);
+//
+////            System.out.println(nameProperty + " = " + valueProperty + " = " + newValue);
+//
+//                ReflectionUtils.setField(field, restaurantDestiny, newValue);
+//            });
+//        } catch (IllegalArgumentException e) {
+//            Throwable rootCause = ExceptionUtils.getRootCause(e);
+//            throw new HttpMessageNotReadableException(e.getMessage(), rootCause, serverHttpRequest);
+//        }
+//    }
 
-        return update(restaurantId, currentRestaurant);
+    private RestaurantModel toModel(Restaurant restaurant) {
+        KitchenModel kitchenModel = new KitchenModel();
+        kitchenModel.setId(restaurant.getKitchen().getId());
+        kitchenModel.setName(restaurant.getKitchen().getName());
+
+        RestaurantModel restaurantModel = new RestaurantModel();
+        restaurantModel.setId(restaurant.getId());
+        restaurantModel.setName(restaurant.getName());
+        restaurantModel.setTaxDelivery(restaurant.getTaxDelivery());
+        restaurantModel.setKitchen(kitchenModel);
+        return restaurantModel;
     }
 
-    private void merge(Map<String, Object> dataOrigin, Restaurant restaurantDestiny, HttpServletRequest request) {
-        ServletServerHttpRequest serverHttpRequest = new ServletServerHttpRequest(request);
-
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, true);
-            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
-
-            Restaurant restaurantOrigin = objectMapper.convertValue(dataOrigin, Restaurant.class);
-
-            dataOrigin.forEach((nameProperty, valueProperty) -> {
-                Field field = ReflectionUtils.findField(Restaurant.class, nameProperty);
-                field.setAccessible(true);
-
-                Object newValue = ReflectionUtils.getField(field, restaurantOrigin);
-
-//            System.out.println(nameProperty + " = " + valueProperty + " = " + newValue);
-
-                ReflectionUtils.setField(field, restaurantDestiny, newValue);
-            });
-        } catch (IllegalArgumentException e) {
-            Throwable rootCause = ExceptionUtils.getRootCause(e);
-            throw new HttpMessageNotReadableException(e.getMessage(), rootCause, serverHttpRequest);
-        }
+    private List<RestaurantModel> toCollectionModel(List<Restaurant> restaurants) {
+        return restaurants.stream()
+                .map(restaurant -> toModel(restaurant))
+                .collect(Collectors.toList());
     }
 }
