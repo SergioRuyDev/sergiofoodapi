@@ -2,6 +2,8 @@ package com.sergioruy.sergiofoodapi.api.controller;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sergioruy.sergiofoodapi.api.model.KitchenModel;
+import com.sergioruy.sergiofoodapi.api.model.RestaurantModel;
 import com.sergioruy.sergiofoodapi.domain.exception.BusinessException;
 import com.sergioruy.sergiofoodapi.domain.exception.KitchenNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.model.Restaurant;
@@ -38,8 +40,20 @@ public class RestaurantController {
     }
 
     @GetMapping("/{restaurantId}")
-    public Restaurant search(@PathVariable Long restaurantId) {
-        return restaurantService.findOrFail(restaurantId);
+    public RestaurantModel search(@PathVariable Long restaurantId) {
+        Restaurant restaurant = restaurantService.findOrFail(restaurantId);
+
+        KitchenModel kitchenModel = new KitchenModel();
+        kitchenModel.setId(kitchenModel.getId());
+        kitchenModel.setName(kitchenModel.getName());
+
+        RestaurantModel restaurantModel = new RestaurantModel();;
+        restaurantModel.setId(restaurantModel.getId());
+        restaurantModel.setName(restaurantModel.getName());
+        restaurantModel.setTaxDelivery(restaurantModel.getTaxDelivery());
+        restaurantModel.setKitchen(kitchenModel);
+
+        return restaurantModel;
     }
 
     @PostMapping
