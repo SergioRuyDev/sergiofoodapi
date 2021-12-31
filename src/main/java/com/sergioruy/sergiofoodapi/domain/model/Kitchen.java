@@ -1,6 +1,5 @@
 package com.sergioruy.sergiofoodapi.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sergioruy.sergiofoodapi.core.validation.Groups;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,7 +25,6 @@ public class Kitchen {
     @Column(nullable = false)
     private String name;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "kitchen")
     private List<Restaurant> restaurants = new ArrayList<>();
 

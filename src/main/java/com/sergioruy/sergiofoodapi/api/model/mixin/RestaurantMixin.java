@@ -8,10 +8,9 @@ import com.sergioruy.sergiofoodapi.domain.model.PaymentMethod;
 import com.sergioruy.sergiofoodapi.domain.model.Product;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-public class RestaurantMixin {
+public abstract class RestaurantMixin {
 
     @JsonIgnoreProperties(value = "name", allowGetters = true)
     private Kitchen kitchen;
@@ -26,8 +25,8 @@ public class RestaurantMixin {
     private LocalDateTime dateUpdate;
 
     @JsonIgnore
-    private List<PaymentMethod> paymentMethods = new ArrayList<>();
+    private List<PaymentMethod> paymentMethods;
 
     @JsonIgnore
-    private List<Product> products = new ArrayList<>();
+    private List<Product> products;
 }
