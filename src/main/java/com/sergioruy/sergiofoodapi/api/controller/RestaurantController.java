@@ -2,6 +2,7 @@ package com.sergioruy.sergiofoodapi.api.controller;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sergioruy.sergiofoodapi.api.assembler.RestaurantInputDisassembler;
 import com.sergioruy.sergiofoodapi.api.assembler.RestaurantModelAssembler;
 import com.sergioruy.sergiofoodapi.api.model.KitchenModel;
 import com.sergioruy.sergiofoodapi.api.model.RestaurantModel;
@@ -41,6 +42,9 @@ public class RestaurantController {
     @Autowired
     private RestaurantModelAssembler restaurantModelAssembler;
 
+    @Autowired
+    private RestaurantInputDisassembler restaurantInputDisassembler;
+
     @GetMapping
     public List<RestaurantModel> list() {
         return restaurantModelAssembler.toCollectionModel(restaurantRepository.findAll());
@@ -57,7 +61,7 @@ public class RestaurantController {
     @ResponseStatus(HttpStatus.CREATED)
     public RestaurantModel add(@RequestBody @Valid RestaurantInput restaurantInput) {
         try {
-            Restaurant restaurant = toDomainObject(restaurantInput);
+            Restaurant restaurant = restaurantInputDisassembler.toDomainObject(restaurantInput);
 
             return restaurantModelAssembler.toModel(restaurantService.save(restaurant));
         } catch (KitchenNotFoundException e) {
@@ -68,7 +72,7 @@ public class RestaurantController {
     @PutMapping("/{restaurantId}")
     public RestaurantModel update(@PathVariable Long restaurantId, @RequestBody @Valid RestaurantInput restaurantInput) {
         try {
-            Restaurant restaurant = toDomainObject(restaurantInput);
+            Restaurant restaurant = restaurantInputDisassembler.toDomainObject(restaurantInput);
 
             Restaurant currentRestaurant = restaurantService.findOrFail(restaurantId);
 
@@ -79,19 +83,6 @@ public class RestaurantController {
         } catch (KitchenNotFoundException e) {
             throw new BusinessException(e.getMessage());
         }
-    }
-
-    private Restaurant toDomainObject(RestaurantInput restaurantInput) {
-        Restaurant restaurant = new Restaurant();
-        restaurant.setName(restaurantInput.getName());
-        restaurant.setTaxDelivery(restaurantInput.getTaxDelivery());
-
-        Kitchen kitchen = new Kitchen();
-        kitchen.setId(restaurantInput.getKitchen().getId());
-
-        restaurant.setKitchen(kitchen);
-
-        return restaurant;
     }
 }
 
