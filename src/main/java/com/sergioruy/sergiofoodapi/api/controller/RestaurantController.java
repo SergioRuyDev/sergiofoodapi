@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sergioruy.sergiofoodapi.api.model.KitchenModel;
 import com.sergioruy.sergiofoodapi.api.model.RestaurantModel;
+import com.sergioruy.sergiofoodapi.api.model.input.RestaurantInput;
 import com.sergioruy.sergiofoodapi.domain.exception.BusinessException;
 import com.sergioruy.sergiofoodapi.domain.exception.KitchenNotFoundException;
+import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
 import com.sergioruy.sergiofoodapi.domain.model.Restaurant;
 import com.sergioruy.sergiofoodapi.domain.repository.RestaurantRepository;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterRestaurantService;
@@ -49,8 +51,10 @@ public class RestaurantController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RestaurantModel add(@RequestBody @Valid Restaurant restaurant) {
+    public RestaurantModel add(@RequestBody @Valid RestaurantInput restaurantInput) {
         try {
+            Restaurant restaurant = toDomainObject(restaurantInput);
+
             return toModel(restaurantService.save(restaurant));
         } catch (KitchenNotFoundException e) {
             throw new BusinessException(e.getMessage(), e);
@@ -58,8 +62,10 @@ public class RestaurantController {
     }
 
     @PutMapping("/{restaurantId}")
-    public RestaurantModel update(@PathVariable Long restaurantId, @RequestBody Restaurant restaurant) {
+    public RestaurantModel update(@PathVariable Long restaurantId, @RequestBody @Valid RestaurantInput restaurantInput) {
         try {
+            Restaurant restaurant = toDomainObject(restaurantInput);
+
             Restaurant currentRestaurant = restaurantService.findOrFail(restaurantId);
 
             BeanUtils.copyProperties(restaurant, currentRestaurant, "id", "paymentMethods", "address"
@@ -89,6 +95,19 @@ public class RestaurantController {
         return restaurants.stream()
                 .map(this::toModel)
                 .collect(Collectors.toList());
+    }
+
+    private Restaurant toDomainObject(RestaurantInput restaurantInput) {
+        Restaurant restaurant = new Restaurant();
+        restaurant.setName(restaurantInput.getName());
+        restaurant.setTaxDelivery(restaurantInput.getTaxDelivery());
+
+        Kitchen kitchen = new Kitchen();
+        kitchen.setId(restaurantInput.getKitchen().getId());
+
+        restaurant.setKitchen(kitchen);
+
+        return restaurant;
     }
 }
 
