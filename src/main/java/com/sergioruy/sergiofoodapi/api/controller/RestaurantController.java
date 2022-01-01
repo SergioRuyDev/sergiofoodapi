@@ -2,6 +2,7 @@ package com.sergioruy.sergiofoodapi.api.controller;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sergioruy.sergiofoodapi.api.assembler.RestaurantModelAssembler;
 import com.sergioruy.sergiofoodapi.api.model.KitchenModel;
 import com.sergioruy.sergiofoodapi.api.model.RestaurantModel;
 import com.sergioruy.sergiofoodapi.api.model.input.RestaurantInput;
@@ -37,16 +38,19 @@ public class RestaurantController {
     @Autowired
     private RegisterRestaurantService restaurantService;
 
+    @Autowired
+    private RestaurantModelAssembler restaurantModelAssembler;
+
     @GetMapping
     public List<RestaurantModel> list() {
-        return toCollectionModel(restaurantRepository.findAll());
+        return restaurantModelAssembler.toCollectionModel(restaurantRepository.findAll());
     }
 
     @GetMapping("/{restaurantId}")
     public RestaurantModel search(@PathVariable Long restaurantId) {
         Restaurant restaurant = restaurantService.findOrFail(restaurantId);
 
-        return toModel(restaurant);
+        return restaurantModelAssembler.toModel(restaurant);
     }
 
     @PostMapping
@@ -55,7 +59,7 @@ public class RestaurantController {
         try {
             Restaurant restaurant = toDomainObject(restaurantInput);
 
-            return toModel(restaurantService.save(restaurant));
+            return restaurantModelAssembler.toModel(restaurantService.save(restaurant));
         } catch (KitchenNotFoundException e) {
             throw new BusinessException(e.getMessage(), e);
         }
@@ -71,30 +75,10 @@ public class RestaurantController {
             BeanUtils.copyProperties(restaurant, currentRestaurant, "id", "paymentMethods", "address"
                     , "dateRegister", "products");
 
-            return toModel(restaurantService.save(currentRestaurant));
+            return restaurantModelAssembler.toModel(restaurantService.save(currentRestaurant));
         } catch (KitchenNotFoundException e) {
             throw new BusinessException(e.getMessage());
         }
-    }
-
-
-    private RestaurantModel toModel(Restaurant restaurant) {
-        KitchenModel kitchenModel = new KitchenModel();
-        kitchenModel.setId(restaurant.getKitchen().getId());
-        kitchenModel.setName(restaurant.getKitchen().getName());
-
-        RestaurantModel restaurantModel = new RestaurantModel();
-        restaurantModel.setId(restaurant.getId());
-        restaurantModel.setName(restaurant.getName());
-        restaurantModel.setTaxDelivery(restaurant.getTaxDelivery());
-        restaurantModel.setKitchen(kitchenModel);
-        return restaurantModel;
-    }
-
-    private List<RestaurantModel> toCollectionModel(List<Restaurant> restaurants) {
-        return restaurants.stream()
-                .map(this::toModel)
-                .collect(Collectors.toList());
     }
 
     private Restaurant toDomainObject(RestaurantInput restaurantInput) {
