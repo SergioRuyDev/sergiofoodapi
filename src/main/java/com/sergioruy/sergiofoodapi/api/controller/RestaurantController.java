@@ -65,12 +65,32 @@ public class RestaurantController {
             BeanUtils.copyProperties(restaurant, currentRestaurant, "id", "paymentMethods", "address"
                     , "dateRegister", "products");
 
-
             return toModel(restaurantService.save(currentRestaurant));
         } catch (KitchenNotFoundException e) {
             throw new BusinessException(e.getMessage());
         }
     }
+
+
+    private RestaurantModel toModel(Restaurant restaurant) {
+        KitchenModel kitchenModel = new KitchenModel();
+        kitchenModel.setId(restaurant.getKitchen().getId());
+        kitchenModel.setName(restaurant.getKitchen().getName());
+
+        RestaurantModel restaurantModel = new RestaurantModel();
+        restaurantModel.setId(restaurant.getId());
+        restaurantModel.setName(restaurant.getName());
+        restaurantModel.setTaxDelivery(restaurant.getTaxDelivery());
+        restaurantModel.setKitchen(kitchenModel);
+        return restaurantModel;
+    }
+
+    private List<RestaurantModel> toCollectionModel(List<Restaurant> restaurants) {
+        return restaurants.stream()
+                .map(this::toModel)
+                .collect(Collectors.toList());
+    }
+}
 
 //    @PatchMapping("/{restaurantId}")
 //    public Restaurant partialUpdate(@PathVariable Long restaurantId, @RequestBody Map<String, Object> fields, HttpServletRequest request) {
@@ -106,23 +126,3 @@ public class RestaurantController {
 //            throw new HttpMessageNotReadableException(e.getMessage(), rootCause, serverHttpRequest);
 //        }
 //    }
-
-    private RestaurantModel toModel(Restaurant restaurant) {
-        KitchenModel kitchenModel = new KitchenModel();
-        kitchenModel.setId(restaurant.getKitchen().getId());
-        kitchenModel.setName(restaurant.getKitchen().getName());
-
-        RestaurantModel restaurantModel = new RestaurantModel();
-        restaurantModel.setId(restaurant.getId());
-        restaurantModel.setName(restaurant.getName());
-        restaurantModel.setTaxDelivery(restaurant.getTaxDelivery());
-        restaurantModel.setKitchen(kitchenModel);
-        return restaurantModel;
-    }
-
-    private List<RestaurantModel> toCollectionModel(List<Restaurant> restaurants) {
-        return restaurants.stream()
-                .map(restaurant -> toModel(restaurant))
-                .collect(Collectors.toList());
-    }
-}
