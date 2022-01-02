@@ -1,5 +1,7 @@
 package com.sergioruy.sergiofoodapi.api.controller;
 
+import com.sergioruy.sergiofoodapi.api.assembler.KitchenModelAssembler;
+import com.sergioruy.sergiofoodapi.api.model.KitchenModel;
 import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
 import com.sergioruy.sergiofoodapi.domain.repository.KitchenRepository;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterKitchenService;
@@ -22,9 +24,12 @@ public class KitchenController {
     @Autowired
     private RegisterKitchenService registerKitchen;
 
+    @Autowired
+    private KitchenModelAssembler kitchenModelAssembler;
+
     @GetMapping
-    public List<Kitchen> list() {
-        return kitchenRepository.findAll();
+    public List<KitchenModel> list() {
+        return kitchenModelAssembler.toCollectionModel(kitchenRepository.findAll());
     }
 
     @GetMapping("/{kitchenId}")

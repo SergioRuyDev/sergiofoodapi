@@ -1,6 +1,5 @@
 package com.sergioruy.sergiofoodapi.api.assembler;
 
-import com.sergioruy.sergiofoodapi.api.model.RestaurantModel;
 import com.sergioruy.sergiofoodapi.api.model.input.RestaurantInput;
 import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
 import com.sergioruy.sergiofoodapi.domain.model.Restaurant;
