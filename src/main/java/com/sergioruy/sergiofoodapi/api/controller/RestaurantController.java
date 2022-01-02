@@ -72,12 +72,14 @@ public class RestaurantController {
     @PutMapping("/{restaurantId}")
     public RestaurantModel update(@PathVariable Long restaurantId, @RequestBody @Valid RestaurantInput restaurantInput) {
         try {
-            Restaurant restaurant = restaurantInputDisassembler.toDomainObject(restaurantInput);
+//            Restaurant restaurant = restaurantInputDisassembler.toDomainObject(restaurantInput);
 
             Restaurant currentRestaurant = restaurantService.findOrFail(restaurantId);
 
-            BeanUtils.copyProperties(restaurant, currentRestaurant, "id", "paymentMethods", "address"
-                    , "dateRegister", "products");
+            restaurantInputDisassembler.copyToDomainObject(restaurantInput, currentRestaurant);
+
+//            BeanUtils.copyProperties(restaurant, currentRestaurant, "id", "paymentMethods", "address"
+//                    , "dateRegister", "products");
 
             return restaurantModelAssembler.toModel(restaurantService.save(currentRestaurant));
         } catch (KitchenNotFoundException e) {

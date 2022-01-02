@@ -16,16 +16,12 @@ public class RestaurantInputDisassembler {
 
     public Restaurant toDomainObject(RestaurantInput restaurantInput) {
         return modelMapper.map(restaurantInput, Restaurant.class);
+    }
 
-//        Restaurant restaurant = new Restaurant();
-//        restaurant.setName(restaurantInput.getName());
-//        restaurant.setTaxDelivery(restaurantInput.getTaxDelivery());
-//
-//        Kitchen kitchen = new Kitchen();
-//        kitchen.setId(restaurantInput.getKitchen().getId());
-//
-//        restaurant.setKitchen(kitchen);
-//
-//        return restaurant;
+    public void copyToDomainObject(RestaurantInput restaurantInput, Restaurant restaurant) {
+        // For avoid hibernate Exception
+        restaurant.setKitchen(new Kitchen());
+
+        modelMapper.map(restaurantInput, restaurant);
     }
 }
