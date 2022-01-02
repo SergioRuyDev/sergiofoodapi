@@ -1,7 +1,9 @@
 package com.sergioruy.sergiofoodapi.api.controller;
 
+import com.sergioruy.sergiofoodapi.api.assembler.KitchenInputDisassembler;
 import com.sergioruy.sergiofoodapi.api.assembler.KitchenModelAssembler;
 import com.sergioruy.sergiofoodapi.api.model.KitchenModel;
+import com.sergioruy.sergiofoodapi.api.model.input.KitchenInput;
 import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
 import com.sergioruy.sergiofoodapi.domain.repository.KitchenRepository;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterKitchenService;
@@ -27,29 +29,37 @@ public class KitchenController {
     @Autowired
     private KitchenModelAssembler kitchenModelAssembler;
 
+    @Autowired
+    private KitchenInputDisassembler kitchenInputDisassembler;
+
     @GetMapping
     public List<KitchenModel> list() {
         return kitchenModelAssembler.toCollectionModel(kitchenRepository.findAll());
     }
 
     @GetMapping("/{kitchenId}")
-    public Kitchen search(@PathVariable Long kitchenId) {
-        return registerKitchen.findOrFail(kitchenId);
+    public KitchenModel search(@PathVariable Long kitchenId) {
+        Kitchen kitchen = registerKitchen.findOrFail(kitchenId);
+
+        return kitchenModelAssembler.toModel(kitchen);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Kitchen add(@RequestBody @Valid Kitchen kitchen) {
-        return registerKitchen.save(kitchen);
+    public KitchenModel add(@RequestBody @Valid KitchenInput kitchenInput) {
+        Kitchen kitchen = kitchenInputDisassembler.toDomainObject(kitchenInput);
+
+        return kitchenModelAssembler.toModel(registerKitchen.save(kitchen));
     }
 
     @PutMapping("/{kitchenId}")
-    public Kitchen update(@PathVariable Long kitchenId, @RequestBody Kitchen kitchen) {
+    public KitchenModel update(@PathVariable Long kitchenId, @RequestBody KitchenInput kitchenInput) {
         Kitchen currentKitchen = registerKitchen.findOrFail(kitchenId);
 
-        BeanUtils.copyProperties(kitchen, currentKitchen, "id");
+        kitchenInputDisassembler.copyToDomainObject(kitchenInput, currentKitchen);
+//        BeanUtils.copyProperties(kitchen, currentKitchen, "id");
 
-        return registerKitchen.save(currentKitchen);
+        return kitchenModelAssembler.toModel(registerKitchen.save(currentKitchen));
     }
 
     @DeleteMapping("/{kitchenId}")
