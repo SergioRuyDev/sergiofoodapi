@@ -1,5 +1,7 @@
 package com.sergioruy.sergiofoodapi.api.controller;
 
+import com.sergioruy.sergiofoodapi.api.assembler.StateModelAssembler;
+import com.sergioruy.sergiofoodapi.api.model.StateModel;
 import com.sergioruy.sergiofoodapi.domain.model.State;
 import com.sergioruy.sergiofoodapi.domain.repository.StateRepository;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterStateService;
@@ -20,9 +22,12 @@ public class StateController {
     @Autowired
     private RegisterStateService registerState;
 
+    @Autowired
+    private StateModelAssembler stateModelAssembler;
+
     @GetMapping
-    public List<State> list() {
-        return stateRepository.findAll();
+    public List<StateModel> list() {
+        return stateModelAssembler.(stateRepository.findAll());
     }
 
     @GetMapping("/{stateId}")

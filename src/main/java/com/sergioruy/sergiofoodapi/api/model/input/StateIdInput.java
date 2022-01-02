@@ -3,12 +3,12 @@ package com.sergioruy.sergiofoodapi.api.model.input;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Setter
 @Getter
-public class KitchenInput {
+public class StateIdInput {
 
-    @NotBlank
-    private String name;
+    @NotNull
+    private Long id;
 }
