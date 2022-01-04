@@ -1,7 +1,9 @@
 package com.sergioruy.sergiofoodapi.api.controller;
 
+import com.sergioruy.sergiofoodapi.api.assembler.StateInputDisassembler;
 import com.sergioruy.sergiofoodapi.api.assembler.StateModelAssembler;
 import com.sergioruy.sergiofoodapi.api.model.StateModel;
+import com.sergioruy.sergiofoodapi.api.model.input.StateInput;
 import com.sergioruy.sergiofoodapi.domain.model.State;
 import com.sergioruy.sergiofoodapi.domain.repository.StateRepository;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterStateService;
@@ -25,6 +27,9 @@ public class StateController {
     @Autowired
     private StateModelAssembler stateModelAssembler;
 
+    @Autowired
+    private StateInputDisassembler stateInputDisassembler;
+
     @GetMapping
     public List<StateModel> list() {
         return stateModelAssembler.toCollectionModel(stateRepository.findAll());
@@ -39,17 +44,19 @@ public class StateController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public State add(@RequestBody State state) {
-        return registerState.save(state);
+    public StateModel add(@RequestBody StateInput stateInput) {
+        State state = stateInputDisassembler.toDomainObject(stateInput);
+        return stateModelAssembler.toModel(registerState.save(state));
     }
 
     @PutMapping("/{stateId}")
-    public State update(@PathVariable Long stateId, @RequestBody State state) {
+    public StateModel update(@PathVariable Long stateId, @RequestBody StateInput stateInput) {
         State currentState = registerState.findOrFail(stateId);
 
-            BeanUtils.copyProperties(state, currentState, "id");
+        stateInputDisassembler.copyToDomainObject(stateInput, currentState);
+//            BeanUtils.copyProperties(state, currentState, "id");
 
-            return registerState.save(currentState);
+            return stateModelAssembler.toModel(registerState.save(currentState));
     }
 
     @DeleteMapping("/{stateId}")

@@ -4,7 +4,9 @@ import com.sergioruy.sergiofoodapi.api.model.input.StateInput;
 import com.sergioruy.sergiofoodapi.domain.model.State;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class StateInputDisassembler {
 
     @Autowired
