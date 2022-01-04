@@ -1,6 +1,10 @@
 package com.sergioruy.sergiofoodapi.api.controller;
 
+import com.sergioruy.sergiofoodapi.api.assembler.CityInputDisassembler;
+import com.sergioruy.sergiofoodapi.api.assembler.CityModelAssembler;
 import com.sergioruy.sergiofoodapi.api.exceptionHandler.Problem;
+import com.sergioruy.sergiofoodapi.api.model.CityModel;
+import com.sergioruy.sergiofoodapi.api.model.input.CityInput;
 import com.sergioruy.sergiofoodapi.domain.exception.BusinessException;
 import com.sergioruy.sergiofoodapi.domain.exception.EntityNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.exception.StateNotFoundException;
@@ -26,34 +30,46 @@ public class CityController {
     @Autowired
     private RegisterCityService registerCity;
 
+    @Autowired
+    private CityModelAssembler cityModelAssembler;
+
+    @Autowired
+    private CityInputDisassembler cityInputDisassembler;
+
     @GetMapping
-    public List<City> list() {
-        return cityRepository.findAll();
+    public List<CityModel> list() {
+        return cityModelAssembler.toCollectionModel(cityRepository.findAll());
     }
 
     @GetMapping("/{cityId}")
-    public City search(@PathVariable Long cityId) {
-        return registerCity.findOrFail(cityId);
+    public CityModel search(@PathVariable Long cityId) {
+        City city = registerCity.findOrFail(cityId);
+
+        return cityModelAssembler.toModel(city);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public City add(@RequestBody City city) {
+    public CityModel add(@RequestBody CityInput cityInput) {
         try {
-            return registerCity.save(city);
+            City city = cityInputDisassembler.toDomainObject(cityInput);
+
+            return cityModelAssembler.toModel(registerCity.save(city));
         } catch (StateNotFoundException e) {
             throw new BusinessException(e.getMessage(), e);
         }
     }
 
     @PutMapping("/{cityId}")
-    public City update(@PathVariable Long cityId, @RequestBody City city) {
-        City currentCity = registerCity.findOrFail(cityId);
-
-        BeanUtils.copyProperties(city, currentCity, "id");
-
+    public CityModel update(@PathVariable Long cityId, @RequestBody CityInput cityInput) {
         try {
-            return registerCity.save(currentCity);
+            City currentCity = registerCity.findOrFail(cityId);
+
+            cityInputDisassembler.copyToDomainObject(cityInput, currentCity);
+
+//            BeanUtils.copyProperties(city, currentCity, "id");
+
+            return cityModelAssembler.toModel(registerCity.save(currentCity));
         } catch (StateNotFoundException e) {
             throw new BusinessException(e.getMessage(), e);
         }
