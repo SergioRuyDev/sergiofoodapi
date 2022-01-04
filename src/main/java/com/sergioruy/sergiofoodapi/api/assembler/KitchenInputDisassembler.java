@@ -1,6 +1,5 @@
 package com.sergioruy.sergiofoodapi.api.assembler;
 
-import com.sergioruy.sergiofoodapi.api.model.input.KitchenIdInput;
 import com.sergioruy.sergiofoodapi.api.model.input.KitchenInput;
 import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
 import org.modelmapper.ModelMapper;

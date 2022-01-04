@@ -27,12 +27,14 @@ public class StateController {
 
     @GetMapping
     public List<StateModel> list() {
-        return stateModelAssembler.(stateRepository.findAll());
+        return stateModelAssembler.toCollectionModel(stateRepository.findAll());
     }
 
     @GetMapping("/{stateId}")
-    public State search(@PathVariable Long stateId) {
-        return registerState.findOrFail(stateId);
+    public StateModel search(@PathVariable Long stateId) {
+        State state = registerState.findOrFail(stateId);
+
+        return stateModelAssembler.toModel(state);
     }
 
     @PostMapping
