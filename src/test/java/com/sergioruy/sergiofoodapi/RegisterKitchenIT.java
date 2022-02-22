@@ -124,15 +124,15 @@ class RegisterKitchenIT {
     }
 
     private void prepareData() {
-        Kitchen thayKitchen = new Kitchen();
-        thayKitchen.setName("Thai");
+        Kitchen thayKitchen = Kitchen.builder()
+                .name("Thay")
+                .build();
         kitchenRepository.save(thayKitchen);
 
-        Kitchen americanKitchen = new Kitchen();
-        americanKitchen.setName("American");
+        Kitchen americanKitchen = Kitchen.builder()
+                .name("American")
+                .build();
         kitchenRepository.save(americanKitchen);
-
-
     }
 }
 

@@ -19,7 +19,7 @@ public class RestaurantInputDisassembler {
 
     public void copyToDomainObject(RestaurantInput restaurantInput, Restaurant restaurant) {
         // For avoid hibernate Exception
-        restaurant.setKitchen(new Kitchen());
+        restaurant.setKitchen(Kitchen.builder().build());
 
         modelMapper.map(restaurantInput, restaurant);
     }

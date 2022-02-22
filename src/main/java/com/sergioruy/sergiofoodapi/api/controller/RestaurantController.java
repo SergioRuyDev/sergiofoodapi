@@ -86,6 +86,18 @@ public class RestaurantController {
             throw new BusinessException(e.getMessage());
         }
     }
+
+    @PutMapping("/{restaurantId}/active")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void activate(@PathVariable Long restaurantId) {
+        restaurantService.activate(restaurantId);
+    }
+
+    @DeleteMapping("/{restaurantId}/active")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deactivate(@PathVariable Long restaurantId) {
+        restaurantService.deactivate(restaurantId);
+    }
 }
 
 //    @PatchMapping("/{restaurantId}")

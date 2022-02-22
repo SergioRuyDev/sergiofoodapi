@@ -17,6 +17,9 @@ public class RegisterRestaurantService {
     @Autowired
     private RegisterKitchenService kitchenService;
 
+    public RegisterRestaurantService(RestaurantRepository restaurantRepository) {
+    }
+
     @Transactional
     public Restaurant save(Restaurant restaurant) {
         Long kitchenId = restaurant.getKitchen().getId();
@@ -26,6 +29,18 @@ public class RegisterRestaurantService {
         restaurant.setKitchen(kitchen);
 
         return restaurantRepository.save(restaurant);
+    }
+
+    @Transactional
+    public void activate(Long restaurantId) {
+        Restaurant currentRestaurant = findOrFail(restaurantId);
+        currentRestaurant.activate();
+    }
+
+    @Transactional
+    public void deactivate(Long restaurantId) {
+        Restaurant currentRestaurant = findOrFail(restaurantId);
+        currentRestaurant.deactivate();
     }
 
     public Restaurant findOrFail(Long restaurantId) {

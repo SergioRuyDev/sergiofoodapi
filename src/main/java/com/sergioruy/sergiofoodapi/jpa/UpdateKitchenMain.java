@@ -17,11 +17,11 @@ public class UpdateKitchenMain {
 
         KitchenRepository kitchenRepository = applicationContext.getBean(KitchenRepository.class);
 
-        Kitchen kitchen = new Kitchen();
-        kitchen.setId(1L);
-        kitchen.setName("Brazilian");
-
-        kitchenRepository.save(kitchen);
+//        Kitchen kitchen = new Kitchen();
+//        kitchen.setId(1L);
+//        kitchen.setName("Brazilian");
+//
+//        kitchenRepository.save(kitchen);
 
     }
 }
