@@ -24,7 +24,7 @@ Download and Install Docker:
 https://docs.docker.com/get-docker/
 
 Command to run the Database: 
-docker run -p 3306M3306 --name learnBjjDb -e
+docker run -p 3306M3306 --name sergiofood -e
 MYSQL_ROOT_PASSWORD=Julia917 -e MYSQL_DATABASE=learnBjj -d
 mysql:latest
   ```  
