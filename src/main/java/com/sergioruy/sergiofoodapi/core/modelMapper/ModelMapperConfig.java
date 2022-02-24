@@ -1,6 +1,8 @@
 package com.sergioruy.sergiofoodapi.core.modelMapper;
 
+import com.sergioruy.sergiofoodapi.api.model.AddressModel;
 import com.sergioruy.sergiofoodapi.api.model.RestaurantModel;
+import com.sergioruy.sergiofoodapi.domain.model.Address;
 import com.sergioruy.sergiofoodapi.domain.model.Restaurant;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -11,10 +13,21 @@ public class ModelMapperConfig {
 
     @Bean
     public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
+        var modelMapper = new ModelMapper();
 
-    //Customize the properties
+        var addressToAddressModelTypeMap = modelMapper.createTypeMap(
+                Address.class, AddressModel.class);
+
+        addressToAddressModelTypeMap.<String>addMapping(
+                addressSrc -> addressSrc.getCity().getState().getName(),
+                (addressModelDest, value) -> addressModelDest.getCity().setState(value));
+
+        return modelMapper;
+    }
+}
+
+
+//Customize the properties
 //    public ModelMapper modelMapper() {
 //        var modelMapper = new ModelMapper();
 //
@@ -22,4 +35,3 @@ public class ModelMapperConfig {
 //                .addMapping(Restaurant::getTaxDelivery, RestaurantModel::setPriceDelivery);
 //        return modelMapper;
 //    }
-}
