@@ -30,19 +30,19 @@ public class Restaurant {
 
 //    @NotNull
 //    @NotEmpty
-    @NotBlank
+//    @NotBlank
     @Column(nullable = false)
     private String name;
 
 //    @DecimalMin("1")
-    @NotNull
-    @PositiveOrZero
+//    @NotNull
+//    @PositiveOrZero
     @Column(name = "tax_delivery", nullable = false)
     private BigDecimal taxDelivery;
 
-    @Valid
-    @ConvertGroup(from = Default.class, to = Groups.KitchenId.class)
-    @NotNull
+//    @Valid
+//    @ConvertGroup(from = Default.class, to = Groups.KitchenId.class)
+//    @NotNull
     @ManyToOne
     @JoinColumn(name = "kitchen_id", nullable = false)
     private Kitchen kitchen;
