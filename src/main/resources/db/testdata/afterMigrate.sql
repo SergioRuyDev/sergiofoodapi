@@ -71,3 +71,5 @@ insert into product (name, description, price, active, restaurant_id) values ('T
 insert into product (name, description, price, active, restaurant_id) values ('Sandwich X-Tudo', 'Brazilian sandwich with cheese, hamburger, bacon, egg, salad and especial mayo', 19, 1, 5);
 
 insert into product (name, description, price, active, restaurant_id) values ('Barbecue Stick', 'came with cassava flour and vinegar sauce', 8, 1, 6);
+
+insert into group (name ) values ('Manager'), ('Sales'), ('Secretary'), ('Register');
