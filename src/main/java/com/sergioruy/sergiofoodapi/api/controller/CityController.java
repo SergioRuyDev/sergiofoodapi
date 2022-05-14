@@ -38,7 +38,7 @@ public class CityController {
 
     @GetMapping
     public List<CityModel> list() {
-        return cityModelAssembler.toCollectionModel(cityRepository.findAll());
+        return cityModelAssembler.toCollectionModel(registerCity.getAllCities());
     }
 
     @GetMapping("/{cityId}")

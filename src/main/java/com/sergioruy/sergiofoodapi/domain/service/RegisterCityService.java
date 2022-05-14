@@ -11,6 +11,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class RegisterCityService {
 
@@ -21,6 +23,11 @@ public class RegisterCityService {
 
     @Autowired
     private RegisterStateService stateService;
+
+    @Transactional
+    public List<City> getAllCities() {
+        return cityRepository.findAll();
+    }
 
     @Transactional
     public City save(City city) {
