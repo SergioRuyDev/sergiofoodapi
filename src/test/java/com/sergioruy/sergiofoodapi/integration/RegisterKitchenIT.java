@@ -1,4 +1,4 @@
-package com.sergioruy.sergiofoodapi;
+package com.sergioruy.sergiofoodapi.integration;
 
 import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
 import com.sergioruy.sergiofoodapi.domain.repository.KitchenRepository;
@@ -19,9 +19,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource("/application-test.properties")
+//@ExtendWith(SpringExtension.class)
+//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+//@TestPropertySource("/application-test.properties")
 class RegisterKitchenIT {
 
     private static final int KITCHEN_ID_NONEXISTENT = 100;
