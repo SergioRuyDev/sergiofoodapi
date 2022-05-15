@@ -2,22 +2,17 @@ package com.sergioruy.sergiofoodapi.api.controller;
 
 import com.sergioruy.sergiofoodapi.api.assembler.CityInputDisassembler;
 import com.sergioruy.sergiofoodapi.api.assembler.CityModelAssembler;
-import com.sergioruy.sergiofoodapi.api.exceptionHandler.Problem;
-import com.sergioruy.sergiofoodapi.api.model.CityModel;
+import com.sergioruy.sergiofoodapi.api.model.CityMother;
 import com.sergioruy.sergiofoodapi.api.model.input.CityInput;
 import com.sergioruy.sergiofoodapi.domain.exception.BusinessException;
-import com.sergioruy.sergiofoodapi.domain.exception.EntityNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.exception.StateNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.model.City;
 import com.sergioruy.sergiofoodapi.domain.repository.CityRepository;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterCityService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -37,12 +32,12 @@ public class CityController {
     private CityInputDisassembler cityInputDisassembler;
 
     @GetMapping
-    public List<CityModel> list() {
+    public List<CityMother> list() {
         return cityModelAssembler.toCollectionModel(registerCity.getAllCities());
     }
 
     @GetMapping("/{cityId}")
-    public CityModel search(@PathVariable Long cityId) {
+    public CityMother search(@PathVariable Long cityId) {
         City city = registerCity.findOrFail(cityId);
 
         return cityModelAssembler.toModel(city);
@@ -50,7 +45,7 @@ public class CityController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CityModel add(@RequestBody CityInput cityInput) {
+    public CityMother add(@RequestBody CityInput cityInput) {
         try {
             City city = cityInputDisassembler.toDomainObject(cityInput);
 
@@ -61,7 +56,7 @@ public class CityController {
     }
 
     @PutMapping("/{cityId}")
-    public CityModel update(@PathVariable Long cityId, @RequestBody CityInput cityInput) {
+    public CityMother update(@PathVariable Long cityId, @RequestBody CityInput cityInput) {
         try {
             City currentCity = registerCity.findOrFail(cityId);
 

@@ -2,12 +2,11 @@ package com.sergioruy.sergiofoodapi.api.controller;
 
 import com.sergioruy.sergiofoodapi.api.assembler.StateInputDisassembler;
 import com.sergioruy.sergiofoodapi.api.assembler.StateModelAssembler;
-import com.sergioruy.sergiofoodapi.api.model.StateModel;
+import com.sergioruy.sergiofoodapi.api.model.StateMother;
 import com.sergioruy.sergiofoodapi.api.model.input.StateInput;
 import com.sergioruy.sergiofoodapi.domain.model.State;
 import com.sergioruy.sergiofoodapi.domain.repository.StateRepository;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterStateService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -31,12 +30,12 @@ public class StateController {
     private StateInputDisassembler stateInputDisassembler;
 
     @GetMapping
-    public List<StateModel> list() {
+    public List<StateMother> list() {
         return stateModelAssembler.toCollectionModel(stateRepository.findAll());
     }
 
     @GetMapping("/{stateId}")
-    public StateModel search(@PathVariable Long stateId) {
+    public StateMother search(@PathVariable Long stateId) {
         State state = registerState.findOrFail(stateId);
 
         return stateModelAssembler.toModel(state);
@@ -44,13 +43,13 @@ public class StateController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public StateModel add(@RequestBody StateInput stateInput) {
+    public StateMother add(@RequestBody StateInput stateInput) {
         State state = stateInputDisassembler.toDomainObject(stateInput);
         return stateModelAssembler.toModel(registerState.save(state));
     }
 
     @PutMapping("/{stateId}")
-    public StateModel update(@PathVariable Long stateId, @RequestBody StateInput stateInput) {
+    public StateMother update(@PathVariable Long stateId, @RequestBody StateInput stateInput) {
         State currentState = registerState.findOrFail(stateId);
 
         stateInputDisassembler.copyToDomainObject(stateInput, currentState);

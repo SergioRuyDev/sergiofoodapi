@@ -1,15 +1,17 @@
 package com.sergioruy.sergiofoodapi.api.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+@Builder
 @AllArgsConstructor
 @Setter
 @Getter
-public class CityModel {
+public class CityMother {
 
     private Long id;
     private String name;
-    private StateModel state;
+    private StateMother state;
 }
