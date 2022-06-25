@@ -1,16 +1,14 @@
 package com.sergioruy.sergiofoodapi.api.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@Builder
-@AllArgsConstructor
-@Setter
 @Getter
-public class StateMother {
+@Setter
+public class UserModel {
 
     private Long id;
     private String name;
+    private String email;
+    private String password;
 }

@@ -2,7 +2,7 @@ package com.sergioruy.sergiofoodapi.api.controller;
 
 import com.sergioruy.sergiofoodapi.api.assembler.StateInputDisassembler;
 import com.sergioruy.sergiofoodapi.api.assembler.StateModelAssembler;
-import com.sergioruy.sergiofoodapi.api.model.StateMother;
+import com.sergioruy.sergiofoodapi.api.model.StateModel;
 import com.sergioruy.sergiofoodapi.api.model.input.StateInput;
 import com.sergioruy.sergiofoodapi.domain.model.State;
 import com.sergioruy.sergiofoodapi.domain.repository.StateRepository;
@@ -30,12 +30,12 @@ public class StateController {
     private StateInputDisassembler stateInputDisassembler;
 
     @GetMapping
-    public List<StateMother> list() {
+    public List<StateModel> list() {
         return stateModelAssembler.toCollectionModel(stateRepository.findAll());
     }
 
     @GetMapping("/{stateId}")
-    public StateMother search(@PathVariable Long stateId) {
+    public StateModel search(@PathVariable Long stateId) {
         State state = registerState.findOrFail(stateId);
 
         return stateModelAssembler.toModel(state);
@@ -43,13 +43,13 @@ public class StateController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public StateMother add(@RequestBody StateInput stateInput) {
+    public StateModel add(@RequestBody StateInput stateInput) {
         State state = stateInputDisassembler.toDomainObject(stateInput);
         return stateModelAssembler.toModel(registerState.save(state));
     }
 
     @PutMapping("/{stateId}")
-    public StateMother update(@PathVariable Long stateId, @RequestBody StateInput stateInput) {
+    public StateModel update(@PathVariable Long stateId, @RequestBody StateInput stateInput) {
         State currentState = registerState.findOrFail(stateId);
 
         stateInputDisassembler.copyToDomainObject(stateInput, currentState);

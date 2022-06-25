@@ -2,7 +2,7 @@ package com.sergioruy.sergiofoodapi.api.controller;
 
 import com.sergioruy.sergiofoodapi.api.assembler.CityInputDisassembler;
 import com.sergioruy.sergiofoodapi.api.assembler.CityModelAssembler;
-import com.sergioruy.sergiofoodapi.api.model.CityMother;
+import com.sergioruy.sergiofoodapi.api.model.CityModel;
 import com.sergioruy.sergiofoodapi.api.model.input.CityInput;
 import com.sergioruy.sergiofoodapi.domain.exception.BusinessException;
 import com.sergioruy.sergiofoodapi.domain.exception.StateNotFoundException;
@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,12 +33,14 @@ public class CityController {
     private CityInputDisassembler cityInputDisassembler;
 
     @GetMapping
-    public List<CityMother> list() {
-        return cityModelAssembler.toCollectionModel(registerCity.getAllCities());
+    public List<CityModel> list() {
+        List<City> allCities = cityRepository.findAll();
+
+        return cityModelAssembler.toCollectionModel(allCities);
     }
 
     @GetMapping("/{cityId}")
-    public CityMother search(@PathVariable Long cityId) {
+    public CityModel search(@PathVariable Long cityId) {
         City city = registerCity.findOrFail(cityId);
 
         return cityModelAssembler.toModel(city);
@@ -45,9 +48,11 @@ public class CityController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CityMother add(@RequestBody CityInput cityInput) {
+    public CityModel add(@RequestBody @Valid CityInput cityInput) {
         try {
             City city = cityInputDisassembler.toDomainObject(cityInput);
+
+            city = registerCity.save(city);
 
             return cityModelAssembler.toModel(registerCity.save(city));
         } catch (StateNotFoundException e) {
@@ -56,7 +61,7 @@ public class CityController {
     }
 
     @PutMapping("/{cityId}")
-    public CityMother update(@PathVariable Long cityId, @RequestBody CityInput cityInput) {
+    public CityModel update(@PathVariable Long cityId, @RequestBody @Valid CityInput cityInput) {
         try {
             City currentCity = registerCity.findOrFail(cityId);
 
@@ -64,7 +69,9 @@ public class CityController {
 
 //            BeanUtils.copyProperties(city, currentCity, "id");
 
-            return cityModelAssembler.toModel(registerCity.save(currentCity));
+            currentCity = registerCity.save(currentCity);
+
+            return cityModelAssembler.toModel(currentCity);
         } catch (StateNotFoundException e) {
             throw new BusinessException(e.getMessage(), e);
         }

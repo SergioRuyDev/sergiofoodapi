@@ -1,6 +1,6 @@
 package com.sergioruy.sergiofoodapi.api.assembler;
 
-import com.sergioruy.sergiofoodapi.api.model.CityMother;
+import com.sergioruy.sergiofoodapi.api.model.CityModel;
 import com.sergioruy.sergiofoodapi.domain.model.City;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +15,11 @@ public class CityModelAssembler {
     @Autowired
     private ModelMapper modelMapper;
 
-    public CityMother toModel(City city) {
-        return modelMapper.map(city, CityMother.class);
+    public CityModel toModel(City city) {
+        return modelMapper.map(city, CityModel.class);
     }
 
-    public List<CityMother> toCollectionModel(List<City> cities) {
+    public List<CityModel> toCollectionModel(List<City> cities) {
         return cities.stream()
                 .map(this::toModel)
                 .collect(Collectors.toList());

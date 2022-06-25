@@ -74,5 +74,10 @@ insert into product (name, description, price, active, restaurant_id) values ('B
 
 insert into `group` (name) values ('Manager'), ('Sales'), ('Secretary'), ('Register');
 
-insert into `user` (name, email, password, date_register) values
-('Sergio Ruy', 'sergio@gmail.com'), ('Andressa Tomiyama', 'andressa@hotmail.com'), ('Julia Tomiyama', 'julia@gmail.com');
+insert into `user` (id, name, email, password, date_register) values
+(1, 'Sergio Ruy', 'sergio@gmail.com', '123', utc_timestamp),
+(2, 'Andressa Tomiyama', 'andressa@hotmail.com', '123', utc_timestamp),
+(3, 'Julia Tomiyama', 'julia@gmail.com', '123', utc_timestamp),
+(4, 'Joao Luiz', 'joao@gmail.com', '123', utc_timestamp),
+(5, 'Jose da Silva', 'jose@gmail.com', '123', utc_timestamp);
+
