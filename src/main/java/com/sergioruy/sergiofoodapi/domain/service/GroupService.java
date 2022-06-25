@@ -27,8 +27,10 @@ public class GroupService {
         try {
             groupRepository.deleteById(groupId);
             groupRepository.flush();
+
         } catch (EmptyResultDataAccessException e) {
             throw new GroupNotFoundException(groupId);
+
         } catch (DataIntegrityViolationException e) {
             throw new EntityUsedException(
                     String.format(MSG_GROUP_USED, groupId));

@@ -33,12 +33,14 @@ public class GroupController {
     @GetMapping
     public List<GroupModel> list() {
         List<Group> allGroups = groupRepository.findAll();
+
         return groupModelAssembler.toCollectionModel(allGroups);
     }
 
     @GetMapping("/{groupId}")
     public GroupModel search(@PathVariable Long groupId) {
         Group group = groupService.findOrFail(groupId);
+
         return groupModelAssembler.toModel(group);
     }
 
@@ -56,12 +58,15 @@ public class GroupController {
     public GroupModel update(@PathVariable Long groupId, @RequestBody @Valid GroupInput groupInput) {
         Group currentGroup = groupService.findOrFail(groupId);
 
+        groupInputDisassembler.copyToDonainObject(groupInput, currentGroup);
+
         currentGroup = groupService.save(currentGroup);
 
         return groupModelAssembler.toModel(currentGroup);
     }
 
     @DeleteMapping("/{groupId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remove(@PathVariable Long groupId) {
         groupService.remove(groupId);
     }

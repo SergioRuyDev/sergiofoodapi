@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.TimeZone;
 
-//@EnableJpaRepositories(repositoryBaseClass = CustomJpaRepositoryImpl.class)
+@EnableJpaRepositories(repositoryBaseClass = CustomJpaRepositoryImpl.class)
 @SpringBootApplication
 public class SergiofoodapiApplication {
 
