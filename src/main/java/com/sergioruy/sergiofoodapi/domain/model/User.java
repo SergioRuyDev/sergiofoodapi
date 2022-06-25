@@ -37,4 +37,13 @@ public class User {
     @JoinTable(name = "user_group", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "group_id"))
     private List<Group> groups = new ArrayList<>();
+
+
+    public boolean passwordEquals(String password) {
+        return getPassword().equals(password);
+    }
+
+    public boolean passwordNotEquals(String password) {
+        return !passwordEquals(password);
+    }
 }
