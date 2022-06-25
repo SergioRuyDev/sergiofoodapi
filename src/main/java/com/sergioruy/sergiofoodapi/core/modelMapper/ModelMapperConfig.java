@@ -1,9 +1,7 @@
 package com.sergioruy.sergiofoodapi.core.modelMapper;
 
 import com.sergioruy.sergiofoodapi.api.model.AddressModel;
-import com.sergioruy.sergiofoodapi.api.model.RestaurantModel;
 import com.sergioruy.sergiofoodapi.domain.model.Address;
-import com.sergioruy.sergiofoodapi.domain.model.Restaurant;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

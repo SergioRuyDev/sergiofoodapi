@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
-public class UserWithPasswordInput {
+public class UserWithPasswordInput extends UserInput{
 
     @NotBlank
     private String password;
