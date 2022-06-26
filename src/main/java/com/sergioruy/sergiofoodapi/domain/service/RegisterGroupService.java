@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class GroupService {
+public class RegisterGroupService {
 
     private static String MSG_GROUP_USED = "Group of code %d cannot be remove because is in use.";
 

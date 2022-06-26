@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UserService {
+public class RegisterUserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -19,6 +19,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    @Transactional
     public void changePassword(Long userId, String currentPassword, String newPassword) {
         User user = findOrFail(userId);
 

@@ -8,7 +8,7 @@ import com.sergioruy.sergiofoodapi.api.model.input.UserInput;
 import com.sergioruy.sergiofoodapi.api.model.input.UserWithPasswordInput;
 import com.sergioruy.sergiofoodapi.domain.model.User;
 import com.sergioruy.sergiofoodapi.domain.repository.UserRepository;
-import com.sergioruy.sergiofoodapi.domain.service.UserService;
+import com.sergioruy.sergiofoodapi.domain.service.RegisterUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +24,7 @@ public class UserController {
     private UserRepository userRepository;
 
     @Autowired
-    private UserService userService;
+    private RegisterUserService registerUserService;
 
     @Autowired
     private UserModelAssembler userModelAssembler;
@@ -41,7 +41,7 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public UserModel find(@PathVariable Long userId) {
-        User user = userService.findOrFail(userId);
+        User user = registerUserService.findOrFail(userId);
 
         return userModelAssembler.toModel(user);
     }
@@ -50,16 +50,16 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public UserModel add(@RequestBody @Valid UserWithPasswordInput userInput) {
         User user = userInputDisassembler.toDomainObject(userInput);
-        user = userService.save(user);
+        user = registerUserService.save(user);
 
         return userModelAssembler.toModel(user);
     }
 
     @PutMapping("/{userId}")
     public UserModel update(@PathVariable Long userId, @RequestBody @Valid UserInput userInput) {
-        User currentUser = userService.findOrFail(userId);
+        User currentUser = registerUserService.findOrFail(userId);
         userInputDisassembler.copyToDomainObject(userInput, currentUser);
-        currentUser = userService.save(currentUser);
+        currentUser = registerUserService.save(currentUser);
 
         return userModelAssembler.toModel(currentUser);
     }
@@ -67,6 +67,6 @@ public class UserController {
     @PutMapping("/{userId}/password")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void changePassword(@PathVariable Long userId, @RequestBody @Valid PasswordInput password) {
-        userService.changePassword(userId, password.getCurrentPassword(), password.getNewPassword());
+        registerUserService.changePassword(userId, password.getCurrentPassword(), password.getNewPassword());
     }
 }
