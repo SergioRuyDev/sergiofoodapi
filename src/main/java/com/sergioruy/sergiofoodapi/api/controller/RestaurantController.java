@@ -5,6 +5,7 @@ import com.sergioruy.sergiofoodapi.api.assembler.RestaurantModelAssembler;
 import com.sergioruy.sergiofoodapi.api.model.RestaurantModel;
 import com.sergioruy.sergiofoodapi.api.model.input.RestaurantInput;
 import com.sergioruy.sergiofoodapi.domain.exception.BusinessException;
+import com.sergioruy.sergiofoodapi.domain.exception.CityNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.exception.KitchenNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.model.Restaurant;
 import com.sergioruy.sergiofoodapi.domain.repository.RestaurantRepository;
@@ -69,7 +70,7 @@ public class RestaurantController {
 //                    , "dateRegister", "products");
 
             return restaurantModelAssembler.toModel(restaurantService.save(currentRestaurant));
-        } catch (KitchenNotFoundException e) {
+        } catch (KitchenNotFoundException | CityNotFoundException e) {
             throw new BusinessException(e.getMessage());
         }
     }

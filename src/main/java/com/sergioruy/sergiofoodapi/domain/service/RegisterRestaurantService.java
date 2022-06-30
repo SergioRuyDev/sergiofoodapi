@@ -1,6 +1,7 @@
 package com.sergioruy.sergiofoodapi.domain.service;
 
 import com.sergioruy.sergiofoodapi.domain.exception.RestaurantNotFoundException;
+import com.sergioruy.sergiofoodapi.domain.model.City;
 import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
 import com.sergioruy.sergiofoodapi.domain.model.PaymentMethod;
 import com.sergioruy.sergiofoodapi.domain.model.Restaurant;
@@ -19,18 +20,21 @@ public class RegisterRestaurantService {
     private RegisterKitchenService kitchenService;
 
     @Autowired
-    private RegisterPaymentMethodService paymentMethodService;
+    private RegisterCityService cityService;
 
-    public RegisterRestaurantService(RestaurantRepository restaurantRepository) {
-    }
+    @Autowired
+    private RegisterPaymentMethodService paymentMethodService;
 
     @Transactional
     public Restaurant save(Restaurant restaurant) {
         Long kitchenId = restaurant.getKitchen().getId();
+        Long cityId = restaurant.getAddress().getCity().getId();
 
         Kitchen kitchen = kitchenService.findOrFail(kitchenId);
+        City city = cityService.findOrFail(cityId);
 
         restaurant.setKitchen(kitchen);
+        restaurant.getAddress().setCity(city);
 
         return restaurantRepository.save(restaurant);
     }
@@ -48,11 +52,19 @@ public class RegisterRestaurantService {
     }
 
     @Transactional
-    public void removePaymentMethod(Long restaurantId, Long paymentMethodId) {
+    public void detachPaymentMethod(Long restaurantId, Long paymentMethodId) {
         Restaurant restaurant = findOrFail(restaurantId);
         PaymentMethod paymentMethod = paymentMethodService.findOrFail(paymentMethodId);
 
-        restaurant.addPaymentMethod(paymentMethod);
+        restaurant.getPaymentMethods().remove(paymentMethod);
+    }
+
+    @Transactional
+    public void attachPaymentMethod(Long restaurantId, Long paymentMethodId) {
+        Restaurant restaurant = findOrFail(restaurantId);
+        PaymentMethod paymentMethod = paymentMethodService.findOrFail(paymentMethodId);
+
+        restaurant.getPaymentMethods().add(paymentMethod);
     }
 
     public Restaurant findOrFail(Long restaurantId) {

@@ -5,10 +5,8 @@ import com.sergioruy.sergiofoodapi.api.model.PaymentMethodModel;
 import com.sergioruy.sergiofoodapi.domain.model.Restaurant;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterRestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,5 +26,17 @@ public class RestaurantPaymentMethodController {
         Restaurant restaurant = restaurantService.findOrFail(restaurantId);
 
         return methodModelAssembler.toCollectionModel(restaurant.getPaymentMethods());
+    }
+
+    @DeleteMapping("/{paymentMethodId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void detach(@PathVariable Long restaurantId, @PathVariable Long paymentMethodId) {
+        restaurantService.detachPaymentMethod(restaurantId, paymentMethodId);
+    }
+
+    @PutMapping("/{paymentMethodId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void attach(@PathVariable Long restaurantId, @PathVariable Long paymentMethodId) {
+        restaurantService.attachPaymentMethod(restaurantId, paymentMethodId);
     }
 }
