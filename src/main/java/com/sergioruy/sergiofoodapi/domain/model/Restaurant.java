@@ -76,4 +76,8 @@ public class Restaurant {
         setActive(false);
     }
 
+    public boolean addPaymentMethod(PaymentMethod paymentMethod) {
+        return getPaymentMethods().add(paymentMethod);
+    }
+
 }

@@ -2,6 +2,7 @@ package com.sergioruy.sergiofoodapi.domain.service;
 
 import com.sergioruy.sergiofoodapi.domain.exception.RestaurantNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
+import com.sergioruy.sergiofoodapi.domain.model.PaymentMethod;
 import com.sergioruy.sergiofoodapi.domain.model.Restaurant;
 import com.sergioruy.sergiofoodapi.domain.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class RegisterRestaurantService {
 
     @Autowired
     private RegisterKitchenService kitchenService;
+
+    @Autowired
+    private RegisterPaymentMethodService paymentMethodService;
 
     public RegisterRestaurantService(RestaurantRepository restaurantRepository) {
     }
@@ -41,6 +45,14 @@ public class RegisterRestaurantService {
     public void deactivate(Long restaurantId) {
         Restaurant currentRestaurant = findOrFail(restaurantId);
         currentRestaurant.deactivate();
+    }
+
+    @Transactional
+    public void removePaymentMethod(Long restaurantId, Long paymentMethodId) {
+        Restaurant restaurant = findOrFail(restaurantId);
+        PaymentMethod paymentMethod = paymentMethodService.findOrFail(paymentMethodId);
+
+        restaurant.addPaymentMethod(paymentMethod);
     }
 
     public Restaurant findOrFail(Long restaurantId) {
