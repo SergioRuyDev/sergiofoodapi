@@ -18,6 +18,11 @@ public class CustomJpaRepositoryImpl<T, ID> extends SimpleJpaRepository<T, ID> i
     }
 
     @Override
+    public void detach(T entity) {
+        manager.detach(entity);
+    }
+
+    @Override
     public Optional<T> findFirst() {
         var jpql = "from " + getDomainClass().getName();
 
