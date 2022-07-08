@@ -2,6 +2,7 @@ package com.sergioruy.sergiofoodapi.domain.service;
 
 import com.sergioruy.sergiofoodapi.domain.exception.ProductNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.model.Product;
+import com.sergioruy.sergiofoodapi.domain.model.Restaurant;
 import com.sergioruy.sergiofoodapi.domain.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
