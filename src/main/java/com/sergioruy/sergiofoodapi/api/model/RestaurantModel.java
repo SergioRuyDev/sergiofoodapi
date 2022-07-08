@@ -14,6 +14,6 @@ public class RestaurantModel {
     private BigDecimal taxDelivery;
     private KitchenModel kitchen;
     private Boolean active;
-    private AddressModel address;
     private Boolean open;
+    private AddressModel address;
 }

@@ -54,6 +54,8 @@ public class Restaurant {
 
     private boolean active = Boolean.TRUE;
 
+    private Boolean open = Boolean.FALSE;
+
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
     private OffsetDateTime dateRegister;
@@ -69,8 +71,6 @@ public class Restaurant {
 
     @OneToMany(mappedBy = "restaurant")
     private List<Product> products = new ArrayList<>();
-
-    private Boolean open = Boolean.FALSE;
 
     public void open() {
         setOpen(true);
