@@ -72,7 +72,9 @@ insert into product (name, description, price, active, restaurant_id) values ('S
 
 insert into product (name, description, price, active, restaurant_id) values ('Barbecue Stick', 'came with cassava flour and vinegar sauce', 8, 1, 6);
 
-insert into `group` (name) values ('Manager'), ('Sales'), ('Secretary'), ('Register');
+insert into `group` (id, name) values (1, 'Manager'), (2, 'Sales'), (3, 'Secretary'), (4, 'Register');
+
+insert into group_permission (group_id, permission_id) values (1, 1), (1, 2), (2, 1), (2, 2), (3, 1);
 
 insert into `user` (id, name, email, password, date_register) values
 (1, 'Sergio Ruy', 'sergio@gmail.com', '123', utc_timestamp),
