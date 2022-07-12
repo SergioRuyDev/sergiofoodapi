@@ -33,7 +33,7 @@ public class GroupPermissionController {
         groupService.detachPermission(groupId, permissionId);
     }
 
-    @DeleteMapping("/{permissionId}")
+    @PutMapping("/{permissionId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void attach(@PathVariable Long groupId, @PathVariable Long permissionId) {
         groupService.attachPermission(groupId, permissionId);

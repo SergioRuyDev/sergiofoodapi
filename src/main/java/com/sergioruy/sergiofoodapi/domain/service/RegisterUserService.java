@@ -2,6 +2,7 @@ package com.sergioruy.sergiofoodapi.domain.service;
 
 import com.sergioruy.sergiofoodapi.domain.exception.BusinessException;
 import com.sergioruy.sergiofoodapi.domain.exception.UserNotFoundExpection;
+import com.sergioruy.sergiofoodapi.domain.model.Group;
 import com.sergioruy.sergiofoodapi.domain.model.User;
 import com.sergioruy.sergiofoodapi.domain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class RegisterUserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RegisterGroupService groupService;
 
     @Transactional
     public User save(User user) {
@@ -38,6 +42,22 @@ public class RegisterUserService {
         }
 
         user.setPassword(newPassword);
+    }
+
+    @Transactional
+    public void detachGroup(Long userId, Long groupId) {
+        User user = findOrFail(userId);
+        Group group = groupService.findOrFail(groupId);
+
+        user.getGroups().remove(group);
+    }
+
+    @Transactional
+    public void attachGroup(Long userId, Long groupId) {
+        User user = findOrFail(userId);
+        Group group = groupService.findOrFail(groupId);
+
+        user.getGroups().add(group);
     }
 
     public User findOrFail(Long userId) {

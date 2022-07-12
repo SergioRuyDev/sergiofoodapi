@@ -28,15 +28,15 @@ public class RestaurantPaymentMethodController {
         return methodModelAssembler.toCollectionModel(restaurant.getPaymentMethods());
     }
 
-    @DeleteMapping("/{paymentMethodId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void detach(@PathVariable Long restaurantId, @PathVariable Long paymentMethodId) {
-        restaurantService.detachPaymentMethod(restaurantId, paymentMethodId);
-    }
-
     @PutMapping("/{paymentMethodId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void attach(@PathVariable Long restaurantId, @PathVariable Long paymentMethodId) {
         restaurantService.attachPaymentMethod(restaurantId, paymentMethodId);
+    }
+
+    @DeleteMapping("/{paymentMethodId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void detach(@PathVariable Long restaurantId, @PathVariable Long paymentMethodId) {
+        restaurantService.detachPaymentMethod(restaurantId, paymentMethodId);
     }
 }
