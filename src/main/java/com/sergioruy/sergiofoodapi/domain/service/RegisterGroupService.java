@@ -19,7 +19,8 @@ public class RegisterGroupService {
     @Autowired
     private GroupRepository groupRepository;
 
-    private RegisterPermissionService
+    @Autowired
+    private RegisterPermissionService permissionService;
 
     @Transactional
     public Group save(Group group) {
@@ -40,9 +41,20 @@ public class RegisterGroupService {
         }
     }
 
+    @Transactional
     public void detachPermission(Long groupId, Long permissionId) {
         Group group = findOrFail(groupId);
-        Permission permission =
+        Permission permission = permissionService.findOrFail(permissionId);
+
+        group.getPermissions().remove(permission);
+    }
+
+    @Transactional
+    public void attachPermission(Long groupId, Long permissionId) {
+        Group group = findOrFail(groupId);
+        Permission permission = permissionService.findOrFail(permissionId);
+
+        group.getPermissions().add(permission);
     }
 
     public Group findOrFail(Long groupId) {

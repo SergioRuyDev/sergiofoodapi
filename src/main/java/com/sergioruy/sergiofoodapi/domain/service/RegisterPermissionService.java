@@ -14,7 +14,6 @@ public class RegisterPermissionService {
 
     public Permission findOrFail(Long permissionId) {
         return permissionRepository.findById(permissionId).orElseThrow(
-                () -> new PermissionNotFoundException
-        )
+                () -> new PermissionNotFoundException(permissionId));
     }
 }
