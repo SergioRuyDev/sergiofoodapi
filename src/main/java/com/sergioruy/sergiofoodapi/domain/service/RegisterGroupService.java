@@ -3,6 +3,7 @@ package com.sergioruy.sergiofoodapi.domain.service;
 import com.sergioruy.sergiofoodapi.domain.exception.EntityUsedException;
 import com.sergioruy.sergiofoodapi.domain.exception.GroupNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.model.Group;
+import com.sergioruy.sergiofoodapi.domain.model.Permission;
 import com.sergioruy.sergiofoodapi.domain.repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -17,6 +18,8 @@ public class RegisterGroupService {
 
     @Autowired
     private GroupRepository groupRepository;
+
+    private RegisterPermissionService
 
     @Transactional
     public Group save(Group group) {
@@ -35,6 +38,11 @@ public class RegisterGroupService {
             throw new EntityUsedException(
                     String.format(MSG_GROUP_USED, groupId));
         }
+    }
+
+    public void detachPermission(Long groupId, Long permissionId) {
+        Group group = findOrFail(groupId);
+        Permission permission =
     }
 
     public Group findOrFail(Long groupId) {
