@@ -52,7 +52,7 @@ public class KitchenController {
     }
 
     @PutMapping("/{kitchenId}")
-    public KitchenModel update(@PathVariable Long kitchenId, @RequestBody KitchenInput kitchenInput) {
+    public KitchenModel update(@PathVariable Long kitchenId, @RequestBody @Valid KitchenInput kitchenInput) {
         Kitchen currentKitchen = registerKitchen.findOrFail(kitchenId);
 
         kitchenInputDisassembler.copyToDomainObject(kitchenInput, currentKitchen);

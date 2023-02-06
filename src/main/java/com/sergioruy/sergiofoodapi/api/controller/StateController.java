@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -43,13 +44,13 @@ public class StateController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public StateModel add(@RequestBody StateInput stateInput) {
+    public StateModel add(@RequestBody @Valid StateInput stateInput) {
         State state = stateInputDisassembler.toDomainObject(stateInput);
         return stateModelAssembler.toModel(registerState.save(state));
     }
 
     @PutMapping("/{stateId}")
-    public StateModel update(@PathVariable Long stateId, @RequestBody StateInput stateInput) {
+    public StateModel update(@PathVariable Long stateId, @RequestBody @Valid StateInput stateInput) {
         State currentState = registerState.findOrFail(stateId);
 
         stateInputDisassembler.copyToDomainObject(stateInput, currentState);
