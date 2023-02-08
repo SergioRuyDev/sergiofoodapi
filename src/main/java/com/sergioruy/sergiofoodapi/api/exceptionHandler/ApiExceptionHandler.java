@@ -3,6 +3,7 @@ package com.sergioruy.sergiofoodapi.api.exceptionHandler;
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
+import com.sergioruy.sergiofoodapi.core.validation.ValidationException;
 import com.sergioruy.sergiofoodapi.domain.exception.BusinessException;
 import com.sergioruy.sergiofoodapi.domain.exception.EntityNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.exception.EntityUsedException;
@@ -38,6 +39,48 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @Autowired
     private MessageSource messageSource;
 
+    @ExceptionHandler({ ValidationException.class })
+    public ResponseEntity<Object> handleValidationException(ValidationException ex, WebRequest request) {
+        return handleValidationInternal(ex, ex.getBindingResult(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers,
+                                                                  HttpStatus status, WebRequest request) {
+
+        return handleValidationInternal(ex, ex.getBindingResult(), headers, status, request);
+    }
+
+    private ResponseEntity<Object> handleValidationInternal(Exception ex, BindingResult bindingResult, HttpHeaders headers,
+                                                            HttpStatus status, WebRequest request) {
+
+        ProblemType problemType = ProblemType.INVALID_DATA;
+        String detail = "One or more fields are invalids, please fill correct and try again.";
+
+        List<Problem.Objects> problemObjects = bindingResult.getAllErrors().stream()
+                .map(objectError -> {
+                    String message = messageSource.getMessage(objectError, LocaleContextHolder.getLocale());
+
+                    String name = objectError.getObjectName();
+
+                    if (objectError instanceof FieldError) {
+                        name = ((FieldError) objectError).getField();
+                    }
+
+                    return Problem.Objects.builder()
+                            .name(name)
+                            .userMessage(message)
+                            .build();
+                })
+                .collect(Collectors.toList());
+
+        Problem problem = createProblemBuilder(status, problemType, detail)
+                .userMessage(detail)
+                .objects(problemObjects)
+                .build();
+        return handleExceptionInternal(ex, problem, headers, status, request);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleUncaught(Exception ex, WebRequest request) {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -53,7 +96,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers,
-           HttpStatus status, WebRequest request) {
+                                                                   HttpStatus status, WebRequest request) {
 
         ProblemType problemType = ProblemType.RESOURCE_NOT_FOUND;
 
@@ -77,39 +120,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         }
 
         return super.handleTypeMismatch(ex, headers, status, request);
-    }
-
-    @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers,
-                                                                  HttpStatus status, WebRequest request) {
-        ProblemType problemType = ProblemType.INVALID_DATA;
-        String detail = "One or more fields are invalids, please fill correct and try again.";
-
-        BindingResult bindingResult = ex.getBindingResult();
-
-        List<Problem.Objects> problemObjects = bindingResult.getAllErrors().stream()
-                .map(objectError -> {
-                    String message = messageSource.getMessage(objectError, LocaleContextHolder.getLocale());
-
-                    String name = objectError.getObjectName();
-
-                    if (objectError instanceof FieldError) {
-                        name = ((FieldError) objectError).getField();
-                    }
-
-                    return Problem.Objects.builder()
-                    .name(name)
-                    .userMessage(message)
-                    .build();
-                })
-                .collect(Collectors.toList());
-
-        Problem problem = createProblemBuilder(status, problemType, detail)
-                .userMessage(detail)
-                .objects(problemObjects)
-                .build();
-
-        return handleExceptionInternal(ex, problem, headers, status, request);
     }
 
     private ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex, HttpHeaders headers,

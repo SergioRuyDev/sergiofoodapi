@@ -12,6 +12,7 @@ import com.sergioruy.sergiofoodapi.domain.repository.RestaurantRepository;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterRestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.SmartValidator;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,6 +33,9 @@ public class RestaurantController {
 
     @Autowired
     private RestaurantInputDisassembler restaurantInputDisassembler;
+
+    @Autowired
+    private SmartValidator validator;
 
     @GetMapping
     public List<RestaurantModel> list() {
@@ -105,13 +109,22 @@ public class RestaurantController {
 //        Restaurant currentRestaurant = restaurantService.findOrFail(restaurantId);
 //
 //        merge(fields, currentRestaurant, request);
-//
+//        validate(currentRestaurant, "restaurant")
 //        return update(restaurantId, currentRestaurant);
 //    }
+
+//   private void validate(Restaurant restaurant, String objectName) {
+//       BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(restaurant, objectName);
+//       validator.validate(restaurant, bindingResult);
+//
+//       if (bindingResult.hasErrors()) {
+//           throw new ValidationException(bindingResult);
+//       }
+//   }
 //
 //    private void merge(Map<String, Object> dataOrigin, Restaurant restaurantDestiny, HttpServletRequest request) {
 //        ServletServerHttpRequest serverHttpRequest = new ServletServerHttpRequest(request);
-
+//
 //        try {
 //            ObjectMapper objectMapper = new ObjectMapper();
 //            objectMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, true);
