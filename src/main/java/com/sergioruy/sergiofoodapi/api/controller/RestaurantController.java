@@ -7,6 +7,7 @@ import com.sergioruy.sergiofoodapi.api.model.input.RestaurantInput;
 import com.sergioruy.sergiofoodapi.domain.exception.BusinessException;
 import com.sergioruy.sergiofoodapi.domain.exception.CityNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.exception.KitchenNotFoundException;
+import com.sergioruy.sergiofoodapi.domain.exception.RestaurantNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.model.Restaurant;
 import com.sergioruy.sergiofoodapi.domain.repository.RestaurantRepository;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterRestaurantService;
@@ -92,10 +93,30 @@ public class RestaurantController {
         restaurantService.activate(restaurantId);
     }
 
-    @DeleteMapping("/{restaurantId}/active")
+    @DeleteMapping("/{restaurantId}/inactive")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deactivate(@PathVariable Long restaurantId) {
         restaurantService.deactivate(restaurantId);
+    }
+
+    @PutMapping("/activations")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void activateList(@RequestBody List<Long> restaurantIds) {
+        try {
+            restaurantService.activateList(restaurantIds);
+        } catch (RestaurantNotFoundException e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
+    }
+
+    @DeleteMapping("/deactivations")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deActivateList(@RequestBody List<Long> restaurantIds) {
+        try {
+            restaurantService.deActivateList(restaurantIds);
+        } catch (RestaurantNotFoundException e) {
+            throw new BusinessException(e.getMessage(), e);
+        }
     }
 
     @PutMapping("{restaurantId}/opened")
