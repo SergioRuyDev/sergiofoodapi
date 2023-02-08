@@ -2,7 +2,9 @@ package com.sergioruy.sergiofoodapi.api.controller;
 
 import com.sergioruy.sergiofoodapi.api.assembler.RestaurantInputDisassembler;
 import com.sergioruy.sergiofoodapi.api.assembler.RestaurantModelAssembler;
+import com.sergioruy.sergiofoodapi.api.assembler.UserModelAssembler;
 import com.sergioruy.sergiofoodapi.api.model.RestaurantModel;
+import com.sergioruy.sergiofoodapi.api.model.UserModel;
 import com.sergioruy.sergiofoodapi.api.model.input.RestaurantInput;
 import com.sergioruy.sergiofoodapi.domain.exception.BusinessException;
 import com.sergioruy.sergiofoodapi.domain.exception.CityNotFoundException;
@@ -35,6 +37,9 @@ public class RestaurantController {
     private RestaurantInputDisassembler restaurantInputDisassembler;
 
     @Autowired
+    private UserModelAssembler userModelAssembler;
+
+    @Autowired
     private SmartValidator validator;
 
     @GetMapping
@@ -47,6 +52,13 @@ public class RestaurantController {
         Restaurant restaurant = restaurantService.findOrFail(restaurantId);
 
         return restaurantModelAssembler.toModel(restaurant);
+    }
+
+    @GetMapping("/{restaurantId}/responsible")
+    public List<UserModel> list(@PathVariable Long restaurantId) {
+        Restaurant restaurant = restaurantService.findOrFail(restaurantId);
+
+        return userModelAssembler.toCollectionModel(restaurant.getUsers());
     }
 
     @PostMapping

@@ -59,6 +59,11 @@ public class Restaurant {
     private OffsetDateTime dateUpdate;
 
     @ManyToMany
+    @JoinTable(name = "restaurant_user_responsible", joinColumns = @JoinColumn(name = "restaurant_id"),
+    inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> users = new HashSet<>();
+
+    @ManyToMany
     @JoinTable(name = "restaurant_payment_method", joinColumns = @JoinColumn(name = "restaurant_id"),
             inverseJoinColumns = @JoinColumn(name = "payment_method_id"))
     private Set<PaymentMethod> paymentMethods = new HashSet<>();

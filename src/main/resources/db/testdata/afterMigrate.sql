@@ -41,10 +41,10 @@ insert into city (id, name, state_id) values (4, 'Tampa', 2);
 insert into city (id, name, state_id) values (5, 'Los Angeles', 3);
 
 insert into restaurant (id, name, tax_delivery, kitchen_id, date_register, date_update, active, open, address_city_id, address_postalcode, address_street, address_number, address_district) values (1, 'Thai Gourmet', 10, 1, utc_timestamp, utc_timestamp, true, true, 1, '10292', '5TH Avenue', '1000', 'Yorkville');
-insert into restaurant (id, name, tax_delivery, kitchen_id, date_register, date_update, active, open) values (2, 'Thai Delivery', 9.50, 1, utc_timestamp, utc_timestamp, true, true);
-insert into restaurant (id, name, tax_delivery, kitchen_id, date_register, date_update, active, open) values (3, 'Tuk Tuk Indian Food', 15, 2, utc_timestamp, utc_timestamp, true, true);
-insert into restaurant (id, name, tax_delivery, kitchen_id, date_register, date_update, active, open) values (4, 'Carnival Brazilian', 25, 3, utc_timestamp, utc_timestamp, true, true);
-insert into restaurant (id, name, tax_delivery, kitchen_id, date_register, date_update, active, open) values (5, 'Brazilian Beef', 20, 3, utc_timestamp, utc_timestamp, true, true);
+insert into restaurant (id, name, tax_delivery, kitchen_id, date_register, date_update, active, open, address_city_id, address_postalcode, address_street, address_number, address_district) values (2, 'Thai Delivery', 9.50, 1, utc_timestamp, utc_timestamp, true, true, 2, '13392', '14TH Avenue', '100', 'Yank-ville');
+insert into restaurant (id, name, tax_delivery, kitchen_id, date_register, date_update, active, open, address_city_id, address_postalcode, address_street, address_number, address_district) values (3, 'Tuk Tuk Indian Food', 15, 2, utc_timestamp, utc_timestamp, true, true,  3, '292', 'Long Street', '29', 'Florida');
+insert into restaurant (id, name, tax_delivery, kitchen_id, date_register, date_update, active, open, address_city_id, address_postalcode, address_street, address_number, address_district) values (4, 'Carnival Brazilian', 25, 3, utc_timestamp, utc_timestamp, true, true,  4, '12', 'Small Street', '1000', 'Gatsby-Village');
+insert into restaurant (id, name, tax_delivery, kitchen_id, date_register, date_update, active, open, address_city_id, address_postalcode, address_street, address_number, address_district) values (5, 'Brazilian Beef', 20, 3, utc_timestamp, utc_timestamp, true, true, 5, '102', '3TH Avenue', '10', 'Josh-Ville');
 insert into restaurant (id, name, tax_delivery, kitchen_id, date_register, date_update, active, open) values (6, 'Sumo Japan', 30, 4, utc_timestamp, utc_timestamp, true, true);
 insert into restaurant (id, name, tax_delivery, kitchen_id, date_register, date_update, active, open) values (7, 'Sashimi Oss', 19, 4, utc_timestamp, utc_timestamp, true, true);
 
@@ -84,4 +84,6 @@ insert into `user` (id, name, email, password, date_register) values
 (5, 'Jose da Silva', 'jose@gmail.com', '123', utc_timestamp);
 
 insert into user_group (user_id, group_id) values (1, 1), (1, 2), (2, 2);
+
+insert into restaurant_user_responsible (restaurant_id, user_id) values (1, 1), (2, 2), (3, 3);
 
