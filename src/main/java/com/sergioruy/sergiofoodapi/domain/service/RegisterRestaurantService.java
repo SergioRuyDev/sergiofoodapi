@@ -5,6 +5,7 @@ import com.sergioruy.sergiofoodapi.domain.model.City;
 import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
 import com.sergioruy.sergiofoodapi.domain.model.PaymentMethod;
 import com.sergioruy.sergiofoodapi.domain.model.Restaurant;
+import com.sergioruy.sergiofoodapi.domain.model.User;
 import com.sergioruy.sergiofoodapi.domain.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,9 @@ public class RegisterRestaurantService {
 
     @Autowired
     private RegisterPaymentMethodService paymentMethodService;
+
+    @Autowired
+    private RegisterUserService userService;
 
     @Transactional
     public Restaurant save(Restaurant restaurant) {
@@ -70,7 +74,7 @@ public class RegisterRestaurantService {
         Restaurant restaurant = findOrFail(restaurantId);
         PaymentMethod paymentMethod = paymentMethodService.findOrFail(paymentMethodId);
 
-        restaurant.getPaymentMethods().remove(paymentMethod);
+        restaurant.removePaymentMethod(paymentMethod);
     }
 
     @Transactional
@@ -78,7 +82,23 @@ public class RegisterRestaurantService {
         Restaurant restaurant = findOrFail(restaurantId);
         PaymentMethod paymentMethod = paymentMethodService.findOrFail(paymentMethodId);
 
-        restaurant.getPaymentMethods().add(paymentMethod);
+        restaurant.addPaymentMethod(paymentMethod);
+    }
+
+    @Transactional
+    public void attachResponsible(Long restaurantId, Long userId) {
+        Restaurant restaurant = findOrFail(restaurantId);
+        User user = userService.findOrFail(userId);
+
+        restaurant.addUserResponsible(user);
+    }
+
+    @Transactional
+    public void detachResponsible(Long restaurantId, Long userId) {
+        Restaurant restaurant = findOrFail(restaurantId);
+        User user = userService.findOrFail(userId);
+
+        restaurant.removeUserResponsible(user);
     }
 
     public Restaurant findOrFail(Long restaurantId) {

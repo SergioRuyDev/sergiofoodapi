@@ -1,28 +1,29 @@
 set foreign_key_checks = 0;
 
 delete from city;
+delete from kitchen;
+delete from state;
+delete from payment_method;
 delete from `group`;
 delete from group_permission;
-delete from kitchen;
-delete from payment_method;
 delete from permission;
 delete from product;
 delete from restaurant;
 delete from restaurant_payment_method;
-delete from state;
+delete from restaurant_user_responsible;
 delete from `user`;
 delete from user_group;
 
 set foreign_key_checks = 1;
 
 alter table city auto_increment = 1;
-alter table `group` auto_increment = 1;
 alter table kitchen auto_increment = 1;
+alter table state auto_increment = 1;
 alter table payment_method auto_increment = 1;
+alter table `group` auto_increment = 1;
 alter table permission auto_increment = 1;
 alter table product auto_increment = 1;
 alter table restaurant auto_increment = 1;
-alter table state auto_increment = 1;
 alter table `user` auto_increment = 1;
 
 insert into kitchen (id, name) values (1, 'Thai');

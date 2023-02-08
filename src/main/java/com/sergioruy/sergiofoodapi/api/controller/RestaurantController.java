@@ -2,9 +2,7 @@ package com.sergioruy.sergiofoodapi.api.controller;
 
 import com.sergioruy.sergiofoodapi.api.assembler.RestaurantInputDisassembler;
 import com.sergioruy.sergiofoodapi.api.assembler.RestaurantModelAssembler;
-import com.sergioruy.sergiofoodapi.api.assembler.UserModelAssembler;
 import com.sergioruy.sergiofoodapi.api.model.RestaurantModel;
-import com.sergioruy.sergiofoodapi.api.model.UserModel;
 import com.sergioruy.sergiofoodapi.api.model.input.RestaurantInput;
 import com.sergioruy.sergiofoodapi.domain.exception.BusinessException;
 import com.sergioruy.sergiofoodapi.domain.exception.CityNotFoundException;
@@ -14,8 +12,15 @@ import com.sergioruy.sergiofoodapi.domain.repository.RestaurantRepository;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterRestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.SmartValidator;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -36,11 +41,8 @@ public class RestaurantController {
     @Autowired
     private RestaurantInputDisassembler restaurantInputDisassembler;
 
-    @Autowired
-    private UserModelAssembler userModelAssembler;
-
-    @Autowired
-    private SmartValidator validator;
+//    @Autowired
+//    private SmartValidator validator;
 
     @GetMapping
     public List<RestaurantModel> list() {
@@ -52,13 +54,6 @@ public class RestaurantController {
         Restaurant restaurant = restaurantService.findOrFail(restaurantId);
 
         return restaurantModelAssembler.toModel(restaurant);
-    }
-
-    @GetMapping("/{restaurantId}/responsible")
-    public List<UserModel> list(@PathVariable Long restaurantId) {
-        Restaurant restaurant = restaurantService.findOrFail(restaurantId);
-
-        return userModelAssembler.toCollectionModel(restaurant.getUsers());
     }
 
     @PostMapping
@@ -114,6 +109,8 @@ public class RestaurantController {
     public void close(@PathVariable Long restaurantId) {
         restaurantService.close(restaurantId);
     }
+
+
 }
 
 //    @PatchMapping("/{restaurantId}")
