@@ -29,7 +29,7 @@ create table `order` (
     constraint fk_order_payment_method foreign key (payment_method_id) references payment_method (id)
 ) engine=InnoDB default charset=utf8mb4;
 
-create table item_ordered (
+create table item_order (
     id bigint not null auto_increment,
     quantity smallint(6) not null,
     unit_price decimal(10,2) not null,
@@ -39,8 +39,8 @@ create table item_ordered (
     product_id bigint not null,
 
     primary key (id),
-    unique key uk_item_ordered_product (order_id, product_id),
+    unique key uk_item_order_product (order_id, product_id),
 
-    constraint fk_item_ordered_order foreign key (order_id) references `order` (id),
-    constraint fk_item_ordered_product foreign key (product_id) references product (id)
+    constraint fk_item_order_order foreign key (order_id) references `order` (id),
+    constraint fk_item_order_product foreign key (product_id) references product (id)
 ) engine=InnoDB default charset=utf8mb4;

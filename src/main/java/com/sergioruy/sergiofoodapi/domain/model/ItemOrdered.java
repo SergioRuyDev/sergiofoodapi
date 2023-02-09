@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
+@Table(name = "item_order")
 public class ItemOrdered {
 
     @EqualsAndHashCode.Include

@@ -9,10 +9,10 @@ import java.math.BigDecimal;
 @Setter
 public class ItemOrderedModel {
 
+    private Long productId;
+    private String productName;
     private BigDecimal unitPrice;
     private BigDecimal totalPrice;
     private Integer quantity;
     private String observations;
-    private ProductShortModel product;
-
 }

@@ -16,14 +16,14 @@ public class OrderModel {
     private BigDecimal subtotal;
     private BigDecimal taxDelivery;
     private BigDecimal totalAmount;
-    private AddressModel addressDelivered;
     private String status;
-    private OffsetDateTime createDate;
+    private OffsetDateTime createdDate;
     private OffsetDateTime confirmedDate;
-    private OffsetDateTime cancelledDate;
     private OffsetDateTime deliveredDate;
-    private PaymentMethodModel paymentMethod;
+    private OffsetDateTime cancelledDate;
     private RestaurantShortModel restaurant;
     private UserModel customer;
+    private PaymentMethodModel paymentMethod;
+    private AddressModel addressDelivered;
     private List<ItemOrderedModel> items;
 }

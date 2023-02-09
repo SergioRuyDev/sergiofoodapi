@@ -3,6 +3,7 @@ package com.sergioruy.sergiofoodapi.api.controller;
 import com.sergioruy.sergiofoodapi.api.assembler.OrderModelAssembler;
 import com.sergioruy.sergiofoodapi.api.model.OrderModel;
 import com.sergioruy.sergiofoodapi.domain.model.Order;
+import com.sergioruy.sergiofoodapi.domain.repository.OrderRepository;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,15 +11,27 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/orders")
+@RequestMapping(value = "/orders")
 public class OrderController {
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     @Autowired
     private RegisterOrderService orderService;
 
     @Autowired
     private OrderModelAssembler orderModelAssembler;
+
+    @GetMapping
+    public List<OrderModel> list() {
+        List<Order> allOrders = orderRepository.findAll();
+
+        return orderModelAssembler.toCollectionModel(allOrders);
+    }
 
     @GetMapping("/{orderId}")
     public OrderModel getOrder(@PathVariable Long orderId) {

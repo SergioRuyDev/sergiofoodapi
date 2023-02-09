@@ -14,7 +14,7 @@ delete from restaurant_user_responsible;
 delete from `user`;
 delete from user_group;
 delete from `order`;
-delete from item_ordered;
+delete from item_order;
 
 set foreign_key_checks = 1;
 
@@ -96,10 +96,10 @@ insert into `order` (id, restaurant_id, user_customer_id, payment_method_id, add
 values (1, 1, 1, 1, 1, '38400-000', 'Street 99th Baker', '500', 'flat 801', 'East Zone',
         'CREATED', utc_timestamp, 298.90, 10, 308.90);
 
-insert into item_ordered (id, order_id, product_id, quantity, unit_price, total_price, observations)
+insert into item_order (id, order_id, product_id, quantity, unit_price, total_price, observations)
 values (1, 1, 1, 1, 78.9, 78.9, null);
 
-insert into item_ordered (id, order_id, product_id, quantity, unit_price, total_price, observations)
+insert into item_order (id, order_id, product_id, quantity, unit_price, total_price, observations)
 values (2, 1, 2, 2, 110, 220, 'Without Spicy, please.');
 
 
@@ -109,6 +109,6 @@ insert into `order` (id, restaurant_id, user_customer_id, payment_method_id, add
 values (2, 4, 1, 2, 1, '38400-111', '14th Avenue', '300', 'House 2', 'Downtown',
         'CREATED', utc_timestamp, 79, 0, 79);
 
-insert into item_ordered (id, order_id, product_id, quantity, unit_price, total_price, observations)
+insert into item_order (id, order_id, product_id, quantity, unit_price, total_price, observations)
 values (3, 2, 6, 1, 79, 79, 'Well done');
 

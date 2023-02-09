@@ -12,7 +12,6 @@ public class RegisterOrderService {
     @Autowired
     private OrderRepository orderRepository;
 
-
     public Order findOrFail(Long orderId) {
         return orderRepository.findById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException(orderId));
