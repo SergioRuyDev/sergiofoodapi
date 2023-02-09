@@ -38,7 +38,7 @@ public class Order {
     private OffsetDateTime cancelledDate;
     private OffsetDateTime deliveredDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private PaymentMethod paymentMethod;
 

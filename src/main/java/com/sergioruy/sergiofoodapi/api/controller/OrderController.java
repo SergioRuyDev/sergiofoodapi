@@ -1,7 +1,9 @@
 package com.sergioruy.sergiofoodapi.api.controller;
 
 import com.sergioruy.sergiofoodapi.api.assembler.OrderModelAssembler;
+import com.sergioruy.sergiofoodapi.api.assembler.OrderShortModelAssembler;
 import com.sergioruy.sergiofoodapi.api.model.OrderModel;
+import com.sergioruy.sergiofoodapi.api.model.OrderShortModel;
 import com.sergioruy.sergiofoodapi.domain.model.Order;
 import com.sergioruy.sergiofoodapi.domain.repository.OrderRepository;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterOrderService;
@@ -26,11 +28,14 @@ public class OrderController {
     @Autowired
     private OrderModelAssembler orderModelAssembler;
 
+    @Autowired
+    private OrderShortModelAssembler orderShortModelAssembler;
+
     @GetMapping
-    public List<OrderModel> list() {
+    public List<OrderShortModel> list() {
         List<Order> allOrders = orderRepository.findAll();
 
-        return orderModelAssembler.toCollectionModel(allOrders);
+        return orderShortModelAssembler.toCollectionModel(allOrders);
     }
 
     @GetMapping("/{orderId}")
