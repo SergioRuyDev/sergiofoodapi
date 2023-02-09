@@ -1,7 +1,7 @@
 package com.sergioruy.sergiofoodapi.domain.service;
 
 import com.sergioruy.sergiofoodapi.domain.exception.BusinessException;
-import com.sergioruy.sergiofoodapi.domain.exception.UserNotFoundExpection;
+import com.sergioruy.sergiofoodapi.domain.exception.UserNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.model.Group;
 import com.sergioruy.sergiofoodapi.domain.model.User;
 import com.sergioruy.sergiofoodapi.domain.repository.UserRepository;
@@ -62,6 +62,6 @@ public class RegisterUserService {
 
     public User findOrFail(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundExpection(userId));
+                .orElseThrow(() -> new UserNotFoundException(userId));
     }
 }

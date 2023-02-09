@@ -27,14 +27,15 @@ public class Order {
     @Embedded
     private Address addressDelivered;
 
-    private StatusOrder status;
+    @Enumerated(EnumType.STRING)
+    private StatusOrder status = StatusOrder.CREATED;
 
     @CreationTimestamp
     private OffsetDateTime createDate;
 
     private OffsetDateTime confirmedDate;
     private OffsetDateTime cancelledDate;
-    private OffsetDateTime DeliveredDate;
+    private OffsetDateTime deliveredDate;
 
     @ManyToOne
     @JoinColumn(nullable = false)
