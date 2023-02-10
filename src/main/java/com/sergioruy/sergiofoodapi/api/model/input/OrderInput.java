@@ -18,11 +18,11 @@ public class OrderInput {
 
     @Valid
     @NotNull
-    private PaymentMethodIdInput paymentMethod;
+    private AddressInput address;
 
     @Valid
     @NotNull
-    private AddressInput address;
+    private PaymentMethodIdInput paymentMethod;
 
     @Valid
     @Size(min = 1)

@@ -50,12 +50,13 @@ public class Order {
     @JoinColumn(name = "user_customer_id", nullable = false)
     private User customer;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<ItemOrdered> items = new ArrayList<>();
 
     public void calcTotalAmount() {
+        getItems().forEach(ItemOrdered::calcPriceTotal);
         this.subtotal = getItems().stream()
-                .map(items ->items.getTotalPrice())
+                .map(items -> items.getTotalPrice())
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         this.totalAmount = this.subtotal.add(this.taxDelivery);
