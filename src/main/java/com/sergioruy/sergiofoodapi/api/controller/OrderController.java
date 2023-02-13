@@ -63,7 +63,7 @@ public class OrderController {
         try {
             Order newOrder = orderInputDisassembler.toDomainObject(orderInput);
 
-            //todo get the authenticated users
+            //Todo será modificado qndo acrescentar Security
             newOrder.setCustomer(new User());
             newOrder.getCustomer().setId(1L);
 

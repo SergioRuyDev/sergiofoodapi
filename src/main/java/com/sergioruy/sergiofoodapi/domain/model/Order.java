@@ -55,18 +55,11 @@ public class Order {
 
     public void calcTotalAmount() {
         getItems().forEach(ItemOrdered::calcPriceTotal);
+
         this.subtotal = getItems().stream()
-                .map(items -> items.getTotalPrice())
+                .map(item -> item.getTotalPrice())
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         this.totalAmount = this.subtotal.add(this.taxDelivery);
-    }
-
-    public void defineDelivery() {
-        setTaxDelivery(getRestaurant().getTaxDelivery());
-    }
-
-    public void attachOrdersToItems() {
-        getItems().forEach(items -> items.setOrder(this));
     }
 }
