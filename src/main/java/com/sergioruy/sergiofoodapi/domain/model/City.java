@@ -1,5 +1,6 @@
 package com.sergioruy.sergiofoodapi.domain.model;
 
+import com.sergioruy.sergiofoodapi.core.validation.Groups;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -10,6 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -24,6 +29,9 @@ public class City {
     @Column(nullable = false)
     private String name;
 
+    @ConvertGroup(from = Default.class, to = Groups.StateId.class)
+    @Valid
+    @NotNull
     @ManyToOne
     @JoinColumn(nullable = false)
     private State state;

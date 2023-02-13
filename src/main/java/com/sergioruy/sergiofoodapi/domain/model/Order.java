@@ -26,7 +26,7 @@ public class Order {
     private BigDecimal totalAmount;
 
     @Embedded
-    private Address addressDelivered;
+    private Address address;
 
     @Enumerated(EnumType.STRING)
     private StatusOrder status = StatusOrder.CREATED;

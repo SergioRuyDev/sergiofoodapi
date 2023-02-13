@@ -5,8 +5,7 @@ public enum StatusOrder {
     CREATED("Created"),
     CONFIRMED("Confirmed"),
     DELIVERED("Delivered"),
-    CANCELED("Cancelled"),
-    ;
+    CANCELED("Cancelled");
 
     private String description;
 

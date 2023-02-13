@@ -46,20 +46,21 @@ public class RegisterOrderService {
     }
 
     private void validOrder(Order order) {
-        City city = cityService.findOrFail(order.getAddressDelivered().getCity().getId());
-        User customer = userService.findOrFail(order.getCustomer().getId());
-        Restaurant restaurant = restaurantService.findOrFail(order.getRestaurant().getId());
-        PaymentMethod paymentMethod = paymentMethodService.findOrFail(order.getPaymentMethod().getId());
+            City city = cityService.findOrFail(order.getAddress().getCity().getId());
+            User customer = userService.findOrFail(order.getCustomer().getId());
+            Restaurant restaurant = restaurantService.findOrFail(order.getRestaurant().getId());
+            PaymentMethod paymentMethod = paymentMethodService.findOrFail(order.getPaymentMethod().getId());
 
-        order.getAddressDelivered().setCity(city);
-        order.setCustomer(customer);
-        order.setRestaurant(restaurant);
-        order.setPaymentMethod(paymentMethod);
 
-        if (restaurant.notAcceptPaymentMethod(paymentMethod)) {
-            throw new BusinessException(String.format("Payment Method '%s' is not accept.",
-                    paymentMethod.getDescription()));
-        }
+            order.getAddress().setCity(city);
+            order.setCustomer(customer);
+            order.setRestaurant(restaurant);
+            order.setPaymentMethod(paymentMethod);
+
+            if (restaurant.notAcceptPaymentMethod(paymentMethod)) {
+                throw new BusinessException(String.format("Payment Method '%s' is not accept.",
+                        paymentMethod.getDescription()));
+            }
     }
 
     private void validItems(Order order) {
