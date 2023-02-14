@@ -1365,14 +1365,14 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/orders/1/confirm",
+							"raw": "localhost:8080/orders/3/confirm",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"orders",
-								"1",
+								"3",
 								"confirm"
 							]
 						}
@@ -1400,20 +1400,45 @@
 					"response": []
 				},
 				{
-					"name": "Order - Delivered",
+					"name": "Order - DELIVERED",
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/orders/1/delivered",
+							"raw": "localhost:8080/orders/3/delivered",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"orders",
-								"1",
+								"3",
 								"delivered"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Restaurants - List - Brief",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/restaurants",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"restaurants"
+							],
+							"query": [
+								{
+									"key": "projection",
+									"value": "id-names",
+									"disabled": true
+								}
 							]
 						}
 					},
