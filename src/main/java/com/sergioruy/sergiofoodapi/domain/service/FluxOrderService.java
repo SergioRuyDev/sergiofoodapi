@@ -1,13 +1,9 @@
 package com.sergioruy.sergiofoodapi.domain.service;
 
-import com.sergioruy.sergiofoodapi.domain.exception.BusinessException;
 import com.sergioruy.sergiofoodapi.domain.model.Order;
-import com.sergioruy.sergiofoodapi.domain.model.StatusOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.OffsetDateTime;
 
 @Service
 public class FluxOrderService {
@@ -18,15 +14,18 @@ public class FluxOrderService {
     @Transactional
     public void confirm(Long orderId) {
         Order order = orderService.findOrFail(orderId);
+        order.confirm();
+    }
 
-        if (!order.getStatus().equals(StatusOrder.CREATED)) {
-            throw new BusinessException(
-                    String.format("Status order %d cannot be change from %s to %s",
-                            order.getId(), order.getStatus().getDescription(),
-                            StatusOrder.CONFIRMED.getDescription()));
-        }
+    @Transactional
+    public void delivered(Long orderId) {
+        Order order = orderService.findOrFail(orderId);
+        order.delivered();
+    }
 
-        order.setStatus(StatusOrder.CONFIRMED);
-        order.setConfirmedDate(OffsetDateTime.now());
+    @Transactional
+    public void canceled(Long orderId) {
+        Order order = orderService.findOrFail(orderId);
+        order.canceled();
     }
 }

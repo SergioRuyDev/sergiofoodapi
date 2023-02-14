@@ -1,5 +1,6 @@
 package com.sergioruy.sergiofoodapi.domain.model;
 
+import com.sergioruy.sergiofoodapi.domain.exception.BusinessException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -61,5 +62,31 @@ public class Order {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         this.totalAmount = this.subtotal.add(this.taxDelivery);
+    }
+
+    public void confirm() {
+        setStatus(StatusOrder.CONFIRMED);
+        setConfirmedDate(OffsetDateTime.now());
+    }
+
+    public void delivered() {
+        setStatus(StatusOrder.DELIVERED);
+        setDeliveredDate(OffsetDateTime.now());
+    }
+
+    public void canceled() {
+        setStatus(StatusOrder.CANCELED);
+        setCancelledDate(OffsetDateTime.now());
+    }
+
+    private void setStatus(StatusOrder newStatus) {
+        if (getStatus().cannotChangeTo(newStatus)) {
+            throw new BusinessException(
+                    String.format("Status order %d cannot be change from %s to %s",
+                            getId(), getStatus().getDescription(),
+                            newStatus.getDescription()));
+        }
+
+        this.status = newStatus;
     }
 }
