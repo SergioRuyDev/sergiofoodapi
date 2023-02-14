@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/orders/{orderId}")
+@RequestMapping(value = "/orders/{orderCode}")
 public class FluxOrderController {
 
     @Autowired
@@ -14,19 +14,19 @@ public class FluxOrderController {
 
     @PutMapping("/confirm")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void confirm(@PathVariable Long orderId) {
-        fluxOrderService.confirm(orderId);
+    public void confirm(@PathVariable String orderCode) {
+        fluxOrderService.confirm(orderCode);
     }
 
     @PutMapping("/delivered")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delivered(@PathVariable Long orderId) {
-        fluxOrderService.delivered(orderId);
+    public void delivered(@PathVariable String orderCode) {
+        fluxOrderService.delivered(orderCode);
     }
 
     @PutMapping("/canceled")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void canceled(@PathVariable Long orderId) {
-        fluxOrderService.canceled(orderId);
+    public void canceled(@PathVariable String orderCode) {
+        fluxOrderService.canceled(orderCode);
     }
 }

@@ -10,7 +10,7 @@ import java.time.OffsetDateTime;
 @Setter
 public class OrderShortModel {
 
-    private Long id;
+    private String code;
     private BigDecimal subtotal;
     private BigDecimal taxDelivery;
     private BigDecimal totalAmount;

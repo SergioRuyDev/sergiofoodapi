@@ -73,8 +73,8 @@ public class RegisterOrderService {
         });
     }
 
-    public Order findOrFail(Long orderId) {
-        return orderRepository.findById(orderId)
-                .orElseThrow(() -> new OrderNotFoundException(orderId));
+    public Order findOrFail(String orderCode) {
+        return orderRepository.findByCode(orderCode)
+                .orElseThrow(() -> new OrderNotFoundException(orderCode));
     }
 }

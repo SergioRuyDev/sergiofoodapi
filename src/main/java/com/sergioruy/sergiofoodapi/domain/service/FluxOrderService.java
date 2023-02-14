@@ -12,20 +12,20 @@ public class FluxOrderService {
     private RegisterOrderService orderService;
 
     @Transactional
-    public void confirm(Long orderId) {
-        Order order = orderService.findOrFail(orderId);
+    public void confirm(String orderCode) {
+        Order order = orderService.findOrFail(orderCode);
         order.confirm();
     }
 
     @Transactional
-    public void delivered(Long orderId) {
-        Order order = orderService.findOrFail(orderId);
+    public void delivered(String orderCode) {
+        Order order = orderService.findOrFail(orderCode);
         order.delivered();
     }
 
     @Transactional
-    public void canceled(Long orderId) {
-        Order order = orderService.findOrFail(orderId);
+    public void canceled(String orderCode) {
+        Order order = orderService.findOrFail(orderCode);
         order.canceled();
     }
 }

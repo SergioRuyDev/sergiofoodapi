@@ -92,10 +92,10 @@ insert into user_group (user_id, group_id) values (1, 1), (1, 2), (2, 2);
 
 insert into restaurant_user_responsible (restaurant_id, user_id) values (1, 1), (2, 2), (3, 3);
 
-insert into `order` (id, restaurant_id, user_customer_id, payment_method_id, address_city_id, address_postalcode,
+insert into `order` (id, code, restaurant_id, user_customer_id, payment_method_id, address_city_id, address_postalcode,
                    address_street, address_number, address_complement, address_district,
                     status, created_date, subtotal, tax_delivery, total_amount)
-values (1, 1, 1, 1, 1, '38400-000', 'Street 99th Baker', '500', 'flat 801', 'East Zone',
+values (1, '703cdb9a-00d6-4c79-be99-eebb01531a40', 1, 1, 1, 1, '38400-000', 'Street 99th Baker', '500', 'flat 801', 'East Zone',
         'CREATED', utc_timestamp, 298.90, 10, 308.90);
 
 insert into item_order (id, order_id, product_id, quantity, unit_price, total_price, observations)
@@ -105,10 +105,10 @@ insert into item_order (id, order_id, product_id, quantity, unit_price, total_pr
 values (2, 1, 2, 2, 110, 220, 'Without Spicy, please.');
 
 
-insert into `order` (id, restaurant_id, user_customer_id, payment_method_id, address_city_id, address_postalcode,
+insert into `order` (id, code, restaurant_id, user_customer_id, payment_method_id, address_city_id, address_postalcode,
                    address_street, address_number, address_complement, address_district,
                    status, created_date, subtotal, tax_delivery, total_amount)
-values (2, 4, 1, 2, 1, '38400-111', '14th Avenue', '300', 'House 2', 'Downtown',
+values (2, 'd68d9445-4a6d-44d8-b873-3e3e94a307b2', 4, 1, 2, 1, '38400-111', '14th Avenue', '300', 'House 2', 'Downtown',
         'CREATED', utc_timestamp, 79, 0, 79);
 
 insert into item_order (id, order_id, product_id, quantity, unit_price, total_price, observations)

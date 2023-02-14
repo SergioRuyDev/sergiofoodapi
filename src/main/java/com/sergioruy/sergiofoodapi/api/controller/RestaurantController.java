@@ -1,9 +1,11 @@
 package com.sergioruy.sergiofoodapi.api.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.sergioruy.sergiofoodapi.api.assembler.RestaurantInputDisassembler;
 import com.sergioruy.sergiofoodapi.api.assembler.RestaurantModelAssembler;
 import com.sergioruy.sergiofoodapi.api.model.RestaurantModel;
 import com.sergioruy.sergiofoodapi.api.model.input.RestaurantInput;
+import com.sergioruy.sergiofoodapi.api.model.view.RestaurantView;
 import com.sergioruy.sergiofoodapi.domain.exception.BusinessException;
 import com.sergioruy.sergiofoodapi.domain.exception.CityNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.exception.KitchenNotFoundException;
@@ -45,10 +47,34 @@ public class RestaurantController {
 //    @Autowired
 //    private SmartValidator validator;
 
+    @JsonView(RestaurantView.RestaurantBrief.class)
     @GetMapping
     public List<RestaurantModel> list() {
         return restaurantModelAssembler.toCollectionModel(restaurantRepository.findAll());
     }
+
+    @JsonView(RestaurantView.idAndName.class)
+    @GetMapping(params = "projection=id-names")
+    public List<RestaurantModel> listRestaurantBrief() {
+        return list();
+    }
+
+//    @GetMapping
+//    public MappingJacksonValue list(@RequestParam(required = false) String projection) {
+//        List<Restaurant> restaurants = restaurantRepository.findAll();
+//        List<RestaurantModel> restaurantModels = restaurantModelAssembler.toCollectionModel(restaurants);
+//
+//        MappingJacksonValue restaurantsWrapper = new MappingJacksonValue(restaurantModels);
+//        restaurantsWrapper.setSerializationView(RestaurantView.RestaurantBrief.class);
+//
+//        if ("id-name".equals(projection)) {
+//            restaurantsWrapper.setSerializationView(RestaurantView.idAndName.class);
+//        } else if ("complete".equals(projection)) {
+//            restaurantsWrapper.setSerializationView(null);
+//        }
+//
+//        return restaurantsWrapper;
+//    }
 
     @GetMapping("/{restaurantId}")
     public RestaurantModel search(@PathVariable Long restaurantId) {

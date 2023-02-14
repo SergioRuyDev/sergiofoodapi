@@ -51,9 +51,9 @@ public class OrderController {
         return orderShortModelAssembler.toCollectionModel(allOrders);
     }
 
-    @GetMapping("/{orderId}")
-    public OrderModel getOrder(@PathVariable Long orderId) {
-        Order order = orderService.findOrFail(orderId);
+    @GetMapping("/{code}")
+    public OrderModel getOrder(@PathVariable String code) {
+        Order order = orderService.findOrFail(code);
         return orderModelAssembler.toModel(order);
     }
 
