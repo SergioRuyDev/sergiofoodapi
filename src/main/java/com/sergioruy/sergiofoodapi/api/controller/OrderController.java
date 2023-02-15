@@ -11,7 +11,9 @@ import com.sergioruy.sergiofoodapi.domain.exception.EntityNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.model.Order;
 import com.sergioruy.sergiofoodapi.domain.model.User;
 import com.sergioruy.sergiofoodapi.domain.repository.OrderRepository;
+import com.sergioruy.sergiofoodapi.domain.repository.filter.OrderFilter;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterOrderService;
+import com.sergioruy.sergiofoodapi.infrastructure.repository.spec.OrderSpecs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,8 +47,8 @@ public class OrderController {
     private OrderInputDisassembler orderInputDisassembler;
 
     @GetMapping
-    public List<OrderShortModel> list() {
-        List<Order> allOrders = orderRepository.findAll();
+    public List<OrderShortModel> search(OrderFilter filter) {
+        List<Order> allOrders = orderRepository.findAll(OrderSpecs.usingFilter(filter));
 
         return orderShortModelAssembler.toCollectionModel(allOrders);
     }

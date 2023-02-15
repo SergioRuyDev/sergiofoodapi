@@ -114,3 +114,33 @@ values (2, 'd68d9445-4a6d-44d8-b873-3e3e94a307b2', 4, 1, 2, 1, '38400-111', '14t
 insert into item_order (id, order_id, product_id, quantity, unit_price, total_price, observations)
 values (3, 2, 6, 1, 79, 79, 'Well done');
 
+insert into `order` (id, code, restaurant_id, user_customer_id, payment_method_id, address_city_id, address_postalcode,
+                     address_street, address_number, address_complement, address_district,
+                     status, created_date, confirmed_date, delivered_date, subtotal, tax_delivery, total_amount)
+values (3, 'b5741512-8fbc-47fa-9ac1-b530354fc0ff', 1, 1, 1, 1, '38400-222', 'Street Santa', '200', null, 'Town',
+        'DELIVERED', '2019-10-30 21:10:00', '2019-10-30 21:10:45', '2019-10-30 21:55:44', 110, 10, 120);
+
+insert into item_order (id, order_id, product_id, quantity, unit_price, total_price, observations)
+values (4, 3, 2, 1, 110, 110, null);
+
+
+insert into `order` (id, code, restaurant_id, user_customer_id, payment_method_id, address_city_id, address_postalcode,
+                     address_street, address_number, address_complement, address_district,
+                     status, created_date, confirmed_date, delivered_date, subtotal, tax_delivery, total_amount)
+values (4, '5c621c9a-ba61-4454-8631-8aabefe58dc2', 1, 2, 1, 1, '38400-800', 'Street Fortress', '900', 'Apt 504', 'Suburb',
+        'DELIVERED', '2019-11-02 20:34:04', '2019-11-02 20:35:10', '2019-11-02 21:10:32', 174.4, 5, 179.4);
+
+insert into item_order (id, order_id, product_id, quantity, unit_price, total_price, observations)
+values (5, 4, 3, 2, 87.2, 174.4, null);
+
+
+insert into `order` (id, code, restaurant_id, user_customer_id, payment_method_id, address_city_id, address_postalcode,
+                     address_street, address_number, address_complement, address_district,
+                     status, created_date, confirmed_date, delivered_date, subtotal, tax_delivery, total_amount)
+values (5, '8d774bcf-b238-42f3-aef1-5fb388754d63', 1, 3, 2, 1, '38400-200', 'Street 10', '930', 'House 20', 'Martin',
+        'DELIVERED', '2019-11-02 21:00:30', '2019-11-02 21:01:21', '2019-11-02 21:20:10', 87.2, 10, 97.2);
+
+insert into item_order (id, order_id, product_id, quantity, unit_price, total_price, observations)
+values (6, 5, 3, 1, 87.2, 87.2, null);
+
+
