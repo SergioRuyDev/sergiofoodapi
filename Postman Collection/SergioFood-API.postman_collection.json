@@ -54,7 +54,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/restaurants/1/products",
+							"raw": "localhost:8080/restaurants/1/products?includeInactive=true",
 							"host": [
 								"localhost"
 							],
@@ -63,6 +63,12 @@
 								"restaurants",
 								"1",
 								"products"
+							],
+							"query": [
+								{
+									"key": "includeInactive",
+									"value": "true"
+								}
 							]
 						}
 					},
@@ -317,7 +323,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/restaurants/1/products/10",
+							"raw": "localhost:8080/restaurants/1/products/1",
 							"host": [
 								"localhost"
 							],
@@ -326,7 +332,7 @@
 								"restaurants",
 								"1",
 								"products",
-								"10"
+								"1"
 							]
 						}
 					},
@@ -480,13 +486,27 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/kitchens",
+							"raw": "localhost:8080/kitchens?size=2&page=0&sort=name",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"kitchens"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "2"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "sort",
+									"value": "name"
+								}
 							]
 						}
 					},
@@ -1308,6 +1328,48 @@
 							"port": "8080",
 							"path": [
 								"orders"
+							],
+							"query": [
+								{
+									"key": "customerId",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "restaurantId",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "createDateStart",
+									"value": "2019-10-30T10:00:00Z",
+									"disabled": true
+								},
+								{
+									"key": "createDateEnd",
+									"value": "2019-11-01T10:00:00Z",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "20",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "name.customer",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "code,desc",
+									"disabled": true
+								}
 							]
 						}
 					},
