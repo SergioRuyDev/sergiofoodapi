@@ -6,6 +6,7 @@ import com.sergioruy.sergiofoodapi.api.assembler.OrderShortModelAssembler;
 import com.sergioruy.sergiofoodapi.api.model.OrderModel;
 import com.sergioruy.sergiofoodapi.api.model.OrderShortModel;
 import com.sergioruy.sergiofoodapi.api.model.input.OrderInput;
+import com.sergioruy.sergiofoodapi.core.data.PageableTranslator;
 import com.sergioruy.sergiofoodapi.domain.exception.BusinessException;
 import com.sergioruy.sergiofoodapi.domain.exception.EntityNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.model.Order;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/orders")
@@ -52,6 +54,7 @@ public class OrderController {
 
     @GetMapping
     public Page<OrderShortModel> search(OrderFilter filter, @PageableDefault(size = 10) Pageable pageable) {
+        pageable = translatePageable(pageable);
         Page<Order> orderPage = orderRepository.findAll(OrderSpecs.usingFilter(filter), pageable);
 
         List<OrderShortModel> orderShortModel = orderShortModelAssembler.toCollectionModel(orderPage.getContent());
@@ -81,5 +84,15 @@ public class OrderController {
         } catch (EntityNotFoundException e) {
             throw new BusinessException(e.getMessage(), e);
         }
+    }
+
+    private Pageable translatePageable(Pageable apiPageable) {
+        var mapping = Map.of(
+                "code", "code",
+                "restaurant.name", "restaurant.name",
+                "customer.name", "customer.name",
+                "totalAmount", "totalAmount"
+        );
+        return PageableTranslator.translate(apiPageable, mapping);
     }
 }
