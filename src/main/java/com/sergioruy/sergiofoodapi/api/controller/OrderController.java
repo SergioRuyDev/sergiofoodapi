@@ -15,6 +15,10 @@ import com.sergioruy.sergiofoodapi.domain.repository.filter.OrderFilter;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterOrderService;
 import com.sergioruy.sergiofoodapi.infrastructure.repository.spec.OrderSpecs;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,10 +51,12 @@ public class OrderController {
     private OrderInputDisassembler orderInputDisassembler;
 
     @GetMapping
-    public List<OrderShortModel> search(OrderFilter filter) {
-        List<Order> allOrders = orderRepository.findAll(OrderSpecs.usingFilter(filter));
+    public Page<OrderShortModel> search(OrderFilter filter, @PageableDefault(size = 10) Pageable pageable) {
+        Page<Order> orderPage = orderRepository.findAll(OrderSpecs.usingFilter(filter), pageable);
 
-        return orderShortModelAssembler.toCollectionModel(allOrders);
+        List<OrderShortModel> orderShortModel = orderShortModelAssembler.toCollectionModel(orderPage.getContent());
+
+        return new PageImpl<>(orderShortModel, pageable, orderPage.getTotalElements());
     }
 
     @GetMapping("/{code}")

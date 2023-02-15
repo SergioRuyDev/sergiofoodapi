@@ -8,6 +8,10 @@ import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
 import com.sergioruy.sergiofoodapi.domain.repository.KitchenRepository;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterKitchenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,8 +36,12 @@ public class KitchenController {
     private KitchenInputDisassembler kitchenInputDisassembler;
 
     @GetMapping
-    public List<KitchenModel> list() {
-        return kitchenModelAssembler.toCollectionModel(kitchenRepository.findAll());
+    public Page<KitchenModel> list(@PageableDefault(size = 10) Pageable pageable) {
+        Page<Kitchen> kitchenPage = kitchenRepository.findAll(pageable);
+
+        List<KitchenModel> kitchenModel =  kitchenModelAssembler.toCollectionModel(kitchenPage.getContent());
+
+        return new PageImpl<>(kitchenModel, pageable, kitchenPage.getTotalElements());
     }
 
     @GetMapping("/{kitchenId}")
