@@ -36,10 +36,17 @@ public class RestaurantProductsController {
     private ProductInputDisassembler productInputDisassembler;
 
     @GetMapping
-    public List<ProductModel> list(@PathVariable Long restaurantId) {
+    public List<ProductModel> list(@PathVariable Long restaurantId,
+                                   @RequestParam(required = false) boolean includeInactive) {
         Restaurant restaurant = restaurantService.findOrFail(restaurantId);
 
-        List<Product> allProducts = productRepository.findByRestaurant(restaurant);
+        List<Product> allProducts = null;
+        if (includeInactive) {
+            allProducts = productRepository.findAllByRestaurant(restaurant);
+        } else {
+            allProducts = productRepository.findActivesByRestaurant(restaurant);
+
+        }
 
         return productModelAssembler.toCollection(allProducts);
     }
