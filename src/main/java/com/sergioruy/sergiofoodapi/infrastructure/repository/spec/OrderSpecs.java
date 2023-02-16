@@ -1,7 +1,7 @@
 package com.sergioruy.sergiofoodapi.infrastructure.repository.spec;
 
 import com.sergioruy.sergiofoodapi.domain.model.Order;
-import com.sergioruy.sergiofoodapi.domain.repository.filter.OrderFilter;
+import com.sergioruy.sergiofoodapi.domain.model.filter.OrderFilter;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Predicate;

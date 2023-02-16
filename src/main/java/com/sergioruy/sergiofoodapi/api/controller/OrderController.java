@@ -12,7 +12,7 @@ import com.sergioruy.sergiofoodapi.domain.exception.EntityNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.model.Order;
 import com.sergioruy.sergiofoodapi.domain.model.User;
 import com.sergioruy.sergiofoodapi.domain.repository.OrderRepository;
-import com.sergioruy.sergiofoodapi.domain.repository.filter.OrderFilter;
+import com.sergioruy.sergiofoodapi.domain.model.filter.OrderFilter;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterOrderService;
 import com.sergioruy.sergiofoodapi.infrastructure.repository.spec.OrderSpecs;
 import org.springframework.beans.factory.annotation.Autowired;
