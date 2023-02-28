@@ -1,16 +1,36 @@
 # Sergio Food Api
-Open Api for costumers and restaurants.
+Open Api for customers and restaurants.
 
 > Status of Project: Under development :wrench: :hammer:
 
-## Technical and Functionalities Description
+## Tools and technologies used:
+  1. Java 11
 
-Restful API built with Java 11, Spring Boot, Spring Data JPA, Hibernate and MySQL.  
-Modern Api with many advanced resources, like DDD concepts, migrations with FlywayDB,
-projections, reports, upload/download of documents, template emails with Apache FreeMarker,
-documentation with OpenApi(swagger), Spring Security with OAuth2 and JWT.  
-The application is dockerized and deployed on Amazon AWS.
+  2. Spring boot
 
+  3. Spring Data JPA
+
+  4. Hibernate and MySQL
+
+  5. FlywayDB
+
+  6. Projections and Reports in PDF
+
+  7. Upload/Download of files
+
+  8. E-mail Template with Apache FreeMarker
+
+  9. Documentation with OpenApi(Swagger)
+
+  10. Spring Security
+
+  11. OAuth2
+
+  12. JWT
+  
+  13. Dockerized Api
+  
+  14. Deployed in Amazon AWS
 
 ## Steps and Requirements to build and run the Project
 
@@ -38,7 +58,7 @@ git clone https://github.com/SergioRuyDev/sergiofoodapi.git
   ```
 The application will start running at <http://localhost:8080>
 
-Look at the diagram of classes (in portuguese) below:
+Look at the diagram of classes (in portuguese, but in english soon) below:
 
 <p align"center">
   <img src="https://snipboard.io/vuWC7R.jpg"/>
