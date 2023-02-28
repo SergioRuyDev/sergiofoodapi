@@ -17,20 +17,22 @@ Open Api for customers and restaurants.
   6. Projections and Reports in PDF
 
   7. Upload/Download of files
-
-  8. E-mail Template with Apache FreeMarker
-
-  9. Documentation with OpenApi(Swagger)
-
-  10. Spring Security
-
-  11. OAuth2
-
-  12. JWT
   
-  13. Dockerized Api
+  8. Criteria JPQL Consults.
+
+  9. E-mail Template with Apache FreeMarker
+
+  10. Documentation with OpenApi(Swagger)
+
+  11. Spring Security
+
+  12. OAuth2
+
+  13. JWT
   
-  14. Deployed in Amazon AWS
+  14. Dockerized Api
+  
+  15. Deployed in Amazon AWS
 
 ## Steps and Requirements to build and run the Project
 
