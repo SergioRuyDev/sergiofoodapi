@@ -47,7 +47,7 @@ https://docs.docker.com/get-docker/
 
 Command to run the Database: 
 docker run -p 3306M3306 --name sergiofood -e
-MYSQL_ROOT_PASSWORD=Julia917 -e MYSQL_DATABASE=learnBjj -d
+MYSQL_ROOT_PASSWORD=Julia917 -e MYSQL_DATABASE=sergiofood -d
 mysql:latest
   ```  
 **3. Clone the application**
