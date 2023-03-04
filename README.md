@@ -62,6 +62,6 @@ The application will start running at <http://localhost:8080>
 
 Look at the diagram of classes (in portuguese, but in english soon) below:
 
-<p align"center">
+<p align="center">
   <img src="https://snipboard.io/vuWC7R.jpg"/>
 </p>
