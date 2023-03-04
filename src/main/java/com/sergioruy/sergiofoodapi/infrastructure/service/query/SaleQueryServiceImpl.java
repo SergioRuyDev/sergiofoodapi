@@ -1,4 +1,4 @@
-package com.sergioruy.sergiofoodapi.infrastructure.service;
+package com.sergioruy.sergiofoodapi.infrastructure.service.query;
 
 import com.sergioruy.sergiofoodapi.domain.model.Order;
 import com.sergioruy.sergiofoodapi.domain.model.StatusOrder;
