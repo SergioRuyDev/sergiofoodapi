@@ -3,7 +3,12 @@ package com.sergioruy.sergiofoodapi.domain.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
