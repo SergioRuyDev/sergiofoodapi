@@ -1,8 +1,6 @@
 package com.sergioruy.sergiofoodapi.unit.service;
 
-import com.sergioruy.sergiofoodapi.domain.exception.KitchenNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.exception.StateNotFoundException;
-import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
 import com.sergioruy.sergiofoodapi.domain.model.State;
 import com.sergioruy.sergiofoodapi.domain.repository.StateRepository;
 import com.sergioruy.sergiofoodapi.domain.service.RegisterStateService;
@@ -13,11 +11,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.dao.EmptyResultDataAccessException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.notNull;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.times;
@@ -72,15 +68,4 @@ public class RegisterStateServiceTest {
         verify(stateRepository, times(1)).deleteById(stateId);
 
     }
-
-//    @DisplayName("Unit test for delete state by Id")
-//    @Test
-//    public void givenStateId_whenDeleteState_thenThrowsException() {
-//        State state1 = new State();
-//        state1.setId(null);
-//
-//        assertThrows(EmptyResultDataAccessException.class, () -> {
-//            stateService.delete();
-//        });
-//    } todo
 }
