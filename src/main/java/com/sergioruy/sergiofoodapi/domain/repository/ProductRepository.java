@@ -1,5 +1,6 @@
 package com.sergioruy.sergiofoodapi.domain.repository;
 
+import com.sergioruy.sergiofoodapi.domain.model.PhotoProduct;
 import com.sergioruy.sergiofoodapi.domain.model.Product;
 import com.sergioruy.sergiofoodapi.domain.model.Restaurant;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,4 +21,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>, Product
 
     @Query("from Product p where p.active = true and p.restaurant = :restaurant")
     List<Product> findActivesByRestaurant(Restaurant restaurant);
+
+    @Query("select f from PhotoProduct f join f.product p where p.restaurant.id = :restaurantId and f.product.id = :productId")
+    Optional<PhotoProduct> findPhotoById(Long restaurantId, Long productId);
 }
