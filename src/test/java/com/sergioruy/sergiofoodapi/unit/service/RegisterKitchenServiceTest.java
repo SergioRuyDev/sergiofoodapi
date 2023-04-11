@@ -1,5 +1,6 @@
 package com.sergioruy.sergiofoodapi.unit.service;
 
+import com.sergioruy.sergiofoodapi.domain.exception.EntityUsedException;
 import com.sergioruy.sergiofoodapi.domain.exception.KitchenNotFoundException;
 import com.sergioruy.sergiofoodapi.domain.model.Kitchen;
 import com.sergioruy.sergiofoodapi.domain.repository.KitchenRepository;
@@ -11,11 +12,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -39,7 +44,7 @@ public class RegisterKitchenServiceTest {
 
     @DisplayName("Unit test for save Kitchen method")
     @Test
-    public void givenKitchenObject_whenSaveKitchen_thenReturnKitchenObject() {
+    void givenKitchenObject_whenSaveKitchen_thenReturnKitchenObject() {
         given(kitchenRepository.save(kitchen)).willReturn(kitchen);
 
         Kitchen savedKitchen = kitchenService.save(kitchen);
@@ -47,9 +52,9 @@ public class RegisterKitchenServiceTest {
         assertThat(savedKitchen).isNotNull();
     }
 
-    @DisplayName("Unit test for save Kitchen Find or Fail method and throws Exception")
+    @DisplayName("Unit test Kitchen Find or Fail method and throws Exception")
     @Test
-    public void given_kitchenWithNullId_whenFindOrFailCall_thenThrowsException() {
+    void given_kitchenWithNullId_whenFindOrFailCall_thenThrowsException() {
         Kitchen kitchen1 = new Kitchen();
         kitchen1.setId(null);
         assertThrows(KitchenNotFoundException.class, () -> {
@@ -59,13 +64,32 @@ public class RegisterKitchenServiceTest {
 
     @DisplayName("Unit test for delete kitchen by Id")
     @Test
-    public void givenKitchenId_whenDeleteKitchen_thenDoNothing() {
-        long kitchenId = 1L;
-        willDoNothing().given(kitchenRepository).deleteById(1L);
+    void givenKitchenId_whenDeleteKitchen_thenDoNothing() {
+        willDoNothing().given(kitchenRepository).deleteById(kitchen.getId());
 
-        kitchenService.delete(1L);
+        kitchenService.delete(kitchen.getId());
         //then - verify the result
-        verify(kitchenRepository, times(1)).deleteById(kitchenId);
+        verify(kitchenRepository, times(1)).deleteById(kitchen.getId());
+    }
 
+    @DisplayName("Unit test for delete kitchen by Id in the negative scenario")
+    @Test
+    void delete_NonExistentKitchenId_KitchenNotFoundException() {
+        // given
+        doThrow(EmptyResultDataAccessException.class).when(kitchenRepository).deleteById(kitchen.getId());
+
+        // when + then
+        assertThrows(KitchenNotFoundException.class, () -> kitchenService.delete(kitchen.getId()));
+    }
+
+    @DisplayName("Unit test for delete kitchen by Id in the negative scenario, throw DataIntegrationException")
+    @Test
+    void delete_KitchenInUse_EntityUsedException() {
+        // given
+        doThrow(DataIntegrityViolationException.class).when(kitchenRepository).deleteById(kitchen.getId());
+
+        // when + then
+        EntityUsedException ex = assertThrows(EntityUsedException.class, () -> kitchenService.delete(kitchen.getId()));
+        assertEquals(String.format(RegisterKitchenService.MSG_KITCHEN_IN_USE, kitchen.getId()), ex.getMessage());
     }
 }

@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class RegisterCityService {
 
-    private static final String MSG_CITY_IS_IN_USE = "City of code %d is in use and cannot be removed";
+    public static final String MSG_CITY_IS_IN_USE = "City of code %d is in use and cannot be removed";
 
     @Autowired
     private CityRepository cityRepository;

@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class RegisterStateService {
 
-    private static final String MSG_STATE_IN_USE = "State of code %d is in use and cannot be removed";
+    public static final String MSG_STATE_IN_USE = "State of code %d is in use and cannot be removed";
 
 
     @Autowired
